@@ -1,0 +1,480 @@
+- Class: meta
+  Course: Introducao_a_Estatistica_para_Linguistas
+  Lesson: Estatistica Inferencial Testes de Proporcao e Qui-Quadrado
+  Author: Livia Oushiro
+  Type: Standard
+  Organization: UNICAMP
+  Version: 2.4.3
+
+- Class: figure
+  Output: "A lição anterior, sobre conceitos fundamentais da Estatística Inferencial, é a base de todas as próximas lições, que apresentam diferentes testes estatísticos que podem ser aplicados aos dados. Esta e as próximas duas lições tratam de análises UNIVARIADAS, que verificam se há correlação entre duas variáveis -- em geral, uma variável DEPENDENTE e uma variável INDEPENDENTE."
+  Figure: Licao09-background.R
+  FigureType: new
+  
+- Class: text
+  Output: "Uma nota sobre o script desta lição: muitas das tarefas abaixo têm o objetivo de mais bem explicar a \"lógica\" dos testes estatísticos, mas não são passos que você tem que executar com seus dados. Os passos essenciais da análise são indicados por ###, enquanto os passos não essenciais por #."
+  
+- Class: cmd_question
+  Output: Antes de tudo, carregue o pacote tidyverse, que vamos usar nesta lição (ó, surpresa!).
+  CorrectAnswer: library(tidyverse)
+  AnswerTests: omnitest(correctExpr='library(tidyverse)')
+  Hint: Digite library(tidyverse) e pressione CTRL + ENTER.
+  
+- Class: mult_question
+  Output: "A escolha do teste que pode ser aplicado depende fundamentalmente da natureza das variáveis. Que tipo de variável é o apagamento (r0) vs. a realização (r1) de /r/ pós-vocálico no inglês, como é o caso da variável estudada por Labov em seu famoso estudo nas lojas de departamento?"
+  AnswerChoices: nominal;numérica;ordinal
+  CorrectAnswer: nominal
+  AnswerTests: omnitest(correctVal= 'nominal')
+  Hint: Se necessário, refaça a Lição 3 (Tipos de Variaveis) e a Lição 4 (Estatistica Descritiva de Variaveis Nominais Tabelas).
+
+- Class: text
+  Output: "Para variáveis nominais, como é o caso da variável /r/ pós-vocálico, podemos aplicar TESTES DE PROPORÇÃO e TESTES DE QUI-QUADRADO para avaliar se há diferenças significativas entre proporções das variantes."
+
+- Class: cmd_question
+  Output: "Nesta lição, vamos trabalhar com o arquivo de dados LabovDS.csv, que havíamos visto na Lição 4. Deixei-o disponível no dataframe ds. Cheque a estrutura desse dataframe."
+  CorrectAnswer: str(ds)
+  AnswerTests: omnitest(correctExpr='str(ds)')
+  Hint: Digite str(ds) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "Neste dataframe, a variável `r` contém apenas r0 e r1, pois os dados d (= duvidosos) já foram excluídos."
+  
+- Class: cmd_question
+  Output: Como vimos nas Lições 4 e 5, a análise estatística começa com a estatística descritiva, com tabelas e gráficos. Façamos então cálculo de frequências e proporções da distribuição da variável r. No script, vamos criar um dataframe chamado prop.r, com os dados de ds, a frequência de r, e uma nova coluna chamada prop por meio da aplicação da função prop.table() aos dados. Faça as substituições necessárias e rode o comando.
+  CorrectAnswer: prop.r <- ds %>% count(r) %>% mutate(prop = prop.table(n)) %>% print()
+  AnswerTests: omnitest(correctExpr='prop.r <- ds %>% count(r) %>% mutate(prop = prop.table(n)) %>% print()')
+  Hint: Reveja as instruções com calma. Se sentir dificuldades, refaça a Lição 4.
+
+- Class: cmd_question
+  Output: "Como já havíamos visto na Lição 4, há 499 dados de r0 e 231 dados de r1, que correspondem a 68% e 32%. Vamos agora plotar um gráfico de barras exploratório para visualizar essas proporções. Substitua no código o nome do df, e as variáveis para x, y e fill. "
+  CorrectAnswer: ggplot(prop.r, aes(x = r, y = prop, fill = r)) + geom_bar(stat = "identity")
+  AnswerTests: omnitest(correctExpr='ggplot(prop.r, aes(x = r, y = prop, fill = r)) + geom_bar(stat = "identity")')
+  Hint: Reveja as instruções com calma. Se sentir dificuldades, refaça a Lição 5.
+  
+- Class: cmd_question
+  Output: "Faça a tabela de distribuição de dados da variável `r` pelas funções da instalação base do R -- with() e table(). Guarde-a em um objeto chamado tab.r."
+  CorrectAnswer: tab.r <- with(ds, table(r))
+  AnswerTests: omnitest(correctExpr='tab.r <- with(ds, table(r))')
+  Hint: Use as funções with() e table(). Se sentir dificuldades, refaça a Lição 4.
+
+- Class: cmd_question
+  Output: "Inspecione o objeto tab.r."
+  CorrectAnswer: tab.r
+  AnswerTests: omnitest(correctExpr='tab.r')
+  Hint: Digite tab.r e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "Até aqui, refizemos alguns dos passos da Lição 4, certo? A partir das tabelas e dos gráficos -- o primeiro passo de qualquer boa análise quantitativa! --, o pesquisador deve começar a avaliar quais diferenças podem ter ocorrido por acaso e quais têm menor chance de terem ocorrido aleatoriamente. O teste de proporções contrasta uma distribuição observada com uma distribuição esperada."
+
+- Class: cmd_question
+  Output: "Em sua forma mais simples, o teste de proporções indica se a diferença entre as proporções das variantes de uma variável é significativa. No caso em questão, podemos nos perguntar se a diferença entre as proporções das variantes de /r/ (aproximadamente 68% e 32%) é significativa. A função para responder a essa questão é prop.test(), que é aplicada sobre uma tabela de FREQUÊNCIAS. Aplique-a então à tabela tab.r e guarde o resultado em um objeto chamado teste.prop."
+  CorrectAnswer: teste.prop <- prop.test(tab.r)
+  AnswerTests: omnitest(correctExpr='teste.prop <- prop.test(tab.r)')
+  Hint: Digite teste.prop <- prop.test(tab.r) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Veja o resultado do teste de proporções."
+  CorrectAnswer: teste.prop
+  AnswerTests: omnitest(correctExpr='teste.prop')
+  Hint: Digite teste.prop e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "Vejamos o que o R nos informa. A primeira linha nos diz o teste estatístico que foi realizado: um teste de proporções com uma amostra (a distribuição de uma variável). Em seguida, o R informa os dados utilizados -- tab.r -- e a proporção contra a qual contrastou a proporção observada -- 0.5. Ou seja, o R comparou a distribuição de proporções de aproximadamente 68%-32% com uma proporção de 50%-50%. Este caso é semelhante ao da moeda, que vimos na lição passada! Se a hipótese nula prevê que a distribuição deveria ter sido meio a meio, qual é a probabilidade de se ter observado uma distribuição de 68% pra 32%?"
+
+- Class: mult_question
+  Output: "Na terceira linha, o R informa que tal probabilidade é extremamente pequena: 2.2e-16. (Veremos daqui a pouco o que são os valores X-squared (= qui-quadrado) e df (= graus de liberdade).) A quarta linha é a afirmação que expressa a hipótese alternativa, H1: 'a verdadeira p (= proporção) não é igual a 0.5'. Comparando-se então o valor-p gerado (2.2e-16) e a hipótese alternativa, o que deve fazer o pesquisador?"
+  AnswerChoices: Rejeitar a hipótese nula e acatar a hipótese alternativa;Rejeitar a hipótese alternativa e acatar a hipótese nula;Refazer o teste mais algumas vezes, para verificar se o resultado é o mesmo
+  CorrectAnswer: Rejeitar a hipótese nula e acatar a hipótese alternativa
+  AnswerTests: omnitest(correctVal= 'Rejeitar a hipótese nula e acatar a hipótese alternativa')
+  Hint: O valor-p é a probabilidade se ter observada determinada distribuição (aqui, 68% de r0 e 32%) em caso de a hipótese nula ser verdadeira (aqui, 50% de r0 e 50% de r1).
+
+- Class: mult_question
+  Output: "Continuemos com a leitura dos resultados. Após a hipótese alternativa, o R indica quais são os valores dentro do intervalo de confiança de 95%. Esses valores são 64.8% e 71.7%, que se referem ao primeiro nível da variável `r`. Entre r0 e r1, qual é o primeiro nível? Dica: olhe o gráfico de barras!"
+  AnswerChoices: r0;r1
+  CorrectAnswer: r0
+  AnswerTests: omnitest(correctVal= 'r0')
+  Hint: Se não é essa opção, tente a outra!
+
+- Class: text
+  Output: "O R contrastou a proporção observada do primeiro nível da variável, tomada como valor de referência -- r0 = 68% -- com a proporção esperada -- r0 = 50%. Como 50% não está contido no intervalo de confiança, entre 64.8% e 71.7%, a estimativa de probabilidade de que o verdadeiro parâmetro da distribuição é 50% está abaixo de 5%, pois está efetivamente fora dos 95% do nível de confiança."
+
+- Class: text
+  Output: "Se esse raciocínio pareceu complicado, lembre-se do exemplo da moeda: se se espera que haja 50% de caras e 50% de coroas sob a hipótese nula, ter observado 68% de uma das faces é pouco provável, a depender do número de tentativas. A diferença aqui é que estamos falando de apagamento e de realização de /r/ em vez de cara ou coroa."
+
+- Class: cmd_question
+  Output: "O R usou o intervalo de confiança de 95% como default, pois não especificamos nenhum outro valor. Mas, como visto na lição anterior, o pesquisador pode determinar outro nível alfa para seu teste (diferente do valor default 5%) e, consequentemente, mudar o nível de confiança. Veja na ajuda da função prop.test() qual argumento precisaríamos ter especificado para operar com um IC de 99%."
+  CorrectAnswer: ?prop.test
+  AnswerTests: omnitest(correctExpr='?prop.test')
+  Hint: Use ? seguido do nome da função.
+
+- Class: text
+  Output: "O argumento é conf.level, cujo valor default é 0.95. Então se quiséssemos realizar um teste com 99% de nível de confiança, bastaria especificar conf.level = 0.99."
+
+- Class: text
+  Output: "Por fim, o R apresenta a estimativa do primeiro nível da variável que, como já visto, é 68% de r0."
+
+- Class: cmd_question
+  Output: "A ajuda de prop.test() também informa outros argumentos possíveis da função. No exemplo acima, contrastamos a proporção 68%-32% com 50%-50%, mas também poderíamos ter contrastado com outra proporção. Imagine que um estudo prévio sobre a variável `r` no inglês de Nova Iorque houvesse notado uma proporção de 70% de apagamento, e Labov quisesse saber se a proporção de 68% de apagamento diferia significativamente. Neste caso, seria necessário especificar p = 0.7 na função prop.test(). Faça isso agora com a tabela tab.r. Não se preocupe em guardar o resultado em um objeto, pois queremos visualizá-lo imediatamente."
+  CorrectAnswer: prop.test(tab.r, p = 0.7)
+  AnswerTests: any_of_exprs('prop.test(tab.r, p = 0.7)', 'prop.test(tab.r, p = 0.70)')
+  Hint: Digite prop.test(tab.r, p = 0.7) e pressione CTRL + ENTER.
+
+- Class: mult_question
+  Output: "O R agora apresenta os resultados em relação a uma probabilidade esperada de 70%. Qual é o intervalo de confiança neste caso?"
+  AnswerChoices: de 0.64 a 0.71;de 0.35 a 0.86;de 0.68 a 0.86
+  CorrectAnswer: de 0.64 a 0.71
+  AnswerTests: omnitest(correctVal= 'de 0.64 a 0.71')
+  Hint: Verifique os valores do intervalo de confiança.
+
+- Class: mult_question
+  Output: "Você deve ter notado que se trata exatamente do mesmo intervalo de confiança para o teste com probabilidade esperada de 50%. O que mudou agora, no entanto, é que a probabilidade 0.7 está dentro do intervalo de confiança, entre 0.64 e 0.71, de modo que o valor-p agora está acima do nível alfa de 5%. Qual é a probabilidade de se ter observado 68% de r0 sob a hipótese nula de que o verdadeiro parâmetro é 70%?"
+  AnswerChoices: 0.35;0.86;1;0.7;0.68
+  CorrectAnswer: 0.35
+  AnswerTests: omnitest(correctVal= '0.35')
+  Hint: Verifique o valor-p nos resultados.
+
+- Class: text
+  Output: "No exemplo da moeda, também vimos dois cenários: um em que você avaliava a hipótese de eu estar roubando e outro em que um juiz imparcial avaliava se um dos jogadores estava roubando. Você sabia não estar roubando, de modo que podia estabelecer uma hipótese unidirecional, enquanto o juiz deveria estabelecer uma hipótese bidirecional. Na função prop.test(), o default é a realização de um teste bidirecional, que simplesmente avalia se as proporções diferem, independentemente de o valor de referência estar acima ou abaixo do valor esperado. Contudo, também se pode estabelecer um teste unidirecional com o argumento alternative. Dê uma olhada na ajuda da função para ver como especificar esse argumento."
+
+- Class: cmd_question
+  Output: "Nos dados das lojas de departamento, se o pesquisador tem evidências de que a proporção de apagamento de /r/ está diminuindo em Nova Iorque, ele pode estabelecer uma hipótese unidirecional, em que a proporção esperada é MENOR do que 0.7. Aplique este teste sobre os mesmos dados acima, com a adição de alternative = \"less\"."
+  CorrectAnswer: prop.test(tab.r, p = 0.70, alternative = "less")
+  AnswerTests: omnitest(correctExpr='prop.test(tab.r, p = 0.70, alternative = "less")')
+  Hint: Digite prop.test(tab.r, p = 0.70, alternative = "less") e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Veja que, neste caso, mudam as estimativas do intervalo de confiança, a hipótese alternativa e as medidas estatísticas de qui-quadrado, graus de liberdade e valor-p. Por curiosidade, faça o teste agora com alternative = \"greater\"."
+  CorrectAnswer: prop.test(tab.r, p = 0.70, alternative = "greater")
+  AnswerTests: omnitest(correctExpr='prop.test(tab.r, p = 0.70, alternative = \"greater\")')
+  Hint: Digite prop.test(tab.r, p = 0.70, alternative = "greater") e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "Este último também foi um teste unidirecional, mas que testou a hipótese de que a proporção verdadeira é MAIOR do que 70%. Compare os valores do intervalo de confiança, a enunciação da hipótese alternativa e as medidas de qui-quadrado, graus de liberdade e valor-p em relação ao teste unidirecional anterior. Diante da hipótese alternativa de que a proporção fosse 70% ou mais, a proporção de 68% torna a hipótese nula (= proporção não é maior do que 70%) mais provável, com probabilidade igual a 82%."
+
+- Class: cmd_question
+  Output: "Até agora, só comparamos a proporção da VD com outras proporções esperadas. Mas é provável que, em seus dados, você queira comparar proporções entre dois grupos. A partir do dataframe ds, crie um novo dataframe chamado prop.word, computando as frequências de word e r (nessa ordem), agrupando os dados pela variável word, e computando as proporções de word numa variável chamada `prop` com a função prop.table()."
+  CorrectAnswer: prop.word <- ds %>% count(word, r) %>% group_by(word) %>% mutate(prop = prop.table(n)) %>% print()
+  AnswerTests: omnitest(correctExpr='prop.word <- ds %>% count(word, r) %>% group_by(word) %>% mutate(prop = prop.table(n)) %>% print()')
+  Hint: Releia as instruções com calma e substitua os termos necessários no comando.
+  
+- Class: cmd_question
+  Output: Visualize essas proporções com um gráfico de barras. Substitua na função ggplot() o nome do dataframe relevante, e as variáveis x, y e fill.
+  CorrectAnswer: ggplot(prop.word, aes(x = word, y = prop, fill = r)) + geom_bar(stat = "identity")
+  AnswerTests: omnitest(correctExpr='ggplot(prop.word, aes(x = word, y = prop, fill = r)) + geom_bar(stat = "identity")')
+  Hint: Leia as instruções com cuidado e substitua os termos necessários no comando.
+  
+- Class: cmd_question
+  Output: "Faça também uma tabela de frequências da variável `word` pela variável dependente `r` com as funções da instalação base do R, e guarde o resultado em um objeto chamado tab.word."
+  CorrectAnswer: tab.word <- with(ds, table(word, r))
+  AnswerTests: omnitest(correctExpr='tab.word <- with(ds, table(word, r))')
+  Hint: "Use a função with() e table()."
+
+- Class: cmd_question
+  Output: "Inspecione agora a tabela tab.word."
+  CorrectAnswer: tab.word
+  AnswerTests: omnitest(correctExpr='tab.word')
+  Hint: Digite tab.word e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "Novamente, refizemos os passos de lições anteriores, com a criação de tabelas e gráficos. Isso porque os testes estatísticos relevantes são sugeridos justamente por essas primeiras inspeções dos dados. Na figura, vemos que as barras de proporção de apagamento de /r/ nas palavras floor e fourth parecem ser diferentes. Será que as proporções são as mesmas ou diferem significativamente?"
+
+- Class: cmd_question
+  Output: "Para fazer a comparação de proporções entre dois grupos -- aqui, entre os dois itens lexicais --, usamos a função chisq.test(). Esta função toma como argumento uma tabela de FREQUÊNCIAS (assim como prop.test()). Aplique então chisq.test() à tabela tab.word e guarde o resultado em um objeto chamado x2.word."
+  CorrectAnswer: x2.word <- chisq.test(tab.word)
+  AnswerTests: omnitest(correctExpr='x2.word <- chisq.test(tab.word)')
+  Hint: Digite x2.word <- chisq.test(tab.word) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Veja agora o resultado do teste de qui-quadrado."
+  CorrectAnswer: x2.word
+  AnswerTests: omnitest(correctExpr='x2.word')
+  Hint: Digite x2.word e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "Voilà! Este é um teste de qui-quadrado. Sua aplicação é extremamente fácil, não? Faz-se uma tabela de frequências e aplica-se o teste sobre ela. Na prática, é isso que você vai fazer com suas variáveis nominais: tabela, gráfico, teste. Mas importa saber não apenas como aplicá-lo no R, mas também QUANDO aplicá-lo e COMO LER OS RESULTADOS. Você sabe agora quando aplicá-lo: quando se tem uma VD nominal e se quer comparar proporções entre grupos (os níveis de uma VI também nominal). O resultado do teste de qui-quadrado é bastante simples e direto: o R informa o teste realizado (teste de qui-quadrado de Pearson), o conjunto de dados (tab.word), e valores de qui-quadrado, graus de liberdade e valor-p."
+
+- Class: text
+  Output: "Você já sabe interpretar o valor-p: a probabilidade de se ter observado tal distribuição dos dados em caso de a hipótese nula ser verdadeira. Aqui, o teste de qui-quadrado indica que as proporções entre os grupos (59% de r0 em \"floor\" e 77% em \"fourth\") são significativamente diferentes, pelo valor-p abaixo de 5%. Mas o que querem dizer as medidas de qui-quadrado e de graus de liberdade?"
+
+- Class: cmd_question
+  Output: "Apesar de o resultado do teste de qui-quadrado ser bastante simples e direto, o R na verdade computou outros valores com o teste. Verifique a estrutura do objeto x2.word por meio da função str()."
+  CorrectAnswer: str(x2.word)
+  AnswerTests: omnitest(correctExpr='str(x2.word)')
+  Hint: Digite str(x2.word) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "O objeto x2.word é uma lista que contém outros valores, e que podem ser acessados por meio do operador `$`. Já usamos esse operador para acessar colunas de um dataframe. Aqui, vamos usá-lo para acessar valores da lista. O que veremos na sequência é como o R computou os valores de qui-quadrado e de graus de liberdade, para mais bem compreender essas medidas estatísticas. A rigor, você não precisa saber disso para saber aplicar o teste -- que já foi feito acima. Mas é importante saber um pouco do raciocínio por trás desse teste para saber como foram computados esses valores."
+
+- Class: cmd_question
+  Output: "Um dos itens da lista são os valores observados, que são acessados por x2.word$observed. Guarde os valores observados em um objeto chamado O (o maiúsculo)."
+  CorrectAnswer: O <- x2.word$observed
+  AnswerTests: omnitest(correctExpr='O <- x2.word$observed')
+  Hint: Digite O <- x2.word$observed e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Faça o mesmo com os valores esperados (x2.word$expected), guardando-os num objeto chamado E."
+  CorrectAnswer: E <- x2.word$expected
+  AnswerTests: omnitest(correctExpr='E <- x2.word$expected')
+  Hint: Digite E <- x2.word$expected e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Inspecione agora o objeto O, criado acima."
+  CorrectAnswer: O
+  AnswerTests: omnitest(correctExpr='O')
+  Hint: Digite O e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Ora, nada mais é do que a tabela de frequências, tab.word, que você já havia criado, não? Inspecione agora o objeto E."
+  CorrectAnswer: E
+  AnswerTests: omnitest(correctExpr='E')
+  Hint: Digite E e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Esta tabela é nova. O que são esses números? Para saber como computá-los, adicione as margens na tabela de valores esperados O, por meio da função addmargins()."
+  CorrectAnswer: addmargins(O)
+  AnswerTests: omnitest(correctExpr='addmargins(O)')
+  Hint: Digite addmargins(O) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Com addmargins(), temos os totais de linhas e colunas. Os valores esperados são obtidos por meio da conta: (T-Linha * T-Coluna) / T-Geral. Rode o comando (499 * 347) / 730 -- ou seja, o total da primeira coluna vezes o total da primeira linha, dividido pelo total geral de dados -- para ver o resultado."
+  CorrectAnswer: (499 * 347) / 730
+  AnswerTests: omnitest(correctExpr='(499 * 347) / 730', correctVal=(499 * 347) / 730)
+  Hint: Digite (499 * 347) / 730 e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "O valor corresponde exatamente àquele na primeira linha e primeira coluna da tabela E. Compute agora o valor esperado para a segunda linha da primeira coluna."
+  CorrectAnswer: (499 * 383) / 730
+  AnswerTests: omnitest(correctExpr='(499 * 383) / 730', correctVal=(499 * 383) / 730)
+  Hint: Digite (499 * 383) / 730 e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Calcule o valor esperado para a primeira linha da segunda coluna."
+  CorrectAnswer: (231 * 347) / 730
+  AnswerTests: omnitest(correctExpr='(231 * 347) / 730', correctVal=(231 * 347) / 730)
+  Hint: Digite (231 * 347) / 730 e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "E calcule o valor esperado para a segunda linha da segunda coluna."
+  CorrectAnswer: (231 * 383) / 730
+  AnswerTests: omnitest(correctExpr='(231 * 383) / 730', correctVal=(231 * 383) / 730)
+  Hint: Digite (231 * 383) / 730 e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Ok, agora você sabe computar os valores esperados a partir dos valores observados. O que são esses valores? Faça a divisão do valor esperado de r0 para a palavra floor (E[1, 1]) pelo total de dados de floor (347), linha de comando que já está no script."
+  CorrectAnswer: E[1, 1] / 347
+  AnswerTests: omnitest(correctExpr='E[1, 1] / 347')
+  Hint: Digite E[1, 1] / 347 e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Faça também a divisão do valor esperado de r0 para a palavra fourth (E[2, 1]) pelo total de dados de fourth (383)."
+  CorrectAnswer: E[2, 1] / 383
+  AnswerTests: omnitest(correctExpr='E[2, 1] / 383')
+  Hint: Digite E[2, 1] / 383 e pressione CTRL + ENTER. 
+
+- Class: text
+  Output: "Ambos dão o valor de 0.683561. Você se lembra onde já viu esse número?"
+
+- Class: text
+  Output: "Sim, é a proporção geral de r0 na amostra! Os valores esperados são justamente aqueles que se esperariam caso não houvesse diferença entre as proporções (no exemplo, entre as proporções de r0 nas palavras fourth e floor)."
+
+- Class: text
+  Output: "O teste de qui-quadrado compara valores observados com valores esperados de acordo com a hipótese nula. Foi o mesmo que fizemos no teste de proporções, certo? Aliás, essencialmente, TODO teste estatístico faz isso: compara valores observados com valores esperados. "
+
+- Class: figure
+  Output: "O valor de qui-quadrado é calculado a partir dos valores observados e esperados, por meio da fórmula que acabou de abrir em Plots. Não se assuste com a notação matemática, pois essa fórmula não é nada complicada. Ela define o valor de qui-quadrado como a soma das diferenças entre valores observados e esperados elevadas ao quadrado, divididas pelos valores esperados."
+  Figure: mostrarX2.R
+  FigureType: new
+
+- Class: mult_question
+  Output: "No R, qual fórmula abaixo expressa a fórmula da figura?"
+  AnswerChoices: sum((O - E) ^ 2 / E);sum(O ^ 2 - E ^ 2 / E);(O - E)^2 / E;sum(O - E)^2 / E
+  CorrectAnswer: sum((O - E) ^ 2 / E)
+  AnswerTests: omnitest(correctVal= 'sum((O - E) ^ 2 / E)')
+  Hint: "O sigma representa soma. No R, indica-se 'elevado a' com ^."
+
+- Class: cmd_question
+  Output: "Acima, havíamos definido os valores observados e esperados nos objetos O e E respectivamente. Portanto, podemos aplicar a fórmula sum((O - E) ^ 2 / E) para calcular o valor de qui-quadrado. Faça isso agora."
+  CorrectAnswer: sum((O - E) ^ 2 / E)
+  AnswerTests: omnitest(correctExpr='sum((O - E) ^ 2 / E)')
+  Hint: Digite sum((O - E) ^ 2 / E) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "O R fornece o valor de qui-quadrado = 27.98314. Como esse valor se compara com aquele do teste feito acima? Inspecione novamente o objeto x2.word."
+  CorrectAnswer: x2.word
+  AnswerTests: omnitest(correctExpr='x2.word')
+  Hint: Digite x2.word e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "No teste, o valor de qui-quadrado foi de 27.147, e no nosso teste foi 27.983. Parecido, mas não igual. Isso porque o teste de qui-quadrado no R tem como valor default uma correção feita para tabelas 2 x 2 (2 linhas e 2 colunas), como é o caso do nosso exemplo. Esse argumento pode ser definido como correct = F para que o R não faça a correção. Aplique a função chisq.test() sem correção da medida de qui-quadrado à tabela tab.word. Não se preocupe em guardar o resultado."
+  CorrectAnswer: chisq.test(tab.word, correct = F)
+  AnswerTests: omnitest(correctExpr='chisq.test(tab.word, correct = F)')
+  Hint: Digite chisq.test(tab.word, correct = F) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "O mesmíssimo valor que computamos! Agora você sabe que o valor de qui-quadrado é uma medida da diferença entre valores observados e esperados em uma distribuição. Quanto mais próximo o qui-quadrado estiver de zero, mais os valores observados se aproximam dos valores esperados -- e, portanto, maior a chance de se ter observado tal distribuição em caso de a hipótese nula ser verdadeira (i.e. maiores valores de p!). No entanto, a interpretação do valor de qui-quadrado depende dos graus de liberdade, pois tabelas maiores tendem a gerar valores de qui-quadrados maiores."
+
+- Class: cmd_question
+  Output: "O cálculo dos graus de liberdade é bastante simples. A fórmula é (n-linhas - 1) * (n-colunas - 1). Faça essa conta para nossa tabela de frequências tab.word, que tem 2 linhas e 2 colunas."
+  CorrectAnswer: (2 - 1) * (2 - 1)
+  AnswerTests: any_of_exprs('(2 - 1) * (2 - 1)', '(nrow(tab.word) - 1) * (ncol(tab.word) - 1)', '1')
+  Hint: Digite (2-1) * (2-1) e pressione CTRL + ENTER.
+
+- Class: figure
+  Output: "Para tabelas 2 x 2, os graus de liberdade são sempre 1. Você pode entender o valor de graus de liberdade como o número de células de que você precisa, junto com os valores totais de linhas e colunas, para conseguir deduzir os demais valores. Isso está ilustrado na figura em Plots. Com apenas uma das células e os totais, você conseguiria definir quais foram as demais frequências."
+  Figure: mostrardf.R
+  FigureType: new
+
+- Class: figure
+  Output: "Com os valores de qui-quadrado e graus de liberdade, o pesquisador pode consultar uma tabela de distribuição de qui-quadrado para determinar o valor-p, a probabilidade de se ter observado tal distribuição em caso de a hipótese nula ser verdadeira. Abri uma tabela de qui-quadrado em Plots. As linhas apresentam os valores de qui-quadrado de 1 a 10 graus de liberdade; as colunas indicam as probabilidades associadas a cada valor de qui-quadrado." 
+  Figure: mostrarX2tab.R
+  FigureType: new
+
+- Class: text
+  Output: "Caso o R não houvesse calculado a significância pra nós, consultaríamos a primeira linha da tabela até encontrar o valor X2 = 27.983. Da esquerda pra direita, vemos que os valores de qui-quadrado aumentam. O valor X2 = 27.983, portanto, está à direita da última coluna. Vemos também que os valores de probabilidade, da esquerda pra direita, diminuem. Dessa forma, o valor-p para X2 = 27.983, com 1 grau de liberdade, é menor do que 0.001. No teste de qui-quadrado, o R nos forneceu esse valor com maior precisão: p = 1.224e-07."
+
+- Class: text
+  Output: "Vejamos agora outro exemplo, com uma tabela maior do que 2 x 2. No caso acima, em que testamos a diferença entre proporções para os itens floor e fourth, sabemos que, se há diferença, só pode ser entre esses itens. Mas e se estivermos tratando de uma variável com três ou mais níveis? Numa variável com os fatores A, B e C, eventuais diferenças verificadas podem estar entre A-B, A-C, B-C ou entre todos eles."
+
+- Class: cmd_question
+  Output: Façamos novamente os passos da análise. Primeiro, faça um novo dataframe (prop.store) que computa as frequências e as proporções de store por r.
+  CorrectAnswer: prop.store <- ds %>% count(store, r) %>% group_by(store) %>% mutate(prop = prop.table(n)) %>% print()
+  AnswerTests: omnitest(correctExpr='prop.store <- ds %>% count(store, r) %>% group_by(store) %>% mutate(prop = prop.table(n)) %>% print()')
+  Hint: Use prop.word como modelo se necessário.
+  
+- Class: cmd_question
+  Output: Plote o gráfico de barras. Substitua os termos necessário no código.
+  CorrectAnswer: ggplot(prop.store, aes(x = store, y = prop, fill = r)) + geom_bar(stat = "identity")
+  AnswerTests: omnitest(correctExpr='ggplot(prop.store, aes(x = store, y = prop, fill = r)) + geom_bar(stat = "identity")')
+  Hint: Use o modelo para o gráfico por word se necessário.
+  
+- Class: cmd_question
+  Output: "Crie a tabela de frequências da variável `store` pela VD `r` com as funções da instalação base do R e guarde-a num objeto chamado tab.store."
+  CorrectAnswer: tab.store <- with(ds, table(store, r))
+  AnswerTests: omnitest(correctExpr='tab.store <- with(ds, table(store, r))')
+  Hint: Use as funções with() e table().
+
+- Class: cmd_question
+  Output: "Inpecione o objeto tab.store."
+  CorrectAnswer: tab.store
+  AnswerTests: omnitest(correctExpr='tab.store')
+  Hint: Digite tab.store e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Como já visto nas lições 4 e 5, há mais apagamento de /r/ na S. Klein (90%), relativamente menos na Macy's (63%) e ainda menos na Saks (52%). Aplique a função de qui-quadrado à tabela tab.store e guarde o resultado num objeto chamado x2.store."
+  CorrectAnswer: x2.store <- chisq.test(tab.store)
+  AnswerTests: omnitest(correctExpr='x2.store <- chisq.test(tab.store)')
+  Hint: Digite x2.store <- chisq.test(tab.store) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Veja o resultado do teste de qui-quadrado."
+  CorrectAnswer: x2.store
+  AnswerTests: omnitest(correctExpr='x2.store')
+  Hint: Digite x2.store e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "O R nos informa que o qui-quadrado é 74.1, com 2 graus de liberdade e significância menor do que 2.2e-16. Isso, contudo, é uma medida global da distribuição -- lembre-se que o qui-quadrado é a SOMA das diferenças entre valores observados e esperados elevadas ao quadrado e divididas pelo valor esperado."
+
+- Class: cmd_question
+  Output: "Vamos guardar novamente os valores observados e esperados em dois objetos. Guarde os valores observados do teste x2.store num objeto chamado O."
+  CorrectAnswer: O <- x2.store$observed
+  AnswerTests: omnitest(correctExpr='O <- x2.store$observed')
+  Hint: Digite O <- x2.store$observed e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Guarde os valores esperados do teste x2.store num objeto chamado E."
+  CorrectAnswer: E <- x2.store$expected
+  AnswerTests: omnitest(correctExpr='E <- x2.store$expected')
+  Hint: Digite E <- x2.store$expected e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Com a fórmula sum((O-E)^2/E), computamos acima o valor de qui-quadrado da tabela. Se tirarmos a função sum() da fórmula, teremos o valor de qui-quadrado por célula. Digite então (O - E) ^ 2 / E para ver o resultado."
+  CorrectAnswer: (O - E) ^ 2 / E
+  AnswerTests: omnitest(correctExpr='(O - E) ^ 2 / E')
+  Hint: Digite (O-E)^2/E e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "Quanto maior o valor de qui-quadrado, maior é a diferença entre o valor observado e o valor esperado. Para a distribuição dos dados de /r/ pelas lojas, vemos que a maior diferença está na S. Klein (valores acima de X2 = 15), e a segunda maior diferença está na Saks (valores acima de X2 = 6)."
+
+- Class: cmd_question
+  Output: "Para mais bem visualizar essa diferença, vamos fazer uma linha horizontal no gráfico de barras que indica a proporção esperada de r1, 32%. Ao comando já usado para plotar o presente gráfico, vamos adicionar a função geom_hline, que plota uma linha horizontal na figura. Como argumento de geom_hline, estabeleça yintercept = 0.32 (para que seja uma linha horizontal na altura 0.32)."
+  CorrectAnswer: ggplot(prop.store, aes(x = store, y = prop, fill = r)) + geom_bar(stat = "identity") + geom_hline(yintercept = 0.32) 
+  AnswerTests: omnitest(correctExpr='ggplot(prop.store, aes(x = store, y = prop, fill = r)) + geom_bar(stat = "identity") + geom_hline(yintercept = 0.32) ')
+  Hint: Complete a linha de comando com calma, revise e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "Pela figura, também vemos que as maiores diferenças estão nas proporções na S. Klein e na Saks, e que a proporção de r1 na Macy's se aproxima mais da proporção esperada. Os valores de qui-quadrado expressam justamente essas diferenças."
+
+- Class: cmd_question
+  Output: "Outro modo de medir essas diferenças é pelo valor dos resíduos. Os resíduos são a diferença entre o valor observado e o valor esperado, e também foram guardados no resultado do teste. Para ver esses valores, digite x2.store$residuals."
+  CorrectAnswer: x2.store$residuals
+  AnswerTests: omnitest(correctExpr='x2.store$residuals')
+  Hint: Digite x2.store$residuals e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "Os valores de resíduos aqui são calculados pelo método de Pearson -- (O - E) / sqrt(E). Como esses valores não são elevados ao quadrado, mantém-se o sinal positivo ou negativo da diferença. Veja que o valor do resíduo de r1 para S. Klein é -5.727365, ou seja, o valor observado foi abaixo do esperado, enquanto os valores de resíduos de r1 para Macy's e Saks são positivos (1.811283 e 3.820615), acima da proporção esperada."
+
+- Class: text
+  Output: "Tantos os valores de qui-quadrado por célula quanto os resíduos indicam que o maior responsável pelas diferenças são as proporções de S. Klein. Pela figura (e pelas estatísticas), vemos que a diferença de proporções entre Saks e Macy's é relativamente menor. Poderíamos nos perguntar se há diferença significativa entre essas duas lojas."
+
+- Class: mult_question
+  Output: "Acima, fizemos o teste de qui-quadrado sobre diferenças entre as três lojas por meio de chisq.test(tab.store). Com que linha de comando podemos testar se há diferença apenas entre Saks e Macy's?"
+  AnswerChoices: chisq.test(tab.store[2:3, ]);chisq.test(tab.store[2:3]);chisq.test(tab.store[2,3])
+  CorrectAnswer: chisq.test(tab.store[2:3, ])
+  AnswerTests: omnitest(correctVal= 'chisq.test(tab.store[2:3, ])')
+  Hint: Como se acessam valores específicos de uma tabela?
+
+- Class: cmd_question
+  Output: "Como tab.store é uma tabela, ela tem linhas e colunas, que podem ser acessadas por meio dos colchetes [ ]. Da tabela, podemos analisar apenas as duas primeiras linhas 2:3, referentes a Saks e a Macy's. Deixamos o índice de coluna vazio. Faça então o teste de qui-quadrado apenas as proporções das lojas Saks e Macy's. Não se preocupe em guardar o resultado num objeto."
+  CorrectAnswer: chisq.test(tab.store[2:3, ])
+  AnswerTests: omnitest(correctExpr='chisq.test(tab.store[2:3, ])')
+  Hint: Digite 	chisq.test(tab.store[2:3, ]) e pressione CTRL + ENTER.
+
+- Class: mult_question
+  Output: "Pelo resultado, o que o pesquisador pode concluir?"
+  AnswerChoices: Há diferença significativa entre as proporções de r0 de Macys e de Saks.;Não há diferença significativa entre as proporções de r0 de Macys e de Saks.
+  CorrectAnswer: Há diferença significativa entre as proporções de r0 de Macys e de Saks.
+  AnswerTests: omnitest(correctVal= 'Há diferença significativa entre as proporções de r0 de Macys e de Saks.')
+  Hint: Se não é a opção que você escolheu agora...
+
+- Class: cmd_question
+  Output: "Qual é o valor de qui-quadrado?"
+  CorrectAnswer: 4.9323
+  AnswerTests: omnitest(correctVal=4.9323)
+  Hint: Veja o resultado do teste feito acima.
+
+- Class: cmd_question
+  Output: "Quantos graus de liberdade há na tabela tab.store[1:2, ]?"
+  CorrectAnswer: 1
+  AnswerTests: omnitest(correctVal=1)
+  Hint: Veja o resultado do teste feito acima.
+
+- Class: mult_question
+  Output: "Volte à tabela de distribuição do qui-quadrado em Plots, por meio das flechinhas azuis. Em que ponto se localiza o valor X2 = 4.9323?"
+  AnswerChoices: entre as probabilidades 0.05 e 0.01;entre as probabilidades 0.01 e 0.001;entre as probabilidades 0.10 e 0.05
+  CorrectAnswer: entre as probabilidades 0.05 e 0.01
+  AnswerTests: omnitest(correctVal= 'entre as probabilidades 0.05 e 0.01')
+  Hint: Procure o valor de qui-quadrado X2 = 4.9323 na linha correspondente a um grau de liberdade.
+
+- Class: text
+  Output: "Faz sentido, não? O R calculou a probabilidade 0.02636, que está justamente entre 0.05 e 0.01 com um grau de liberdade."
+
+- Class: cmd_question
+  Output: "É importante ainda mencionar que os valores de qui-quadrado e de significância são sensíveis ao tamanho da amostra. Digamos que a amostra de dados tivesse sido 20 vezes menor. Digite tab.store/20 para ver como ficaria a distribuição dos dados de /r/ por loja neste cenário."
+  CorrectAnswer: tab.store/20
+  AnswerTests: omnitest(correctExpr='tab.store/20')
+  Hint: Digite tab.store/20 e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "As proporções continuariam as mesmas, pois dividimos todos os valores igualmente por 20. Mas faça o teste de qui-quadrado sobre este conjunto de dados, tab.store/20."
+  CorrectAnswer: chisq.test(tab.store/20)
+  AnswerTests: omnitest(correctExpr='chisq.test(tab.store/20)')
+  Hint: Digite chisq.test(tab.store/20) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "Embora as proporções sejam as mesmas, o resultado agora é a uma diferença não significativa entre as lojas. O motivo para isso é simples: com um menor número de dados, a chance de aleatoriedade é muito maior, de modo que é mais difícil rejeitar a hipótese nula."
+
+- Class: text
+  Output: "Por fim, é importante saber como apresentar os resultados de testes de qui-quadrado. A notação convencional é X2 = 74.14(2), p < 0.001, que se lê: \"Qui-quadrado igual a 74.14, com dois graus de liberdade e p menor do que 0.001.\" O símbolo X deve ser representado pela letra grega chi e o quadrado é o número 2 sobrescrito. Ainda que o valor de significância fornecido pelo R seja um número muito menor -- aqui, 2.2e-16 --, não é necessário reportar a significância com tanta precisão. Qualquer valor abaixo de 0.001 pode ser reportado com p < 0.001. Textualmente, o resultado pode ser assim descrito: \"Um teste de qui-quadrado, com o objetivo de verificar se há diferenças entre as proporções de apagamento de /r/ nas três lojas de departamento em Nova Iorque, indica que há diferenças significativas entre as lojas (X2 = 74.14(2), p < 0.001).\" O pesquisador então pode se dedicar à explicação de tal fato."
+
+- Class: text
+  Output: "Faça agora os exercícios correspondentes. Recomendo também a leitura de Dalgaard (2008: cap.8), Gries (2013:157-194) e Levshina (2015: cap.9)."

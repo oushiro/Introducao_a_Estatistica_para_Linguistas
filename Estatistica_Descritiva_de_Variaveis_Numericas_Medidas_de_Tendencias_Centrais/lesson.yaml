@@ -1,0 +1,305 @@
+- Class: meta
+  Course: Introducao_a_Estatistica_para_Linguistas
+  Lesson: Estatistica Descritiva de Variaveis Numericas Medidas de Tendencias Centrais
+  Author: Livia Oushiro
+  Type: Standard
+  Organization: UNICAMP
+  Version: 2.4.2
+
+- Class: figure
+  Output: "Nas duas últimas lições, lidamos com variáveis nominais/categóricas, e as medidas estatísticas apropriadas para este tipo de dado: frequências e proporções. Também vimos dois tipos de gráfico bastante usados para representar visualmente os dados de variáveis nominais -- o gráfico de barras e o gráfico de linhas (este último, para variáveis ordinais)."   
+  Figure: Licao06-background.R
+  FigureType: new
+
+- Class: text
+  Output: "Nesta e na próxima lição, vamos tratar de variáveis NUMÉRICAS. Primeiro, vamos revisar alguns conceitos básicos do Ensino Médio: MEDIDAS DE TENDÊNCIA CENTRAL e MEDIDAS DE DISPERSÃO. Você certamente se lembra de uma das medidas de tendência central -- a média -- e se lembra como calculá-la."
+
+- Class: cmd_question
+  Output: "Para refrescá-la na memória, tomemos dois conjuntos de dados, que deixei disponíveis para você nessa sessão: `notas_turmaA` e `notas_turmaB`. Cheque a aba Environment. Imagine que essas são as notas dadas por um professor a duas turmas diferentes ao final do semestre. Primeiro inspecione as notas da turma A. Digite notas_turmaA e veja o resultado."
+  CorrectAnswer: notas_turmaA
+  AnswerTests: omnitest(correctExpr='notas_turmaA')
+  Hint: Digite notas_turmaA e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: Agora inspecione as notas da turma B.
+  CorrectAnswer: notas_turmaB
+  AnswerTests: omnitest(correctExpr='notas_turmaB')
+  Hint: Digite notas_turmaB e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Você deve ter notado que turma A tem mais alunos do que a turma B. Vamos agora calcular a média de cada turma, para verificar qual teve uma nota média mais alta. Você se lembra, do Ensino Médio, que a média é o resultado da soma de todos os elementos dividida pelo número de elementos do conjunto. No R, uma função para realizar operações de adição é sum() e para mostrar o número de elementos de um vetor é length(). O operador de divisão é /. De posse dessas informações, calcule a média das notas dos alunos da turma A."
+  CorrectAnswer: sum(notas_turmaA) / length(notas_turmaA)
+  AnswerTests: omnitest(correctExpr='sum(notas_turmaA) / length(notas_turmaA)')
+  Hint: Digite sum(notas_turmaA) / length(notas_turmaA) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: Agora calcule a média para as notas da turma B. 
+  CorrectAnswer: sum(notas_turmaB) / length(notas_turmaB)
+  AnswerTests: omnitest(correctExpr='sum(notas_turmaB) / length(notas_turmaB)')
+  Hint: Digite sum(notas_turmaB) / length(notas_turmaB) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: Você pode ter imaginado que, para uma medida tão comum como a média, o R tem um jeito mais fácil de chegar a esse resultado -- e você tem razão! A função mean() faz justamente o que foi feito acima. Aplique-a às notas da turma A para verificar o mesmo resultado.
+  CorrectAnswer: mean(notas_turmaA)
+  AnswerTests: omnitest(correctExpr='mean(notas_turmaA)')
+  Hint: Digite mean(notas_turmaA) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: E aplique a função mean() às notas da turma B. 
+  CorrectAnswer: mean(notas_turmaB)
+  AnswerTests: omnitest(correctExpr='mean(notas_turmaB)')
+  Hint: Digite mean(notas_turmaB) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "Vemos que as médias das duas turmas são bem parecidas. Vejamos agora outra medida de tendência central: a mediana. Dessa talvez você não se lembre, já que não é de uso tão corrente no cotidiano."
+  
+- Class: text
+  Output: "Se um conjunto de medições for colocado na ordem crescente, a mediana é a observação bem no ponto médio desse conjunto ordenado. Quando um conjunto tem um número ímpar de observações, como é o caso de `notas_turmaA`, a mediana é o valor de n/2 (ou seja, 31/2 = 15,5), arredondado para cima (=16). A mediana será, então, o 16o. valor do vetor colocado em ordem crescente. Colocado de outro modo, a mediana é o valor que separa a metade inferior da metade superior da amostra (15 observações para cada lado)." 
+
+- Class: cmd_question
+  Output: Coloque os elementos do vetor `notas_turmaA` com uso da função sort(). Verifique qual é o valor do 16o. elemento para achar a mediana.
+  CorrectAnswer: sort(notas_turmaA)
+  AnswerTests: omnitest(correctExpr='sort(notas_turmaA)')
+  Hint: Digite sort(notas_turmaA) e pressione CTRL + ENTER.
+
+
+- Class: cmd_question
+  Output: "Você deve ter encontrado o valor 8,1, certo? Vamos fazer o mesmo agora para `notas_turmaB`. Do mesmo modo que acima, primeiro se colocam os termos em ordem crescente. Neste caso, em que o vetor tem um número par de observações, tomamos dois números para calcular a mediana: n/2 arredondado para baixo e n/2 arredondado para cima. Como `notas_turmaB` tem 10 elementos, a mediana é a média da 5a. e da 6a. observação dos elementos organizados em ordem crescente. Aplique então a função sort() para descobrir quais são a 5a. e a 6a. medição de `notas_turmaB`."
+  CorrectAnswer: sort(notas_turmaB)
+  AnswerTests: omnitest(correctExpr='sort(notas_turmaB)')
+  Hint: Digite sort(notas_turmaB) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Você deve ter encontrado os valores 8,5 e 9,3. A média entre esses dois valores é 8,9, que é a mediana de `notas_turmaB`. Mas você deve estar pensando: 'Por que essa complicação toda? Eu vou ter que ficar colocando os números na ordem crescente e procurando no meio da distribuição qual é a observação n/2 arredondada pra cima ou pra baixo? Eu sei que o R tem um jeito mais fácil de calcular a mediana!' E é claro que tem! É a função median(). Aplique-a agora nas notas da turma A."
+  CorrectAnswer: median(notas_turmaA)
+  AnswerTests: omnitest(correctExpr='median(notas_turmaA)')
+  Hint: Digite median(notas_turmaA) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: Aplique a função median() nas notas da turma B. 
+  CorrectAnswer: median(notas_turmaB)
+  AnswerTests: omnitest(correctExpr='median(notas_turmaB)')
+  Hint: Digite median(notas_turmaB) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "Mesmos valores que calculamos previamente, certo? O motivo de eu não ter ido direto ao ponto é porque é fácil aplicar ferramentas computacionais sem saber direito o que se está fazendo. Média e mediana são duas medidas de cálculo fácil, que muitas vezes podem ser feitas à mão ou com uma calculadora, desde que o número de observações não seja muito extenso. Mas por mais banais que pareçam ser essas medidas, TODOS os testes estatísticos que existem derivam em menor ou maior grau delas. É importante ter clareza sobre como essas medidas são calculadas."
+
+- Class: cmd_question
+  Output: "Há ainda uma terceira medida de tendência central, chamada moda. A moda é o valor que ocorre mais frequentemente em um conjunto de dados. Interessantemente, o R não tem uma função própria para calcular a moda de um conjunto de dados, mas eu deixei uma tal função disponível para você nesta lição. Ela se chama Mode (com 'M' maiúsculo). Aplique-a às notas dos alunos da turma A."   
+  CorrectAnswer: Mode(notas_turmaA)
+  AnswerTests: omnitest(correctExpr='Mode(notas_turmaA)')
+  Hint: Digite Mode(notas_turmaA) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: E agora aplique-a às notas dos alunos da turma B.
+  CorrectAnswer: Mode(notas_turmaB)
+  AnswerTests: omnitest(correctExpr='Mode(notas_turmaB)')
+  Hint: Digite Mode(notas_turmaB) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "Ok! Temos então três medidas para cada conjunto de dados. Turma A: 7,06, 8,1  e 7,0 e Turma B: 7,04, 8,9 e 0,0 para média, mediana e moda respectivamente. Embora a média de ambas as turmas tenha sido praticamente a mesma, há diferenças nas medidas de mediana e moda. Você pode estar se perguntando agora: 'Qual é a melhor e qual eu devo usar?'" 
+
+- Class: text
+  Output: "Pois bem, retire essas perguntas imediatamente da cabeça! A questão aqui não é a melhor ou a pior, mas sim o que cada uma informa. Vale a pena fazer as três medições em todo conjunto de dados numéricos que você tiver."
+
+- Class: text
+  Output: "Quando essas três medidas são parecidas entre si, isso significa que você está diante de um conjunto equilibrado de dados, em que todos os valores se distribuem de modo mais ou menos simétrico em torno do ponto médio." 
+
+- Class: figure
+  Output: "Graficamente, tal conjunto de dados se distribuiria mais ou menos como na figura do meio, da imagem que acabei de abrir em Plots. (Fonte: <https://www.quora.com/How-do-outliers-affect-normal-distribution-in-statistics>)"
+  Figure: mostrar-imagem-dist.R
+  FigureType: new
+
+- Class: text
+  Output: "Quando as três medidas diferem mais entre si, isso é indicativo de que a distribuição de seus dados é assimétrica, ou seja, que ela provavelmente tem um viés negativo ou positivo. A mediana tanto da turma A quanto da turma B está acima de 8,0, o que significa que pelo menos metade dos alunos de cada turma tirou uma nota acima de 8,0, mas a média está 'mascarando' isso -- o viés, aqui, é negativo. Na situação contrária -- a mediana abaixo da média --, o viés seria positivo. Esses vieses estão ilustrados na figura aberta em Plots."
+
+- Class: text
+  Output: "Algo semelhante tende a ocorrer com a moda. Quando uma distribuição é simétrica, o valor mais frequente (o ponto mais alto da distribuição) tende a estar próximo da média. Isso parece ser mais verdadeiro para a turma A do que para a turma B, em que a moda difere radicalmente dos demais valores de medidas centrais." 
+  
+- Class: text
+  Output: "Também há que se levar em conta o número de elementos de um conjunto para avaliar o quanto essas três medidas são representativas dele. Na turma B, há apenas 10 alunos, 3 vezes menos do que na turma A. Isso significa que cada aluno da turma B contribui mais para a média do que cada aluno da turma A." 
+
+- Class: cmd_question
+  Output: "Façamos um teste: acrescente a cada um dos vetores notas_turmaA e notas_turmaB uma nova nota 0. Digite notas_turmaA2 <- c(notas_turmaA, 0). (Certifique-se que você entende o que está sendo feito nesta linha de comando; se não, reveja a Lição 1!)."
+  CorrectAnswer: notas_turmaA2 <- c(notas_turmaA, 0)
+  AnswerTests: omnitest(correctExpr='notas_turmaA2 <- c(notas_turmaA, 0)')
+  Hint: Digite notas_turmaA2 <- c(notas_turmaA, 0) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Vamos fazer o mesmo agora para a turma B. Digite notas_turmaB2 <- c(notas_turmaB, 0)."
+  CorrectAnswer: notas_turmaB2 <- c(notas_turmaB, 0)
+  AnswerTests: omnitest(correctExpr='notas_turmaB2 <- c(notas_turmaB, 0)')
+  Hint: Digite notas_turmaB2 <- c(notas_turmaB, 0) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: Aplique agora a função mean() a notas_turmaA2.
+  CorrectAnswer: mean(notas_turmaA2)
+  AnswerTests: omnitest(correctExpr='mean(notas_turmaA2)')
+  Hint: Digite mean(notas_turmaA2) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: E aplique a função mean() ao vetor notas_turmaB2.
+  CorrectAnswer: mean(notas_turmaB2)
+  AnswerTests: omnitest(correctExpr='mean(notas_turmaB2)')
+  Hint: Digite mean(notas_turmaB2) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "Veja que a média da turma A baixou de 7,06 para 6,84 (=0,22 de diferença), enquanto a média da turma B baixou de 7,04 para 6,4 (=0,64). A média do segundo grupo baixou quase três vezes mais do que a do primeiro! Isso é porque uma única observação 'conta mais' num grupo menor de dados do que num grupo maior, e portanto tem mais potencial para mudar os resultados."
+  
+- Class: text
+  Output: "A lição a se tirar daqui é que quanto menor o número de dados de que se dispõe, mais cautela se deve ter na leitura de resultados dos testes estatísticos!"
+
+- Class: text
+  Output: Média, mediana e moda resumem, cada qual, um conjunto de dados em um único número. Mas interessa também saber como os dados se dispersam. Afinal, um conjunto A (5, 5, 5) e outro B (0, 5, 10) têm ambos a mesma média e a mesma mediana (=5), mas são bem diferentes. Para capturar a diferença entre um tal conjunto A e um tal conjunto B, calculamos MEDIDAS DE DISPERSÃO.  
+
+
+- Class: text
+  Output: "A variância é uma das medidas de dispersão. Seu cálculo é também bastante simples: toma-se cada uma das observações, e dela se subtrai o valor da média. No vetor notas_turmaA, isso seria: 7 - 7,06; 10 - 7,06; 10 - 7,06 etc. Em seguida, eleva-se cada resultado das subtrações ao quadrado. Os quadrados servem o propósito de eliminar o sinal negativo -- como você se lembra do Ensino Médio, qualquer número elevado ao quadrado é positivo. Somam-se então os valores quadrados. O resultado da soma é dividido pelo número de observações N (se o cálculo for da POPULAÇÃO) ou por n - 1 (se o cálculo for da AMOSTRA). Não vou entrar em detalhes do porquê disso aqui. Os curiosos podem consultar <http://duramecho.com/Misc/WhyMinusOneInSd.html>." 
+
+- Class: cmd_question
+  Output: No R, a função para calcular a variância é var(). Aplique-a às notas da turma A.
+  CorrectAnswer: var(notas_turmaA)
+  AnswerTests: omnitest(correctExpr='var(notas_turmaA)')
+  Hint: Digite var(notas_turmaA) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: Aplique agora a função var() para as notas da turma B. 
+  CorrectAnswer: var(notas_turmaB)
+  AnswerTests: omnitest(correctExpr='var(notas_turmaB)')
+  Hint: Digite var(notas_turmaB) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "Vemos que a variância é maior na turma B. Isso significa que a perfórmance dos estudantes da turma B foi menos homogênea, mais dispersa, do que os da turma A. Mas esses números são um pouco difíceis de interpretar. O que significam 8,8 ou 14,9 de variância? Uma medida mais 'intuitiva' é o desvio padrão." 
+
+- Class: cmd_question
+  Output: O desvio padrão é a raiz quadrada da variância. Lembra que elevamos todos os valores de diferença entre uma observação e a média ao quadrado? A raiz quadrada reverte essa operação. No R, a função para calcular o desvio padrão é sd() (=standard deviation). Aplique-a a agora ao vetor notas_turmaA. 
+  CorrectAnswer: sd(notas_turmaA)
+  AnswerTests: omnitest(correctExpr='sd(notas_turmaA)')
+  Hint: Digite sd(notas_turmaA) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: E aplique sd() ao vetor notas_turmaB. 
+  CorrectAnswer: sd(notas_turmaB)
+  AnswerTests: omnitest(correctExpr='sd(notas_turmaB)')
+  Hint: Digite sd(notas_turmaB) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "O desvio padrão da turma A é 2,96 e da turma B é 3,86. Esses valores já são mais facilmente interpretáveis: em média, os alunos da turma A desviaram 2,96 pontos da média, e os alunos da turma B desviaram mais. Novamente, a interpretação é que a perfórmance dos alunos da turma A foi relativamente mais homogênea do que a dos alunos da turma B. "
+  
+- Class: cmd_question
+  Output: "Outra medida estatística útil, e que aparecerá nos modelos de regressão linear (Lições 12 e 13), é o erro padrão. Não há uma função específica no R para computá-lo, mas sua definição matemática é bastante simples: o erro padrão é igual ao desvio padrão, dividido pela raiz quadrada do número de observações. Aplique então essa fórmula a notas_turmaA. (A função para calcular a raiz quadrada é sqrt() e para computar o número de observações é length())."
+  CorrectAnswer: sd(notas_turmaA) / sqrt(length(notas_turmaA))
+  AnswerTests: omnitest(correctExpr='sd(notas_turmaA) / sqrt(length(notas_turmaA))')
+  Hint: Digite sd(notas_turmaA) / sqrt(length(notas_turmaA)) e pressione CTRL + ENTER.
+  
+- Class: cmd_question
+  Output: E faça o cálculo do erro padrão para notas_turmaB.
+  CorrectAnswer: sd(notas_turmaB) / sqrt(length(notas_turmaB))
+  AnswerTests: omnitest(correctExpr='sd(notas_turmaB) / sqrt(length(notas_turmaB))')
+  Hint: Digite sd(notas_turmaB) / sqrt(length(notas_turmaB)) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "Mas para que servem todas essas medidas? Um dos objetivos da análise estatística é criar modelos ou fazer previsões (vamos falar mais sobre isso adiante no curso). As medidas de tendência central resumem em poucos números uma distribuição que pode ter dezenas, centenas, milhares, milhões de dados. As medidas de dispersão dão um indicativo do quanto as medidas de tendência central conseguem prever uma determinada medição. Quanto maior a variância, desvio padrão e erro padrão, menos informativas são as medidas de tendências centrais." 
+
+- Class: text
+  Output: "A previsão de uma medida dificilmente se refere a um valor exato. Na maior parte das vezes, tais medidas vão ser base para estimar PROBABILIDADES." 
+
+- Class: cmd_question
+  Output: Que tal aplicar esse conhecimento em algo MUITO MAIS IMPORTANTE, como a análise da altura das vogais médias pretônicas na fala de migrantes nordestinos? Defina, primeiro, um novo diretório de trabalho.
+  CorrectAnswer: setwd("~/Dropbox/_R/swirl/arquivosDados")
+  AnswerTests: expr_uses_func('setwd')
+  Hint: "Digite o caminho completo para o novo diretório no formato \"C:/User/...\" ou use a aba Files."
+
+- Class: figure
+  Output: Fiz uma cópia do arquivo de dados, chamado Pretonicas.csv, para o atual diretório de trabalho. Dê uma olhada nessa pasta.
+  Figure: copiarDadosPretonicas.R
+  FigureType: new
+  
+- Class: cmd_question
+  Output: Vamos carregar a planilha em um dataframe chamado `pretonicas`. Para tanto, carregue o pacote tidyverse.
+  CorrectAnswer: library(tidyverse)
+  AnswerTests: omnitest(correctExpr='library(tidyverse)')
+  Hint: Digite library(tidyverse) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Use a função read_csv() para carregar a planilha. Nela, defina as variáveis AMOSTRA e VOGAL como col_factor(); a primeira tem os níveis \"PBSP\" e \"SP2010\", e a segunda tem os níveis \"i\", \"e\", \"a\", \"o\" e \"u\". "
+  CorrectAnswer: pretonicas <- read_csv("Pretonicas.csv", col_types = cols(AMOSTRA = col_factor(levels = c("PBSP", "SP2010")), VOGAL = col_factor(levels = c("i", "e", "a", "o", "u"))))
+  AnswerTests: omnitest(correctExpr='pretonicas <- read_csv("Pretonicas.csv", col_types = cols(AMOSTRA = col_factor(levels = c("PBSP", "SP2010")), VOGAL = col_factor(levels = c("i", "e", "a", "o", "u"))))')
+  Hint: Revise a digitação no comando, sobretudo os parênteses.
+
+- Class: cmd_question
+  Output: E você também já sabe que a primeira coisa a se fazer após carregar os dados é inspecioná-los. Aplique str() ao dataframe `pretonicas` para se certificar de que os dados foram carregados corretamente e ter uma visão global deles. 
+  CorrectAnswer: str(pretonicas)
+  AnswerTests: omnitest(correctExpr='str(pretonicas)')
+  Hint: Digite str(pretonicas) e pressione CTRL + ENTER.
+  
+- Class: cmd_question
+  Output: "Na Lição 2, também vimos a função summary(), que fornece uma visão global dos dados com medidas estatísticas relevantes. Aplique-a agora ao objeto `pretonicas`."
+  CorrectAnswer: summary(pretonicas)
+  AnswerTests: omnitest(correctExpr='summary(pretonicas)')
+  Hint: Digite summary(pretonicas) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "Veja que, para variáveis numéricas, como F1 e F2, a função summary() fornece os valores de média e de mediana, além de outras medidas como mínimo, máximo e quartis. Veremos essas outras medidas com mais detalhes na próxima lição. Por ora, voltemos às medidas de tendências centrais."
+
+- Class: text
+  Output: "O arquivo Pretonicas.csv contém medições de F1 e F2 de vogais pretônicas de 7 falantes paraibanos que migraram para a cidade de São Paulo (amostra PBSP). Além disso, o arquivo também contém as mesmas medições para 7 paulistanos nativos (amostra SP2010), que servem como um parâmetro de comparação para os padrões de fala dos migrantes." 
+
+- Class: text  
+  Output: "A questão mais geral por trás desses dados é descobrir se alguns migrantes paraibanos se acomodaram aos padrões da nova comunidade, e quais. Para isso, foram extraídas medições de F1 e F2 de cerca de 130 a 180 vogais pretônicas da fala de cada um desses participantes, com especial interesse nas vogais médias /e/ e /o/ (como em 'relógio' e 'romã'), em contextos linguísticos que favorecem o abaixamento dessas vogais (as realizações média-baixas '\u025B' e '\u0254'). Em princípio se espera que os paulistanos tenham vogais médias relativamente mais altas do que os paraibanos, mas que alguns deles tenham se aproximado do novo padrão." 
+
+- Class: figure
+  Output: "Linguística e acusticamente, a altura das vogais é medida pelo formante F1, em Hertz. Quanto mais alto é o valor de F1, mais BAIXA é a vogal. Coloquei o quadro de vogais do IPA em Plots para facilitar essa visualização." 
+  Figure: mostrar-imagem-IPA.R
+  FigureType: new
+  
+- Class: video  
+  Output: "No português brasileiro, as vogais /i/ e /u/ costumam ter valores mais baixos de F1, as vogais /e/ e /o/ um pouco mais altos, as vogais /\u025B/ e /\u0254/ mais altos ainda, e a vogal /a/ os valores mais altos de F1. (Consulte o manual de Barbosa & Madureira, Manual de Fonética Acústica Experimental, para mais informações!). Se quiser ver na Internet o diagrama de vogais do International Phonetic Alphabet, escolha \"Yes\"." 
+  VideoLink: https://en.wikipedia.org/wiki/IPA_vowel_chart_with_audio
+
+- Class: mult_question
+  Output: Da lista de variáveis desse dataframe, qual é a variável dependente? 
+  AnswerChoices: F1;Palavra;Transc.Fon;Vogal;F2;CONT.PREC
+  CorrectAnswer: F1
+  AnswerTests: omnitest(correctVal= 'F1')
+  Hint: O interesse é sobre a altura das vogais.
+
+- Class: text
+  Output: "Uma das questões que queremos responder é: qual é a altura média de cada vogal (principalmente /e/ e /o/) para cada comunidade (PB vs SP)? Considerando-se que há 5 vogais pretônicas e 2 grupos, precisaríamos calcular a média 10 vezes. Além disso, temos interesse, minimamente, na mediana e no desvio padrão, para ter uma ideia de se os dados se distribuem simetricamente ou não, e o grau de sua dispersão. Você ficou cansado só de pensar em fazer tudo isso?"
+
+- Class: text
+  Output: A boa notícia é que, como sempre no R, alguém também já pensou que isso dá muito trabalho e criou uma função para fazer isso mais rapidamente. No tidyverse, isso pode ser feito com as funções group_by() -- que você já conhece -- e summarize(), ambas do dplyr. 
+
+- Class: cmd_question
+  Output: "Veja a linha de comando neste ponto do script, que precisará ser completada por você. Nela, pedimos para que o R pegue um dataframe e, primeiro, agrupe o dados de acordo com duas variáveis; em seguida, pedimos para que o R compute as médias de outra variável (com a função mean()), e guarde o resultado em uma variável chamada novaVAR. Substitua então os termos adequados nos pontos correspondentes: nosso dataframe é `pretonicas`, e queremos agrupar os dados por AMOSTRA e VOGAL; a variável sobre a qual vamos computar as médias é F1; e o nome que vamos atribuir a essa nova variável com as médias é `media_F1`. "
+  CorrectAnswer: pretonicas %>% group_by(AMOSTRA, VOGAL) %>% summarize(media_F1 = mean(F1))
+  AnswerTests: omnitest(correctExpr='pretonicas %>% group_by(AMOSTRA, VOGAL) %>% summarize(media_F1 = mean(F1))')
+  Hint: Releia as instruções passo a passo e revise a digitação ao final!
+  
+- Class: text
+  Output: O resultado é um tibble, que tem as colunas AMOSTRA, VOGAL e media_F1, e que informa, para cada vogal de cada amostra, qual é a média.
+
+- Class: cmd_question
+  Output: "Note que a ordem em que as variáveis são colocadas em group_by() determina a ordem de apresentação dos resultados. Para comparar, crie uma nova linha de comando, semelhante à de cima, mas que inverte a ordem das variáveis de agrupamento. " 
+  CorrectAnswer: pretonicas %>% group_by(VOGAL, AMOSTRA) %>% summarize(media_F1 = mean(F1)) 
+  AnswerTests: omnitest(correctExpr='pretonicas %>% group_by(VOGAL, AMOSTRA) %>% summarize(media_F1 = mean(F1))')
+  Hint: Releia as instruções passo a passo e revise a digitação ao final!
+
+- Class: text
+  Output: "A ordem VOGAL, AMOSTRA torna mais diretamente comparáveis os valores de F1. Vemos que, para todas as vogais, os valores de F1 são maiores (= vogais mais baixas) para os paraibanos do que para os paulistanos." 
+
+- Class: cmd_question
+  Output: "Dentro da função summarize(), podemos já incluir outras medidas estatísticas como novos argumentos. A partir da última linha de comando, mantenha a ordem VOGAL, AMOSTRA para o agrupamento em summarize, e inclua, além do cálculo da média, o cálculo da mediana e do desvio padrão de F1.NORM (nessa ordem), atribuindo a essas novas variáveis os nomes `mediana_F1` e `sd_F1` respectivamente. "
+  CorrectAnswer: pretonicas %>% group_by(VOGAL, AMOSTRA) %>% summarize(media_F1 = mean(F1), mediana_F1 = median(F1), sd_F1 = sd(F1))
+  AnswerTests: omnitest(correctExpr='pretonicas %>% group_by(VOGAL, AMOSTRA) %>% summarize(media_F1 = mean(F1), mediana_F1 = median(F1), sd_F1 = sd(F1))')
+  Hint: Releia as instruções passo a passo e revise a digitação ao final!
+
+- Class: text
+  Output: "Nesta lição, vimos as medidas de tendência central -- média, mediana, moda -- e de dispersão - variância, desvio padrão e erro padrão. Em seguida, em um conjunto real de dados, aplicamos a função summarize() para rapidamente visualizar algumas dessas medidas por subconjuntos de dados." 
+
+- Class: video
+  Output: "O corpus do Projeto SP2010 -- gravações, transcrições e fichas dos participantes - está todo disponível gratuitamente online. Se quiser visitar a página do projeto agora, escolha \"Yes\"." 
+  VideoLink: http://projetosp2010.fflch.usp.br/
+
+- Class: text
+  Output: "Faça os exercícios correspondentes a esta lição no curso Introdução à Estatística para Linguistas - Exercícios."

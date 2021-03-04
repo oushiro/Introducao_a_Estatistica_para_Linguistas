@@ -1,0 +1,353 @@
+- Class: meta
+  Course: Introducao_a_Estatistica_para_Linguistas
+  Lesson: Estatistica_Inferencial_Regressao_Linear_Parte1
+  Author: Livia Oushiro
+  Type: Standard
+  Organization: UNICAMP
+  Version: 2.4.3
+
+- Class: figure
+  Output: "Nas lições 10 e 11, vimos testes estatísticos que se aplicam a variáveis dependentes numéricas: o teste-t e sua versão não paramétrica podem ser usados quando se quer comparar as distribuições de dois grupos -- ou seja, aplicam-se quando se tem uma VD numérica e uma VI nominal binária (ou uma distribuição conhecida); o teste de correlação, por sua vez, aplica-se quando se tem uma VD numérica e uma VI também numérica. Esses testes só permitem testar correlações entre uma VD e uma única VI -- são análises UNIVARIADAS. Nesta e nas próximas aulas veremos quais análises podem ser feitas quando se trabalha com mais de uma variável independente - MODELOS MULTIVARIADOS."
+  Figure: Licao12-background.R
+  FigureType: new
+  
+- Class: text
+  Output: "Na última lição, também vimos que uma função linear pode ser denotada pela expressão y = a + bx, em que `a` é o coeficiente linear e `b` é o coeficiente angular. Análises multivariadas seguem uma estrutura semelhante, mas que inclui novos coeficientes angulares, um para cada variável independente no modelo: y = a + bx1 + cx2 + dx3... `b`, `c` e `d`, nesse exemplo, são coeficientes angulares das variáveis x1, x2 e x3. Em análises multivariadas, a variável dependente y é chamada de VARIÁVEL RESPOSTA, e as variáveis independentes x1, x2 etc. são chamadas de VARIÁVEIS PREVISORAS."
+  
+- Class: cmd_question
+  Output: Para começar, carregue o pacote tidyverse.
+  CorrectAnswer: library(tidyverse)
+  AnswerTests: omnitest(correctExpr='library(tidyverse)')
+  Hint: Digite library(tidyverse) e pressione CTRL + ENTER.
+  
+- Class: cmd_question
+  Output: Carregue também o pacote effects, que usaremos para visualizar resultados de modelos de regressão.
+  CorrectAnswer: library(effects)
+  AnswerTests: omnitest(correctExpr='library(effects)')
+  Hint: Digite library(effects) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Vamos trabalhar aqui com os dados da vogal /e/ pretônica, na fala de migrantes paraibanos residentes em São Paulo e na fala de paulistanos nativos. No script, deixei essas linhas de comando, mas você não precisará rodá-las (ficam apenas para você saber como o dataframe foi criado). Esses dados foram guardados no df VOGAL_e. Aplique a função str() para inspecioná-lo. Em especial, veja as variáveis AMOSTRA, SEXO, F1.SEG.NORM, CONT.PREC e CONT.SEG, com as quais trabalharemos nesta e na próxima lição."
+  CorrectAnswer: str(VOGAL_e)
+  AnswerTests: omnitest(correctExpr='str(VOGAL_e)')
+  Hint: Digite str(VOGAL_e) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Aplique também a função View() para se (re)familiarizar com a planilha."
+  CorrectAnswer: View(VOGAL_e)
+  AnswerTests: omnitest(correctExpr='View(VOGAL_e)')
+  Hint: Digite View(VOGAL_e) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "A variável AMOSTRA é codificada de acordo com a amostra da qual vieram os dados: PBSP (migrantes paraibanos) ou SP2010 (paulistanos nativos). SEXO indica se o falante é do sexo feminino ou masculino. A variável F1.SEG.NORM contém as medições normalizadas da altura (F1) da vogal da sílaba seguinte -- por exemplo, em `relógio`, refere-se à medida de F1 da vogal /ó/. CONT.PREC e CONT.SEG codificam o segmento fonológico que precede ou antecede a vogal pretônica." 
+
+- Class: text
+  Output: "É importante reforçar que, antes de chegar ao ponto de análises multivariadas, idealmente o pesquisador já terá feito análises preliminares, por meio de tabelas e gráficos, e já terá uma boa ideia de como se dá a distribuição de seus dados: se há poucas ocorrências em certos fatores, se parece haver diferenças entre fatores de uma variável, se os testes univariados apontam para diferenças significativas ou não. Por outro lado, se o pesquisador está trabalhando com mais de uma VI, é imprescindível realizar análises multivariadas, pois o comportamento de certas variáveis pode não ser tão preponderante ou pode mudar em face de outras."
+
+- Class: text
+  Output: "A função empregada para criar modelos multivariados para uma variável dependente numérica é lm(), que já vimos na Lição 11. Aqui vamos aplicá-la à variável reposta numérica altura da vogal /e/, em Hz: F1.NORM. Nesta lição, vamos criar modelos com apenas uma variável previsora a fim de treinar a leitura dos resultados. Contudo, o interesse principal nessa função é a modelagem multivariada -- que faremos na próxima."
+
+- Class: cmd_question
+  Output: "Crie um primeiro modelo para testar se há correlação entre a altura da vogal e a AMOSTRA, ou seja, para testar se a altura da vogal /e/ na fala de paraibanos e de paulistanos difere. O primeiro argumento de lm() é uma fórmula y ~ x, e o segundo argumento é o conjunto de dados. Digite então mod1 <- lm(F1.NORM ~ AMOSTRA, data = VOGAL_e), para criar o modelo `mod1`."
+  CorrectAnswer: mod1 <- lm(F1.NORM ~ AMOSTRA, data = VOGAL_e)
+  AnswerTests: omnitest(correctExpr='mod1 <- lm(F1.NORM ~ AMOSTRA, data = VOGAL_e)')
+  Hint: Digite mod1 <- lm(F1.NORM ~ AMOSTRA, data = VOGAL_e) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Visualize agora o resumo do resultado de mod1 com summary()."
+  CorrectAnswer: summary(mod1)
+  AnswerTests: omnitest(correctExpr='summary(mod1)')
+  Hint: Aplique a função summary() a mod1.
+
+- Class: mult_question
+  Output: "Vamos examinar o resultado do modelo linar. O primeiro ponto a se checar é se os resíduos têm distribuição normal: valor de mediana próximo a zero e valores de mínimo-máximo e 1Q-3Q razoavelmente simétricos. Olhando os resíduos de mod1, qual é a sua avaliação?"
+  AnswerChoices: a distribuição dos resíduos não segue a distribuição normal;a distribuição dos resíduos segue a distribuição normal
+  CorrectAnswer: a distribuição dos resíduos não segue a distribuição normal
+  AnswerTests: omnitest(correctVal= 'a distribuição dos resíduos não segue a distribuição normal')
+  Hint: Veja se há simetria entre os valores min-max, 1Q e 3Q, e se a mediana é próxima de zero.
+
+- Class: text
+  Output: "O valor máximo de resíduo, 145.56, difere muito do valor mínimo, -75.71 em valores absolutos. Isso é indicativo de que há valores atípicos na distribuição. Lembre-se que os resíduos são a diferença entre os valores observados e os valores previstos pelo modelo; um resíduo tão grande, de 145 Hz, refere-se a alguma observação muito acima do esperado."
+
+- Class: cmd_question
+  Output: "Visualize a distribuição das medidas de F1.NORM por AMOSTRA nos dados VOGAL_e, por meio de um boxplot. Faça as modificações relevantes no esqueleto da função no script."
+  CorrectAnswer: ggplot(VOGAL_e, aes(x = AMOSTRA, y = F1.NORM)) + geom_boxplot(notch = TRUE) + scale_y_reverse()
+  AnswerTests: any_of_exprs('ggplot(VOGAL_e, aes(x = AMOSTRA, y = F1.NORM)) + geom_boxplot(notch = TRUE) + scale_y_reverse()', 'ggplot(VOGAL_e, aes(x = AMOSTRA, y = F1.NORM)) + geom_boxplot(notch = T) + scale_y_reverse()')
+  Hint: Substitua df, VAR, geometria e reverterEixo.
+
+- Class: cmd_question
+  Output: "Vemos que as medidas de F1.NORM se concentram entre 400 e 450 Hz, e que há alguns poucos valores atípicos acima de 500 Hz. Crie então um novo subconjunto de dados, chamado VOGAL_e2, que inclui os dados de VOGAL_e cuja medida de F1.NORM é abaixo de 500 Hz."
+  CorrectAnswer: VOGAL_e2 <- filter(VOGAL_e, F1.NORM < 500)
+  AnswerTests: any_of_exprs('VOGAL_e2 <- filter(VOGAL_e, F1.NORM < 500)', 'VOGAL_e2 <- VOGAL_e %>% filter(F1.NORM < 500)', 'VOGAL_e2 <- VOGAL_e %>% filter(., F1.NORM < 500)')
+  Hint: Digite VOGAL_e2 <- filter(VOGAL_e, F1.NORM < 500) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Faça um novo modelo linear, chamado mod2, com a mesma fórmula de mod1 e os dados de VOGAL_e2."
+  CorrectAnswer: mod2 <- lm(F1.NORM ~ AMOSTRA, data = VOGAL_e2)
+  AnswerTests: omnitest(correctExpr='mod2 <- lm(F1.NORM ~ AMOSTRA, data = VOGAL_e2)')
+  Hint: Digite mod2 <- lm(F1.NORM ~ AMOSTRA, data = VOGAL_e2) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Visualize o resumo do resultado de mod2."
+  CorrectAnswer: summary(mod2)
+  AnswerTests: omnitest(correctExpr='summary(mod2)')
+  Hint: Digite summary(mod2) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "Comparativamente a mod1, os resíduos de mod2 são mais simétricos: os valores absolutos de mínimo e máximo são em torno de 74; os valores absolutos de 1Q-3Q são próximos de 17, e a mediana está razoavelmente próxima de zero."
+
+- Class: text
+  Output: "Na sequência do resultado, temos a tabela de coeficientes, com as estimativas, erro padrão, valor-t e significância. Assim como no modelo linear que vimos na Lição 11, a significância aqui testa a hipótese nula de que a estimativa é igual a zero. Pela tabela, ambas as estimativas diferem significativamente de zero. Como interpretar esses números?"
+
+- Class: text
+  Output: "Quando testamos a correlação entre duas variáveis numéricas (Lição 11), o coeficiente linear mediu a estimativa de y (a VD/variável resposta) quando x (a VI/variável previsora) = 0. Aqui, x se refere à variável AMOSTRA. O que significa AMOSTRA = 0? Trata-se do valor de referência da variável, que é seu primeiro nível (na ordem da tabela ou modificado pel@ usuári@). Nesse df, PBSP é o primeiro nível e, portanto, a estimativa de 430.4 Hz representa o valor médio esperado de F1.NORM para a vogal /e/ dos paraibanos em São Paulo. O valor-p bem abaixo de 0.05, para nós, nada significa aqui; a medida apenas indica que é baixa a probabilidade de se ter observado 430 caso o verdadeiro parâmetro seja zero, mas nunca esperaríamos que uma vogal /e/ tivesse 0 Hz de F1!"
+
+- Class: text
+  Output: "A estimativa para SP2010, -8.4 Hz, deve ser lida em relação ao coeficiente linear. O modelo estima que o valor de F1.NORM para paulistanos é 430.4 - 8.4 = 422 Hz -- ou seja, em média, os valores de F1.NORM para paulistanos são menores, o que indica que a vogal pretônica /e/ de paulistanos tende a ser significativamente mais alta. Os resultados de mod2 podem ser colocados na forma da função F1.NORM = 430.4 - 8.4 * AMOSTRASP2010."
+
+- Class: cmd_question
+  Output: "Se você se lembra do teste-t da Lição 10, vimos valores semelhantes para as médias de F1.NORM para cada amostra (430 Hz para PBSP e 422 Hz para SP2010). Há uma pequena diferença, que se deve ao fato de que aqui excluímos alguns valores atípicos para mod2. Faça esse teste: aplique um teste-t para testar a hipótese nula de que a diferença entre as médias de F1.NORM entre paraibanos e paulistanos é zero, no subconjunto de dados VOGAL_e2."
+  CorrectAnswer: t.test(F1.NORM ~ AMOSTRA, data = VOGAL_e2)
+  AnswerTests: omnitest(correctExpr='t.test(F1.NORM ~ AMOSTRA, data = VOGAL_e2)')
+  Hint: Digite t.test(F1.NORM ~ AMOSTRA, data = VOGAL_e2) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "As médias calculadas no teste-t correspondem exatamente às estimativas do modelo linear. Na prática, ao incluir apenas uma VI na função lm(), estamos efetivamente executando uma análise univariada como o teste-t. A diferença do modelo linear, nesse caso, é visualizar o resultado da estimativa em termos da DIFERENÇA entre os níveis. Não subestime esse fato, pois isso é uma GRANDE vantagem: isso torna mais fácil verificar se essa diferença é ou não zero."
+
+- Class: text
+  Output: "As demais informações são interpretadas como já comentado na lição anterior: o erro padrão dos resíduos indica o quanto da variação o modelo não é capaz de explicar e R^2/R^2-ajustado indicam o quanto da variação nos dados é explicada pelas variáveis incluídas no modelo. A estatística-F permite avaliar a significância do modelo como um todo e comparar diferentes modelos."
+
+- Class: cmd_question
+  Output: "O pacote effects permite plotar gráficos de efeitos a partir de modelos lineares e logísticos criados no R. Aplique a função plot() com os seguintes argumentos: (i) para os dados a plotar, digite effect(\"AMOSTRA\", mod2); (ii) para os limites do eixo y, coloque 450 a 400 (para que os valores do eixo fiquem invertidos); e (iii) inclua o argumento grid = T."
+  CorrectAnswer: plot(effect("AMOSTRA", mod2), ylim = c(450, 400), grid = T)
+  AnswerTests: any_of_exprs('plot(effect("AMOSTRA", mod2), ylim = c(450, 400), grid = T)', 'plot(effect("AMOSTRA", mod2), ylim = c(450, 400), grid = TRUE)')
+  Hint: Digite plot(effect("AMOSTRA", mod2), ylim = c(450, 400), grid = T) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "O gráfico de efeitos plota as estimativas de cada um dos níveis da variável indicada dentro da função effect(), extraídas do modelo, junto com o intervalo de confiança indicado pelas barras. Vê-se que a diferença entre os níveis da variável AMOSTRA é significativa porque os intervalos não se sobrepõem: mesmo que a medida de F1.NORM para PBSP fosse mais alta, e a medida de F1.NORM para SP2010 fosse mais baixa, elas ainda assim não seriam iguais dentro do intervalo de confiança de 95% -- o que significa que é menor do que 5% a probabilidade de que as médias sejam iguais, que não há diferença entre as amostras."
+  
+- Class: text
+  Output: Aqui usamos a função plot(), da instalação base do R, para plotar esse gráfico. Também é possível fazer isso com o ggplot2, mas aí são necessários outros passos. Para sua curiosidade, deixei as linhas de comando prontas ao final do script dessa lição. Rode-as posteriormente para ver como ficaria um gráfico no ggplot2 (como sempre, mais bonito do que com a função da instalação base!).
+
+- Class: cmd_question
+  Output: "Vejamos agora um modelo que inclui uma variável previsora com mais de dois níveis. Faça um modelo linear, chamado mod3, com a variável resposta F1.NORM e a variável previsora CONT.SEG, nos dados VOGAL_e2."
+  CorrectAnswer: mod3 <- lm(F1.NORM ~ CONT.SEG, data = VOGAL_e2)
+  AnswerTests: omnitest(correctExpr='mod3 <- lm(F1.NORM ~ CONT.SEG, data = VOGAL_e2)')
+  Hint: Digite mod3 <- lm(F1.NORM ~ CONT.SEG, data = VOGAL_e2) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Veja o resultado de mod3 com a função summary()."
+  CorrectAnswer: summary(mod3)
+  AnswerTests: omnitest(correctExpr='summary(mod3)')
+  Hint: Digite summary(mod3) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Vamos direto aos coeficientes desta vez. Para bem entender o que significam as estimativas, é necessário saber quais são os níveis da variável CONT.SEG. Digite levels(VOGAL_e2$CONT.SEG)."
+  CorrectAnswer: levels(VOGAL_e2$CONT.SEG)
+  AnswerTests: omnitest(correctExpr='levels(VOGAL_e2$CONT.SEG)')
+  Hint: Digite levels(VOGAL_e2$CONT.SEG) e pressione CTRL + ENTER.
+
+- Class: mult_question
+  Output: "A partir dos níveis de CONT.SEG, a que se refere a estimativa do Intercept?"
+  AnswerChoices: dental.alveolar;labial;vibrante;velar;palatal.sibilante
+  CorrectAnswer: dental.alveolar
+  AnswerTests: omnitest(correctVal= 'dental.alveolar')
+  Hint: Qual é o primeiro nível de CONT.SEG?
+
+- Class: text
+  Output: "O valor de 433.4 Hz, portanto, é a estimativa da medida de F1.NORM quando a consoante seguinte é uma dental-alveolar (p_ex. pe<d>agogia). Os demais valores devem ser lidos em relação a esse nível, somando-se o valor das respectivas estimativas ao coeficiente linear (Intercept). Assim, a estimativa da medida de F1.NORM para quando a consoante seguinte é labial (p.ex., de<m>ora) é 433.4 - 11.1 = 422.3 Hz; para as consoantes palatais ou sibilantes (p.ex. pe<s>ado) é 433.4 - 14.3 = 419.1 Hz etc. (lembre-se que a soma de um valor negativo equivale à subtração!). Em outras palavras, a estimativa de cada termo previsor é computada pela função F1.NORM =  433.429 + (-11.106 * CONT.SEGlabial) + (-14.299 * CONT.SEGpalatal.sibilante) + (-7.108 * CONT.SEGvelar) + (-5.213 * CONT.SEGvibrante)."
+
+- Class: mult_question
+  Output: "Em relação a consoantes dental-alveolares, quais níveis têm medidas de F1.NORM significativamente diferentes?"
+  AnswerChoices: segmentos labiais, palatais-sibilantes e velares;segmentos palatais e vibrantes;segmentos palatais-sibilantes
+  CorrectAnswer: segmentos labiais, palatais-sibilantes e velares
+  AnswerTests: omnitest(correctVal= 'segmentos labiais, palatais-sibilantes e velares')
+  Hint: Quais fatores têm p < 0.05?
+
+- Class: mult_question
+  Output: "Em relação a consoantes dental-alveolares, quais níveis não têm medidas de F1.NORM significativamente diferentes?"
+  AnswerChoices: segmentos vibrantes;segmentos labiais, palatais-sibilantes e velares;segmentos palatais-sibilantes
+  CorrectAnswer: segmentos vibrantes
+  AnswerTests: omnitest(correctVal= 'segmentos vibrantes')
+  Hint: Quais fatores têm p > 0.05?
+
+- Class: cmd_question
+  Output: "Façamos agora um gráfico de efeitos para visualizar as diferenças entre as consoantes. A partir da linha de comando com plot() e effect() digitada acima, substitua o nome da variável para 'CONT.SEG' e do modelo para mod3."
+  CorrectAnswer: plot(effect("CONT.SEG", mod3), ylim = c(450, 400), grid = T)
+  AnswerTests: any_of_exprs('plot(effect("CONT.SEG", mod3), ylim = c(450, 400), grid = T)', 'plot(effect("CONT.SEG", mod3), ylim = c(450, 400), grid = TRUE)')
+  Hint: Digite plot(effect("CONT.SEG", mod3), ylim = c(450, 400), grid = T) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "No gráfico de efeitos, vemos que as labiais, palatais-sibilantes e velares se distanciam mais da média de F1.NORM em relação às dental-alveolares. Como estas são o valor de referência de CONT.SEG, as estimativas de todos os níveis são calculados a partir desse nível. E se quiséssemos saber se há diferenças significativas na medida de F1.NORM entre, por exemplo, vibrantes e palatais-sibilantes? ou entre labiais e velares? Seria necessário mudar o nível de referência a cada novo teste?"
+
+- Class: cmd_question
+  Output: "Para múltiplas comparações, pode-se usar o método de Tukey, por meio da função TukeyHSD(). Digite TukeyHSD(aov(mod3)) para verificar o teste de significância de todos os pares possíveis dos níveis de CONT.SEG."
+  CorrectAnswer: TukeyHSD(aov(mod3))
+  AnswerTests: omnitest(correctExpr='TukeyHSD(aov(mod3))')
+  Hint: Digite TukeyHSD(aov(mod3)) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "O resultado do teste de Tukey é uma tabela com as estimativas de diferença entre cada par, o intervalo de confiança (os limites lwr e upr) e o valor-p ajustado (já que são múltiplas comparações). Veja que só são significativas as diferenças cujo intervalo de confiança não inclui zero. A partir dessas comparações, o pesquisador pode decidir juntar novos níveis em um mesmo fator, contanto que também haja justificativa teórica para tal."
+
+- Class: cmd_question
+  Output: "Vamos agora fazer um último modelo univariado com uma variável previsora numérica. Crie um modelo chamado mod4 que testa se há correlação entre F1.NORM e F1.SEG.NORM, a altura da vogal da sílaba seguinte, nos dados de VOGAL_e2."
+  CorrectAnswer: mod4 <- lm(F1.NORM ~ F1.SEG.NORM, data = VOGAL_e2)
+  AnswerTests: omnitest(correctExpr='mod4 <- lm(F1.NORM ~ F1.SEG.NORM, data = VOGAL_e2)')
+  Hint: Digite mod4 <- lm(F1.NORM ~ F1.SEG.NORM, data = VOGAL_e2) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Veja o resultado de mod4 com summary()."
+  CorrectAnswer: summary(mod4)
+  AnswerTests: omnitest(correctExpr='summary(mod4)')
+  Hint: Digite summary(mod4) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "Vamos novamente direto aos coeficientes, para treinar sua leitura. O coeficiente linear deste modelo é 379.5 Hz e o coeficiente angular é 0.12 Hz, e ambos diferem significativamente de zero. Novamente, o fato de o primeiro coeficiente diferir de zero não nos diz nada, pois não esperaríamos que a vogal /e/ tivesse 0 Hz, mas o segundo coeficiente nos traz uma informação relevante: existe uma correlação entre a altura da vogal seguinte e a altura da vogal /e/ pretônica. O coeficiente angular é positivo, o que indica que quanto maior o valor de F1.SEG.NORM, maior o valor de F1.NORM; em termos numéricos, a leitura desse resultado é que a cada unidade de F1.SEG.NORM (400 Hz, 401 Hz, 402 Hz...), estima-se que o valor de F1.NORM aumente em 0.12 Hz. Ou, ainda, a estimativa da variável resposta segue a função F1.NORM = 379.50710 + (0.12278 * F1.SEG.NORM). Digamos que uma vogal da sílaba seguinte à pretônica tenha F1.SEG.NORM de 400 Hz; a estimativa do valor de F1.NORM é 379.50710 + (0.12278 * 400) = 428.6191 Hz."
+
+- Class: cmd_question
+  Output: "O gráfico de efeitos permite visualizar essa correlação de forma mais clara. A partir da linha de comando em que usamos a função plot() e effect(), substitua o nome da variável para 'F1.SEG.NORM' e o modelo para mod4."
+  CorrectAnswer: plot(effect("F1.SEG.NORM", mod4), ylim = c(450, 400), grid = T)
+  AnswerTests: any_of_exprs('plot(effect("F1.SEG.NORM", mod4), ylim = c(450, 400), grid = T)', 'plot(effect("F1.SEG.NORM", mod4), ylim = c(450, 400), grid = TRUE)')
+  Hint: Digite plot(effect("F1.SEG.NORM", mod4), ylim = c(450, 400), grid = T) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "Como F1.SEG.NORM é uma variável numérica, o tipo de gráfico mudou para uma linha de regressão. A figura mostra uma curva descendente porque invertemos o eixo y para adequá-lo à convenção de representar valores mais altos de F1 na parte de abaixo. Aí vemos claramente que quanto maior o valor de F1.SEG.NORM, mais baixa tende a ser a vogal /e/ pretônica. (Eis aí o fenômeno de harmonia vocálica!) A mancha cinza em volta da linha de regressão indica o intervalo de confiança das estimativas. Os pequenos traços verticais ao longo do eixo x mostram onde estão e onde se concentram as observações: há muito mais dados de F1.SEG.NORM entre cerca de 330 Hz e 420 Hz. Veja que o intervalo de confiança das estimativas se 'alarga' nas partes em que há menor número de observações, justamente porque é mais difícil chegar a estimativas precisas quando não temos muitos dados."
+
+- Class: cmd_question
+  Output: "Vimos então como ler os resultados de um modelo linear com uma variável previsora binária (mod1 e mod2), uma variável previsora com mais de 2 fatores (mod3) e uma variável previsora numérica (mod4). Podemos agora partir para modelos um pouco mais complexos. Façamos então um modelo mod5 com a inclusão de duas variáveis previsoras, AMOSTRA + SEXO. Digite mod5 <- lm(F1.NORM ~ AMOSTRA + SEXO, data = VOGAL_e2)."
+  CorrectAnswer: mod5 <- lm(F1.NORM ~ AMOSTRA + SEXO, data = VOGAL_e2)
+  AnswerTests: omnitest(correctExpr='mod5 <- lm(F1.NORM ~ AMOSTRA + SEXO, data = VOGAL_e2)')
+  Hint: Digite mod5 <- lm(F1.NORM ~ AMOSTRA + SEXO, data = VOGAL_e2) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "E veja o resultado com summary()."
+  CorrectAnswer: summary(mod5)
+  AnswerTests: omnitest(correctExpr='summary(mod5)')
+  Hint: Digite summary(mod5) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "O modelo agora fornece o valor do coeficiente linear, 431.190 Hz, e dois coeficientes angulares, um para AMOSTRASP2010 e uma para SEXOmasculino. Como o modelo inclui duas variáveis previsoras, o valor do coeficiente linear deve ser interpretado em relação a ambos os níveis de referência: AMOSTRA PBSP e SEXO feminino. O valor de 431.190 Hz, portanto, é a estimativa da altura da vogal /e/ pretônica na fala de PARAIBANAS."
+
+- Class: text
+  Output: "Se somarmos a estimativa de AMOSTRASP2010 ao coeficiente linear (431.190 - 8.392 = 422.798 Hz), teremos o valor estimado de F1.NORM para falantes da amostra SP2010 do sexo FEMININO -- isso porque, em relação ao nível de referência, alteramos apenas AMOSTRA, não SEXO. Se somarmos a estimativa de SEXOmasculino ao coeficiente linear (431.190 - 1.378 = 429.82 Hz), teremos o valor estimado de F1.NORM para falantes do sexo masculino da AMOSTRA PBSP -- isso porque, em relação ao nível de referência, neste caso alteramos apenas SEXO, não AMOSTRA. Para obter a estimativa de F1.NORM para falantes do sexo masculino da amostra SP2010, é necessário somar ambos os coeficientes angulares ao coeficiente linear: 431.190 - 8.392 - 1.378 = 421.42 Hz."
+
+- Class: cmd_question
+  Output: "O modelo nos informa que existe uma diferença significativa na altura da vogal /e/ pretônica na fala de paraibanos e paulistanos, mas não há diferença significativa entre os sexos. Isso pode ser mais bem visualizado por meio de um gráfico de efeitos! A partir da última linha de comando em que você empregou a função plot(), modifique o primeiro argumento -- onde estava effect(\"F1.SEG.NORM\", mod4) -- para allEffects(mod5). Em modelos multivariados, em vez de effect(), usamos a função allEffects() com o modelo como único argumento. Certifique-se de que sua linha de comando é plot(allEffects(mod5), ylim = c(450, 400), grid = T)."
+  CorrectAnswer: plot(allEffects(mod5), ylim = c(450, 400), grid = T)
+  AnswerTests: any_of_exprs('plot(allEffects(mod5), ylim = c(450, 400), grid = T)', 'plot(allEffects(mod5), ylim = c(450, 400), grid = TRUE)')
+  Hint: Digite plot(allEffects(mod5), ylim = c(450, 400), grid = T) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "A figura mostra dois gráficos de efeitos, um para cada variável. Aí vemos que a diferença na altura da vogal /e/ pretônica é significativa para AMOSTRA (pois os intervalos de confiança não se sobrepõem), mas não é para a variável SEXO."
+
+- Class: text
+  Output: "No modelo acima, incluímos duas variáveis previsoras por meio do operador de soma +. Essa notação não é por acaso: existe aí a pressuposição de que o efeito dos previsores é ADITIVO, de modo que, para chegar aos valores estimados de cada uma das combinações possíveis (mulheres paraibanas, homens paraibanos, mulheres paulistanas e homens paulistanos), somamos os coeficientes respectivos. Isso pressupõe que o efeito de cada uma das variáveis é independente. "
+
+- Class: figure
+  Output: "Contudo, isso nem sempre é o caso nos dados. Vejamos um exemplo de Gries (2013:249-250). Imagine um estudo que compara a extensão de sujeitos e objetos em orações principais e em orações subordinadas, por meio do número de sílabas. O pesquisador coletou um corpus, separou sentenças com verbos transitivos diretos em que havia um SN sujeito e um SN objeto, contou o número de sílabas para cada SN, e codificou cada SN para as variáveis função sintática e tipo de oração. A figura em Plots representa um resultado hipotético de um modelo linear que incluiu extensão em sílabas como variável resposta e função sintática e tipo de oração como variáveis previsoras. Os pontos representam as médias previstas do número de sílabas do SN para cada uma das condições."
+  Figure: mostrarGries-interacao1.R
+  FigureType: new
+
+- Class: mult_question
+  Output: "A partir da figura, qual é a extensão prevista de sujeitos em orações principais?"
+  AnswerChoices: 2 sílabas;4 sílabas;4.5 sílabas;6.5 sílabas
+  CorrectAnswer: 2 sílabas
+  AnswerTests: omnitest(correctVal= '2 sílabas')
+  Hint: Leia a figura!
+
+- Class: mult_question
+  Output: "A partir da figura, qual é a extensão prevista de objetos em orações subordinadas?"
+  AnswerChoices: 6.5 sílabas;2 sílabas;4 sílabas;4.5 sílabas
+  CorrectAnswer: 6.5 sílabas
+  AnswerTests: omnitest(correctVal= '6.5 sílabas')
+  Hint: Leia a figura!
+
+- Class: text
+  Output: "Nesse modelo, a extensão de SNs é em média maior em orações subordinadas do que em orações coordenadas, e em objetos em relação a sujeitos. A relação entre ambas as condições é constante: em média, as orações subordinadas têm SNs com 2 sílabas a mais do que em orações principais (tanto para sujeitos quanto para objetos), e objetos têm em média 2.5 sílabas a mais do que sujeitos (tanto em orações principais quanto em orações subordinadas). Os efeitos de ambas as variáveis são aditivos, de modo que se espera o menor número de sílabas em SNs sujeito em orações principais, e o maior número de sílabas em SNs objeto em orações subordinadas. A independência entre variáveis pode ser visualizada pelas linhas paralelas no gráfico."
+  
+- Class: figure
+  Output: "A nova figura em Plots representa outro resultado hipotético a partir dos dados. O gráfico à esquerda mostra as estimativas de extensão média do SN em cada uma das quatro condições, e a figura à direita mostra, por meio da linha pontilhada, o que se esperaria caso a relação entre as variáveis fosse de independência."
+  Figure: mostrarGries-interacao2.R
+  FigureType: new
+
+- Class: mult_question
+  Output: "A partir da figura à esquerda, qual é a estimativa de extensão do SN sujeito em orações principais nesse modelo?"
+  AnswerChoices: 2 sílabas;5 sílabas;4 sílabas;6 sílabas
+  CorrectAnswer: 2 sílabas
+  AnswerTests: omnitest(correctVal= '2 sílabas')
+  Hint: Leia a figura!
+
+- Class: mult_question
+  Output: "A partir da figura à esquerda, qual é a estimativa de extensão do SN objeto em orações subordinadas nesse modelo?"
+  AnswerChoices: 4 sílabas;2 sílabas;5 sílabas;6 sílabas
+  CorrectAnswer: 4 sílabas
+  AnswerTests: omnitest(correctVal= '4 sílabas')
+  Hint: Leia a figura!
+
+- Class: text
+  Output: "Esta figura ilustra uma interação entre as variáveis função sintática e tipo de oração. A relação entre elas não é constante: enquanto para SNs sujeitos a diferença de extensão é de 4 sílabas entre orações principais e subordinadas, a diferença para SNs objetos não só é menor (1 sílaba), mas também vai na direção oposta (SNs maiores em orações principais do que em orações subordinadas). A interação é claramente visualizada pelo fato de que as linhas não são paralelas, mas se cruzam. Um modelo que previsse o efeito aditivo entre as variáveis previsoras -- i.e. extensão ~ função sintática + tipo de oração -- poderia chegar ao resultado do gráfico à direita, em que a estimativa da extensão de SNs objeto em orações subordinadas está bastante equivocada."
+
+- Class: figure
+  Output: "Veja agora a nova figura em Plots, que ilustra outro caso hipotético de interação. De modo semelhante ao exemplo anterior, o gráfico à esquerda mostra as verdadeiras médias de extensão dos SNs e o gráfico à direita ilustra o resultado a que se chegaria caso não se previsse uma interação entre as variáveis previsoras."
+  Figure: mostrarGries-interacao3.R
+  FigureType: new
+
+- Class: mult_question
+  Output: "A partir da figura à esquerda, qual é a estimativa de extensão de SN sujeito em orações principais neste modelo?"
+  AnswerChoices: 2 sílabas;4 sílabas;8 sílabas;6 sílabas
+  CorrectAnswer: 2 sílabas
+  AnswerTests: omnitest(correctVal= '2 sílabas')
+  Hint: Leia a figura!
+
+- Class: mult_question
+  Output: "A partir da figura à esquerda, qual é a estimativa de extensão de SN objeto em orações subordinadas neste modelo?"
+  AnswerChoices: 8 sílabas;2 sílabas;4 sílabas;6 sílabas
+  CorrectAnswer: 8 sílabas
+  AnswerTests: omnitest(correctVal= '8 sílabas')
+  Hint: Leia a figura!
+
+- Class: mult_question
+  Output: "A partir da figura à direita, qual é a estimativa de extensão de SN objeto em orações subordinadas caso não se preveja a interação?"
+  AnswerChoices: 6 sílabas;8 sílabas;2 sílabas;4 sílabas
+  CorrectAnswer: 6 sílabas
+  AnswerTests: omnitest(correctVal= '6 sílabas')
+  Hint: Leia a figura!
+
+- Class: text
+  Output: "Aqui novamente se tem uma interação. Embora as linhas não se cruzem no gráfico, elas também não são paralelas. Isso significa que um modelo que não prevê a interação entre as variáveis função sintática e tipo de oração não seria capaz de estimar corretamente qual é a extensão dos SNs em cada condição. Para prever corretamente a extensão e SNs objeto em orações subordinadas, seria necessário ter mais um coeficiente que corrigisse a estimativa -- neste caso, um coeficiente que informasse que ainda é necessário somar +2 para prever a extensão na condição objeto-oração subordinada."
+  
+- Class: text
+  Output: "Outro modo de entender o que é a interação entre duas variáveis previsoras é que o efeito de cada uma delas não pode ser determinado isoladamente, independentemente do efeito da outra. É necessário levar em considerar o efeito conjunto de ambas para bem prever a estimativa. Daí a importância de realizar análises multivariadas: seria impossível prever interações testando uma única variável a cada teste. Daí tabmbém deriva a inadequação de se usar o termo \"variável independente\" -- em vez de \"variável previsora\" -- quando se realiza uma análise multivariada, pois o efeito das variáveis não necessariamente é independente."
+
+- Class: text
+  Output: "O ponto aqui é mostrar a importância de testar interações nos modelos lineares a fim de chegar a estimativas mais precisas para a variável resposta."
+
+- Class: text
+  Output: "Você deve estar se perguntando como determinar se há interação entre duas variáveis. O R não tem um jeito automático de informar a você se duas variáveis previsoras são ou não são independentes entre si (nenhum software faz isso). Cabe ao pesquisador prever possíveis casos de interação, tentar visualizá-los em gráficos exploratórios e testá-los nos modelos estatísticos multivariados. A literatura sobre o assunto também é uma boa fonte para identificar casos de possível interação entre variáveis. Na Sociolinguística Variacionista, por exemplo, há muitos casos reportados de interação entre as variáveis classe social e sexo/gênero dos falantes (p.ex. Labov 1990 - The intersection of sex and social class in the course of linguistic change). De posse dessa informação, um pesquisador que esteja trabalhando com essas duas variáveis previsoras já deve estar atento a um possível efeito interativo entre elas."
+
+- Class: cmd_question
+  Output: "Nos modelos lineares, uma interação é incluída por meio do operador * em vez de +. No modelo mod5, vimos que há um efeito de AMOSTRA na estimativa de F1.NORM, mas não há um efeito de SEXO (não há diferença significativa entre homens e mulheres). A partir da linha de comando em que se criou mod5, crie um novo modelo mod6 com a substituição de + por *. Nele, estamos testando não só o efeito das variáveis AMOSTRA e SEXO, como também se há uma interação entre elas."
+  CorrectAnswer: mod6 <- lm(F1.NORM ~ AMOSTRA * SEXO, data = VOGAL_e2)
+  AnswerTests: omnitest(correctExpr='mod6 <- lm(F1.NORM ~ AMOSTRA * SEXO, data = VOGAL_e2)')
+  Hint: Digite mod6 <- lm(F1.NORM ~ AMOSTRA * SEXO, data = VOGAL_e2) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Visualize agora o resultado de mod6 com summary()."
+  CorrectAnswer: summary(mod6)
+  AnswerTests: omnitest(correctExpr='summary(mod6)')
+  Hint: Digite summary(mod6) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "Olhando os coeficientes, vemos que existe uma diferença significativa entre as amostras, e que não há diferença entre os sexos (como já visto acima). O modelo agora inclui um novo coeficiente, da interação entre AMOSTRASP2010:SEXOmasculino, que estima o valor de 0.9562 Hz. Isso significa que a estimativa de F1.NORM para falantes paulistanos do sexo masculino é 431.4651 - 8.9387 - 1.8616 + 0.9562 -- ou seja, além dos coeficientes para AMOSTRASP2010 e para SEXOmasculino, há um novo coeficiente 'de ajuste'. CONTUDO, neste modelo, o coeficiente da interação, 0.9562, não difere significativamente de zero, de modo que não faz diferença somar ou não esse novo coeficiente. Tal valor já estava previsto no intervalo de confiança do modelo sem interação. Pode-se concluir que as variáveis AMOSTRA e SEXO são independentes (e que SEXO não se correlaciona com a altura da vogal /e/ pretônica)."
+
+- Class: cmd_question
+  Output: "Podemos visualizar essa falta de interação por meio das funções plot() e allEffects(). A partir da linha de comando em que você usou essas duas funções, substitua o nome do modelo para mod6."
+  CorrectAnswer: plot(allEffects(mod6), ylim = c(450, 400), grid = T)
+  AnswerTests: any_of_exprs('plot(allEffects(mod6), ylim = c(450, 400), grid = T)', 'plot(allEffects(mod6), ylim = c(450, 400), grid = TRUE)')
+  Hint: Digite plot(allEffects(mod6), ylim = c(450, 400), grid = T) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "Para o modelo mod5, em que havíamos incluído AMOSTRA + SEXO, foram plotados dois gráficos de efeitos, um para cada variável. Para o modelo mod6, em que incluímos AMOSTRA * SEXO, os gráficos incluem ambas as variáveis em cada painel. Essa figura é semelhante àquelas dos exemplos de Gries (basta imaginar ambos os painéis no mesmo plano). Aí vemos retas paralelas, que indicam independência entre as variáveis; a diferença entre as amostras PBSP e SP2010 é significativa e constante tanto para falantes do sexo feminino quanto do sexo masculino."
+
+- Class: text
+  Output: "Isso conclui a primeira parte sobre modelos de regressão linear, mas não conclui os passos da análise! Na próxima lição, veremos como avaliar a inclusão ou não de novas variáveis no modelo e como checar se nosso modelo não viola os pressupostos de um modelo linear. Faça agora os exercícios da Lição 12!"

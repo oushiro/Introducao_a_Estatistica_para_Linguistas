@@ -1,0 +1,245 @@
+- Class: meta
+  Course: Introducao_a_Estatistica_para_Linguistas
+  Lesson: Tipos de Variaveis
+  Author: Livia Oushiro
+  Type: Standard
+  Organization: UNICAMP
+  Version: 2.4.2
+
+- Class: figure
+  Output: Para esta lição, vamos usar novamente o conjunto de dados DadosRT.csv. 
+  Figure: Licao03-background.R
+  FigureType: new
+
+- Class: cmd_question
+  Output: Então carregue inicialmente o pacote tidyverse, para ter acesso à função read_csv().
+  CorrectAnswer: library(tidyverse)
+  AnswerTests: omnitest(correctExpr='library(tidyverse)')
+  Hint: Digite library(tidyverse) no script e pressione CTRL + ENTER.
+  
+- Class: cmd_question
+  Output: Defina como diretório de trabalho aquele que contém, em seu computador, o arquivo DadosRT.csv.
+  CorrectAnswer: setwd("~/Dropbox/_R/swirl/testes")
+  AnswerTests: expr_uses_func('setwd')
+  Hint: Releia as instruções com calma.
+
+- Class: cmd_question
+  Output: E rode as linhas de comando no script com a função read_csv(), para carregar a planilha de dados na memória dessa sessão.
+  CorrectAnswer: dados <- read_csv("DadosRT.csv", col_types = cols(.default = col_factor(), cont.precedente = col_character(), ocorrencia = col_character(), cont.seguinte = col_character(), IDADE = col_integer(), INDICE.SOCIO = col_double(), FREQUENCIA = col_double()))
+  AnswerTests: omnitest(correctExpr='dados <- read_csv("DadosRT.csv", col_types = cols(.default = col_factor(), cont.precedente = col_character(), ocorrencia = col_character(), cont.seguinte = col_character(), IDADE = col_integer(), INDICE.SOCIO = col_double(), FREQUENCIA = col_double()))')
+  Hint: Rode as linhas de comando do ponto correspondente no script.
+  
+- Class: text
+  Output: "O R classifica variáveis em seis tipos diferentes. Para nossos propósitos, quatro deles são mais importantes: int (=integer), numeric, character e factor."
+    
+- Class: text
+  Output: Na Lição 1, vimos vetores numéricos (como `aleatorio` e `x`) e vetores de caracteres (como `z`). Ao carregar os dados da planilha DadosRT.csv, especificamos as variáveis como factor, character, integer e double. As variáveis int e factor relacionam-se com as variáveis numéricas e de caracteres, mas têm certas especificidades. 
+
+- Class: cmd_question
+  Output: Aplique a função str() a dados para que possamos examinar as propriedades de cada variável.
+  CorrectAnswer: str(dados)
+  AnswerTests: omnitest(correctExpr='str(dados)')
+  Hint: Digite str(dados) no script e pressione CTRL + ENTER.
+
+- Class: text
+  Output: Como já vimos, por meio da função str(), o R mostra a estrutura de um objeto. Para um dataframe, depois de mostrar o número de linhas (=observações) e colunas (=variáveis), o R lista as variáveis identificadas por `$` e, para cada uma, reporta como a variável está classificada.
+
+- Class: mult_question
+  Output: Como a variável IDADE (que indica a idade de cada falante em anos) está classificada?
+  AnswerChoices: int;num;factor
+  CorrectAnswer: int
+  AnswerTests: omnitest(correctVal= 'int')
+  Hint: Veja as informações geradas por str(dados).
+
+- Class: mult_question
+  Output: Como a variável INDICE.SOCIO (que indica a categorização dos falantes dentro de um índice que vai de 0 a 5) está classificada?
+  AnswerChoices: num;int;factor
+  CorrectAnswer: num
+  AnswerTests: omnitest(correctVal= 'num')
+  Hint: Veja as informações geradas por str(dados).
+
+- Class: mult_question
+  Output: Como a variável FREQUENCIA (que indica a proporção de determinado item lexical no corpus) está classificada?
+  AnswerChoices: num;int;factor
+  CorrectAnswer: num
+  AnswerTests: omnitest(correctVal= 'num')
+  Hint: Veja as informações geradas por str(dados).
+
+- Class: text
+  Output: "IDADE está classificada como 'int' (= números inteiros), enquanto INDICE.SOCIO e FREQUENCIA estão classificadas como 'num'. A diferença do segundo para o primeiro é o fato de que 'num' admite valores numéricos com casas decimais. Fomos nós que informamos ao R que essas variáveis são numéricas no momento de carregar a planilha no dataframe `dados`. No segundo argumento de read_csv(), col_types, indicamos a variável IDADE como col_integer(), e INDICE.SOCIO e FREQUENCIA como col_double(). `double` especifica \"dupla precisão\", daí a leitura das casas decimais. "
+
+- Class: mult_question
+  Output: "Como está classificada a variável FAIXA.ETARIA (que separa os falantes em três categorias: '1a', de 20 a 34 anos; '2a', de 35 a 59 anos; e '3a', de 60 ou mais anos)?"
+  AnswerChoices: factor;int;num
+  CorrectAnswer: factor
+  AnswerTests: omnitest(correctVal= 'factor')
+  Hint: Veja as informações geradas por str(dados).
+
+- Class: text
+  Output: A variável FAIXA.ETARIA é um reagrupamento dos falantes de acordo com sua IDADE, em três categorias. No entanto, apesar de falarmos em "1a", "2a" ou "3a" faixas etárias, não se trata de uma variável verdadeiramente numérica. Por exemplo, um falante de 36 anos -- da 2a. faixa etária -- não tem o dobro de idade de um falante de 25 -- da 1a. faixa etária, de modo que a relação entre 1 e 2 não é quantitativa, mas QUALITATIVA.
+
+- Class: text
+  Output: "Contudo, o R não sabe disso. A variável FAIXA.ETARIA poderia ter sido codificada como 'A', 'B' e 'C', ou como '1', '2' e '3'. O R classificou FAIXA.ETARIA como um factor porque assim especificamos na função read_csv() -- usando col_factor() com opção default para as colunas."
+
+- Class: text
+  Output: "Factor é um tipo específico de vetores de caracteres que têm uma propriedade adicional: fatores têm níveis que normalmente se repetem ao menos uma vez." 
+
+- Class: cmd_question
+  Output: Acesse os elementos da coluna FAIXA.ETARIA, digitando dados$FAIXA.ETARIA.
+  CorrectAnswer: dados$FAIXA.ETARIA
+  AnswerTests: omnitest(correctExpr='dados$FAIXA.ETARIA')
+  Hint: Digite dados$FAIXA.ETARIA e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "Veja que o R não só mostra os elementos dessa coluna, mas também indica, ao final, quais são os níveis (=levels) dessa variável: 1a, 3a e 2a."
+
+- Class: cmd_question
+  Output: Acesse agora apenas o primeiro elemento da coluna FAIXA.ETARIA. 
+  CorrectAnswer: dados$FAIXA.ETARIA[1]
+  AnswerTests: omnitest(correctExpr='dados$FAIXA.ETARIA[1]')
+  Hint: Digite dados$FAIXA.ETARIA[1] e pressione CTRL + ENTER.
+
+- Class: text
+  Output: Veja que, mesmo mostrando um único elemento, o R mostra quais são todos os níveis possíveis da variável, e isso porque a variável FAIXA.ETARIA está classificada como factor, e não como character. 
+
+- Class: text
+  Output: "Com a função read_csv() do pacote tidyverse, é o próprio usuário que define o tipo de cada variável de seu conjunto de dados. A definição adequada para cada variável é importante porque sua natureza determina que tipos de operações e análises podem ser feitas sobre cada uma delas. Por exemplo, para variáveis numéricas (int e num), é possível calcular médias e medianas; para variáveis fatoriais, é possível calcular frequências (como vimos com a função summary() na última lição). O R não sabe quais operações são adequadas para cada tipo de dado -- cabe a você determinar isso."
+
+- Class: text
+  Output: "Você deve ter notado que o R está mostrando os níveis da variável FAIXA.ETARIA numa ordem \"não lógica\": 1a, 3a, 2a. Quando carregamos variáveis como factor com a função read_csv(), o default é que elas sejam ordenadas na mesma sequência em que aparecem na planilha. Contudo, a variável FAIXA.ETARIA, além de ser uma variável nominal/qualitativa (não numérica), é também uma variável ordinal: seus níveis de organizam hierarquicamente."
+
+- Class: text
+  Output: "Novamente, esta é uma informação que o R não tem, pois somente @ pesquisador@ pode determinar a natureza de uma variável. "
+
+- Class: mult_question
+  Output: Das variáveis de `dados`, quais outras também são ordinais? 
+  AnswerChoices: ESCOLARIDADE e FREQUENCIA;REGIAO e CONT.FON.PREC;ORIGEM.PAIS e CLASSE.MORFOLOGICA
+  CorrectAnswer: ESCOLARIDADE e FREQUENCIA
+  AnswerTests: omnitest(correctVal= 'ESCOLARIDADE e FREQUENCIA')
+  Hint: Pensa mais um pouquinho!
+
+- Class: text
+  Output: "Você pode ter achado estranho FREQUENCIA ser uma variável ordinal, uma vez que ela é numérica. Entretanto, toda variável numérica é também ordinal -- embora nem toda variável ordinal seja numérica! E toda variável ordinal também pode ser nominal -- embora nem toda variável nominal seja ordinal!"
+
+- Class: text
+  Output: "A ordem dos níveis de uma variável fatorial vai ser importante adiante na hora de plotar gráficos e ver o resultado de modelos estatísticos. Então, logo após importar os dados de uma planilha, é importante checar como o R está organizando os níveis dessas variáveis e, se necessário, reordená-los."
+
+- Class: cmd_question
+  Output: Um modo de checar os níveis de uma variável (além do que fizemos mais acima) é aplicar a função levels() a um vetor. Aplique essa função à coluna FAIXA.ETARIA de `dados`.
+  CorrectAnswer: levels(dados$FAIXA.ETARIA)
+  AnswerTests: omnitest(correctExpr='levels(dados$FAIXA.ETARIA)')
+  Hint: Digite levels(dados$FAIXA.ETARIA) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: Entretanto, quando se tem um dataframe complexo, como é `dados`, pode ser muito trabalhoso aplicar essa função coluna a coluna. Um modo mais fácil de fazer isso para múltiplas colunas é aplicando a função lapply(), que toma como primeiro argumento o objeto a ser manipulado e como segundo argumento o nome da função que se quer aplicar. Aplique então a função lapply() a `dados` para executar a função levels em todas as suas colunas.
+  CorrectAnswer: lapply(dados, levels)
+  AnswerTests: omnitest(correctExpr='lapply(dados, levels)')
+  Hint: Digite lapply(dados, levels) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "O resultado é extenso, pois trata-se de um dataframe com 20 colunas! Como já sabíamos, a variável FAIXA.ETARIA não está ordenada de modo \"lógico\". Para reordenar os níveis de uma variável fatorial, podemos usar a função fct_relevel(), do pacote forcats, que faz parte do conjunto de pacotes do tidyverse (já carregado no início da lição). Aplique essa função à coluna FAIXA.ETARIA, usando sort como segundo argumento, para colocarmos os níveis em ordem alfabética: 1a, 2a e 3a. Além disso, guarde o resultado da operação novamente em dados$FAIXA.ETARIA, para que o dataframe seja atualizado."
+  CorrectAnswer: dados$FAIXA.ETARIA <- fct_relevel(dados$FAIXA.ETARIA, sort)
+  AnswerTests: omnitest(correctExpr='dados$FAIXA.ETARIA <- fct_relevel(dados$FAIXA.ETARIA, sort)')
+  Hint: Digite dados$FAIXA.ETARIA <- fct_relevel(dados$FAIXA.ETARIA, sort) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: Quer saber se o R fez a devida modificação nos níveis de FAIXA.ETARIA? Cheque novamente com a função levels(), voltando a essa linha de comando com a flecha para cima. 
+  CorrectAnswer: levels(dados$FAIXA.ETARIA)
+  AnswerTests: omnitest(correctExpr='levels(dados$FAIXA.ETARIA)')
+  Hint: Digite levels(dados$FAIXA.ETARIA) e pressione CTRL + ENTER.
+  
+- Class: cmd_question
+  Output: "Veja agora, no resultado de lapply(), a ordem dos níveis de ESCOLARIDADE. Eles estão incorretos, não é? Por coincidência, a ordem \"lógica\" -- fundamental, medio, superior -- também segue a ordem alfabética, de modo que também podemos aplicar fct_relevel() com sort para reordená-los. Faça isso agora, guardando o resultado da linha de comando em dados$ESCOLARIDADE."
+  CorrectAnswer: dados$ESCOLARIDADE <- fct_relevel(dados$ESCOLARIDADE, sort)
+  AnswerTests: omnitest(correctExpr='dados$ESCOLARIDADE <- fct_relevel(dados$ESCOLARIDADE, sort)')
+  Hint: Digite dados$ESCOLARIDADE <- fct_relevel(dados$ESCOLARIDADE, sort) e pressione CTRL + ENTER.
+  
+- Class: text
+  Output: "Reveja agora os níveis da variável VD no resultado de lapply() mais acima. Os níveis estão organizados como \"retroflexo\" e \"tepe\", a ordem em que aparecem na planilha. Bem mais adiante, na Lição 14, veremos que os resultados de modelos de regressão logística são fornecidos de acordo com o segundo nível da variável resposta -- que, no momento, é o tepe! Digamos que um@ pesquisador@ tenha interesse em visualizar os resultados de acordo com a variante retroflexa. Para obter esse resultado, é necessário mudar a ordem dos níveis dessa variável."
+  
+- Class: cmd_question
+  Output: "Nesse caso, os níveis já estão (coincidentemente) em ordem alfabética, de modo que não faz sentido usar o argumento sort. Outro modo de aplicar a função fct_relevel() é especificando, como segundo argumento, qual é o nível que se quer como primeiro. O nível especificado deve vir entre aspas. Faça isso agora, guardando o resultado em dados$VD. "
+  CorrectAnswer: dados$VD <- fct_relevel(dados$VD, "tepe")
+  AnswerTests: omnitest(correctExpr='dados$VD <- fct_relevel(dados$VD, "tepe")')
+  Hint: Digite dados$VD <- fct_relevel(dados$VD, "tepe") e pressione CTRL + ENTER. 
+  
+- Class: cmd_question
+  Output: "Faça a mesma operação que fizemos acima com a variável ORIGEM.PAIS, colocando \"SPcapital\" como primeiro nível dessa variável. Não se esqueça de guardar o resultado no dataframe!"
+  CorrectAnswer: dados$ORIGEM.PAIS <- fct_relevel(dados$ORIGEM.PAIS, "SPcapital")
+  AnswerTests: omnitest(correctExpr='dados$ORIGEM.PAIS <- fct_relevel(dados$ORIGEM.PAIS, "SPcapital")')
+  Hint: Digite dados$ORIGEM.PAIS <- fct_relevel(dados$ORIGEM.PAIS, "SPcapital") e pressione CTRL + ENTER.
+  
+- Class: text
+  Output: "No caso da variável VD, só há duas variantes/dois níveis. Em ORIGEM.PAIS, há vários outros níveis -- mista, interior, nordeste, estrangeira -- mas, ao colocar SPcapital como primeiro nível, estamos indicando que a ordem dos demais não importa, e que -- por motivos que ficarão mais claros na Lição 14 -- interessa apenas ter SPcapital como referência. Em outros casos, no entanto, podemos querer redefinir a ordem de todos os níveis."
+  
+- Class: text
+  Output: "Tomemos como exemplo a variável CONT.FON.PREC, que codifica qual vogal ocorreu antes do /r/ em coda. Seus níveis são as sete vogais orais do português brasileiro: a e \u025B i o \u0254 u. As vogais /\u025B/ e /\u0254/ foram codificadas como \"3\" e como \"0\", respectivamente, para evitar o uso de caracteres especiais. Embora CONT.FON.PREC não seja uma variável ordinal, pode fazer mais sentido ordenar as vogais de acordo com algum critério fonológico, como o traço de anterioridade -- de [+anterior] a [-anterior], de modo que seus níveis sejam i e 3 a 0 o u."
+    
+- Class: cmd_question
+  Output: "Aqui, não podemos usar o argumento sort, tampouco basta especificar apenas o primeiro nível da variável. Para casos como esse, podemos especificar todos os níveis como diferentes argumentos da função fct_relevel(), como a linha de comando já pronta no script. Rode-a agora."
+  CorrectAnswer: dados$CONT.FON.PREC <- fct_relevel(dados$CONT.FON.PREC, "i", "e", "3", "a", "0", "o", "u")
+  AnswerTests: omnitest(correctExpr='dados$CONT.FON.PREC <- fct_relevel(dados$CONT.FON.PREC, "i", "e", "3", "a", "0", "o", "u")')
+  Hint: Rode a linha de comando correspondente a este ponto da lição.
+  
+- Class: text
+  Output: "Os níveis da variável ESTILO são conversacao, palavras, jornal e depoimento. Eles codificam de que ponto da entrevista sociolinguística o dado foi extraído, de acordo com a hipótese laboviana de \"grau de atenção à fala\". Do modo como o roteiro da entrevista foi elaborado, espera-se que @ falante esteja prestando menos atenção durante a conversação com @ documentador@, e que preste progressivamente mais atenção em três estilos de leitura: depoimento -- que é a leitura de um texto informal --, jornal -- a leitura de uma notícia -- e palavras -- a leitura de palavras isoladas. "
+
+- Class: cmd_question
+  Output: "Aqui, coincidentemente, a ordem de \"grau de atenção\" é a mesma que a ordem alfabética, o que significa que poderíamos usar o argumento sort. No entanto, como nem sempre temos essa sorte, vale aplicar a função fct_relevel() com especificação explícita dos níveis, apenas para treino. Digite a linha de comando com os níveis na ordem desejada, sem esquecer de guardar o resultado."
+  CorrectAnswer: dados$ESTILO <- fct_relevel(dados$ESTILO, "conversacao", "depoimento", "jornal", "palavras")
+  AnswerTests: omnitest(correctExpr='dados$ESTILO <- fct_relevel(dados$ESTILO, "conversacao", "depoimento", "jornal", "palavras")')
+  Hint: Digite dados$ESTILO <- fct_relevel(dados$ESTILO, "conversacao", "depoimento", "jornal", "palavras") e pressione CTRL + ENTER.
+  
+- Class: text
+  Output: "Com a função fct_relevel(), estamos reorganizando os níveis das variáveis em diferentes linhas de comando. No entanto, também é possível fazer isso no momento da importação de dados, com a função read_csv(). Examine a linha de comando neste ponto do script. Ela é semelhante ao comando que usamos mais acima, mas, desta vez, também estamos especificando a ordem dos níveis de FAIXA.ETARIA com o argumento levels da função col_factor()."
+
+- Class: cmd_question
+  Output: Rode essa linha de comando.
+  CorrectAnswer: dados <- read_csv("DadosRT.csv", col_types = cols(.default = col_factor(), cont.precedente = col_character(), ocorrencia = col_character(), cont.seguinte = col_character(), IDADE = col_integer(), INDICE.SOCIO = col_double(), FREQUENCIA = col_double(), FAIXA.ETARIA = col_factor(levels = c("1a",  "2a", "3a"))))
+  AnswerTests: omnitest(correctExpr='dados <- read_csv("DadosRT.csv", col_types = cols(.default = col_factor(), cont.precedente = col_character(), ocorrencia = col_character(), cont.seguinte = col_character(), IDADE = col_integer(), INDICE.SOCIO = col_double(), FREQUENCIA = col_double(), FAIXA.ETARIA = col_factor(levels = c("1a",  "2a", "3a"))))')
+  Hint: Rode a linha de comando do ponto correspondente do script. 
+  
+- Class: cmd_question
+  Output: E cheque a ordem dos níveis da variável FAIXA.ETARIA com a função levels().
+  CorrectAnswer: levels(dados$FAIXA.ETARIA)
+  AnswerTests: omnitest(correctExpr='levels(dados$FAIXA.ETARIA)')
+  Hint: Digite levels(dados$FAIXA.ETARIA) e pressione CTRL + ENTER. 
+  
+- Class: cmd_question
+  Output: "Nesse último exemplo, redefinimos apenas os níveis de FAIXA.ETARIA, mas é possível fazer isso com todas as variáveis fatoriais simplesmente acrescentando novos argumentos na função cols(). Volte, então, à mesma linha de comando com read_csv(). Ao final da linha com redefinição dos níveis de FAIXA.ETARIA, inclua uma vírgula (para poder acrescentar um novo argumento) e pressione ENTER para mudar de linha. Depois, redefina os níveis de ESCOLARIDADE para \"fundamental\", \"medio\", \"superior\". "
+  CorrectAnswer: dados <- read_csv("DadosRT.csv", col_types = cols(.default = col_factor(), cont.precedente = col_character(), ocorrencia = col_character(), cont.seguinte = col_character(), IDADE = col_integer(), INDICE.SOCIO = col_double(), FREQUENCIA = col_double(), FAIXA.ETARIA = col_factor(levels = c("1a",  "2a", "3a")), ESCOLARIDADE = col_factor(levels = c("fundamental", "medio", "superior"))))
+  AnswerTests: omnitest(correctExpr='dados <- read_csv("DadosRT.csv", col_types = cols(.default = col_factor(), cont.precedente = col_character(), ocorrencia = col_character(), cont.seguinte = col_character(), IDADE = col_integer(), INDICE.SOCIO = col_double(), FREQUENCIA = col_double(), FAIXA.ETARIA = col_factor(levels = c("1a",  "2a", "3a")), ESCOLARIDADE = col_factor(levels = c("fundamental", "medio", "superior"))))')
+  Hint: Reveja a digitação e releia as instruções com calma!
+    
+- Class: text
+  Output: Pode parecer trabalhoso redefinir os níveis de todas as variáveis fatoriais desse modo, em uma única linha de comando, em vez de fazê-lo passo a passo, como fizemos com fct_relevel(). Um dos motivos disso é que, para produzi-la, você precisa saber quais são todas as variáveis fatoriais de seus dados, quais são os níveis de cada variável e em qual ordem você os quer. Entretanto, a principal dificuldade que você está sentindo aqui se deve ao fato de que este não é o SEU conjunto de dados. Quando estiver trabalhando com sua própria planilha, você certamente saberá quais são as variáveis e suas respectivas variantes!
+
+- Class: text
+  Output: "Além disso, essa é a grande vantagem de se trabalhar com scripts: não é necessário digitar uma linha de comando completa de primeira. Você pode, por exemplo, importar primeiramente os dados e checar os níveis com lapply(), como fizemos mais acima. Ao verificar que os níveis de algumas variáveis precisam ser redefinidas, você pode voltar à linha de comando já digitada, acrescentar um novo argumento e rodá-la novamente. No fundo, o trabalho de digitar mais um argumento em read_csv() é o mesmo de digitar várias linhas de comando separadas com fct_relevel()!"
+  
+- Class: text
+  Output: "Para aproveitar que estamos no mundo do pacote forcats, vale a pena apresentar uma função para amalgamar os níveis de uma variável fatorial, algo que @ pesquisador@ pode querer fazer por motivos vários: porque não há dados suficientes para um dos níveis, porque não há diferença relevante entre certos níveis, porque faz sentido dentro da teoria linguística."
+  
+- Class: text
+  Output: Para exemplificar, vamos usar a variável CONT.FON.SEG. De modo semelhante a CONT.FON.PREC, a variável codifica o contexto fonológico de ocorrência de /r/ em coda -- neste caso, qual é a consoante que vem em seguida, ou ainda se é uma pausa. Essa variável foi originalmente codificada de modo detalhado, pois é fácil juntar fatores, mas dá mais trabalho separá-los (seria necessário reanalisá-los um a um!). Seguindo a hipótese que se quer testar, o contexto fônico seguinte pode ser reorganizado de acordo com o ponto de articulação, ou modo de articulação, ou a sonoridade do segmento, ou o Ponto de C etc.
+    
+- Class: cmd_question
+  Output: "Para juntar fatores em um mesmo nível, vamos usar a função fct_collapse(), que pode ser vista no script. Assim como a função fct_relevel(), o primeiro argumento é o vetor/coluna que se quer modificar. Os demais argumentos devem especificar, um a um, o nome do novo nível à esquerda do sinal de igual, e os valores a amalgamar à direita do sinal de igual. Note o uso da função c() para juntar os fatores; quando há apenas um fator, como no caso da categoria `pausa`, não é necessário aplicar a função de concatenação. Isso também indica que a função pode ser usada para renomear os níveis de uma variável. Observe também que, em vez de guardar o resultado num vetor de mesmo nome, estamos criando um novo vetor/coluna no dataframe. Isso pode ser interessante para preservar a variável original. Rode então essa linha de comando, que já está pronta."
+  CorrectAnswer: dados$CONT.FON.SEG_PC <- fct_collapse(dados$CONT.FON.SEG, coronal = c("ts", "dz", "t", "d", "n", "s", "z", "x", "j", "l"), dorsal = c("k", "g", "h"), labial = c("f", "v", "p", "b", "m"), pausa = "#")
+  AnswerTests: omnitest(correctExpr='dados$CONT.FON.SEG_PC <- fct_collapse(dados$CONT.FON.SEG, coronal = c("ts", "dz", "t", "d", "n", "s", "z", "x", "j", "l"), dorsal = c("k", "g", "h"), labial = c("f", "v", "p", "b", "m"), pausa = "#")')
+  Hint: Rode a linha de comando correspondente a este ponto da lição. 
+  
+- Class: text
+  Output: Você pode ver, em Environment, que o dataframe `dados`, antes com 20 colunas, agora tem 21. A variável CONT.FON.SEG_PC foi adicionada como última coluna do dataframe. 
+    
+- Class: cmd_question
+  Output: "Agora é a sua vez! Vamos criar uma nova variável a partir de CONT.FON.PREC, amalgamando as vogais precedentes em dois níveis, definidos pela altura da vogal. A estrutura desse comando está no script, mas você deve completá-lo para que o R possa interpretá-lo corretamente. A nova variável já está definida: dados$CONT.FON.PREC_altura. Insira nos pontos devidos as seguintes informações: (i) o vetor original cujos níveis serão amalgamados; (ii) o nível alta, com os fatores i, e, u e o (nessa ordem); e (iii) o nível baixa, com os fatores 3, a e 0 (nessa ordem)."
+  CorrectAnswer: dados$CONT.FON.PREC_altura <- fct_collapse(dados$CONT.FON.PREC, alta = c("i", "e", "u", "o"), baixa = c("3", "a", "0"))
+  AnswerTests: omnitest(correctExpr='dados$CONT.FON.PREC_altura <- fct_collapse(dados$CONT.FON.PREC, alta = c("i", "e", "u", "o"), baixa = c("3", "a", "0"))')
+  Hint: Leia as instruções com calma!
+  
+- Class: text
+  Output: "Nesta lição, vimos que o R classifica as variáveis de um dataframe em int, num, chr ou factor. A verdadeira natureza de cada variável é determinada pel@ pesquisador@ e deve ser levada em conta no momento de codificação e importação dos dados ao R. Também é possível redefinir os níveis de uma variável fatorial usando a função fct_relevel(), e juntar fatores com a função fct_collapse(), ambas do pacote forcats/tidyverse." 
+  
+- Class: text
+  Output: "Pratique agora o conteúdo desta lição na lista de exercícios, pois essas funções serão bastante úteis em nossas próximas tarefas!"

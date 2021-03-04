@@ -1,0 +1,303 @@
+- Class: meta
+  Course: Introducao_a_Estatistica_para_Linguistas
+  Lesson: Estatistica Descritiva de Variaveis Numericas Graficos
+  Author: Livia Oushiro
+  Type: Standard
+  Organization: UNICAMP
+  Version: 2.4.2
+
+- Class: figure
+  Output: "Na lição anterior, fizemos computamos medidas de médias, medianas e desvio padrão a partir da planilha de dados Pretonicas.csv. Deixei o dataframe `pretonicas` disponível novamente para esta sessão. Dê uma olhada em Environment."
+  Figure: Licao07-background.R
+  FigureType: new
+
+- Class: text
+  Output: "Você pode ter achado difícil fazer sentido de tantos números -- médias, medianas, desvios padrão... E de fato é! A compreensão de muitos dados estatísticos é sempre mais fácil por meio de gráficos -- tanto para você, para entender o que está acontecendo em seus dados (gráficos exploratórios), quanto para seu leitor, ao qual futuramente você vai querer comunicar resultados (gráficos explanatórios). Nesta lição, vamos aprender a fazer alguns tipos de gráficos adequados para variáveis numéricas: GRÁFICOS DE LINHAS, GRÁFICOS DE DISPERSÃO, BOXPLOTS e HISTOGRAMAS."
+  
+- Class: cmd_question
+  Output: "Primeiro, carregue o pacote tidyverse. (Minhas ideia é condicioná-l@ a sempre carregar os pacotes necessários no início da sessão! Tá funcionando?)"
+  CorrectAnswer: library(tidyverse)
+  AnswerTests: omnitest(correctExpr='library(tidyverse)')
+  Hint: Digite library(tidyverse) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Agora, refamiliarize-se com o conjunto de dados de vogais pretônicas. Inspecione a estrutura do dataframe `pretonicas` com str(). Os níveis das variáveis VOGAL e AMOSTRA já foram definidos na importação dos dados."
+  CorrectAnswer: str(pretonicas)
+  AnswerTests: omnitest(correctExpr='str(pretonicas)')
+  Hint: Digite str(pretonicas) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Cheque a ordem dos níveis das vogais por meio da função levels() novamente. Digite levels(pretonicas$VOGAL). Essa é a ordem em que as vogais aparecerão nos gráficos adiante."
+  CorrectAnswer: levels(pretonicas$VOGAL)
+  AnswerTests: omnitest(correctExpr='levels(pretonicas$VOGAL)')
+  Hint: Digite levels(pretonicas$VOGAL) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "Esse conjunto de dados contém as medições de F1 e F2 em Hertz, de valores brutos e normalizados (pelo método de Lobanov), para cada vogal pretônica. Nesta lição, trabalharemos com os valores normalizados (F1.NORM e F2.NORM)."
+
+- Class: text
+  Output: "Em lição anterior, plotamos um gráfico de linhas para as proporções de realização de /r/ em três lojas de departamento em Nova Iorque. O gráfico de linhas foi ali empregado porque a variável store, naquele conjunto de dados, pode ser considerada uma variável ordinal quanto ao grau prestígio das lojas. Por outro lado, variáveis numéricas, como são as medidas de F1 e F2, sempre são intrinsicamente ordinais também: tem-se valores que vão de menor para maior."
+
+- Class: figure
+  Output: "Reveja o quadro de vogais do IPA, que abri novamente em Plots. Se o imaginamos como um plano cartesiano, cada vogal é identificada por uma coordenada no eixo x e no eixo y. No entanto, há variação no espaço vocálico a depender do indivíduo, do item lexical, da comunidade etc." 
+  Figure: mostrar-imagem-IPA.R
+  FigureType: new
+
+- Class: text
+  Output: "Vamos plotar o espaço vocálico das pretônicas na fala de paraibanos residentes em São Paulo (PBSP), em comparação com a dos paulistanos nativos. Para isso, vamos usar as médias de valores de F1 e F2 normalizados para cada comunidade, de modo a obter as coordenadas para o eixo x (medidas de F2) e eixo y (medidas de F1)."
+
+- Class: text
+  Output: "No script em Source, a maior parte dos comandos contém a estrutura dos códigos que vamos usar nesta lição -- cabe a você preenchê-lo com os dados relevantes! Como visto anteriormente, na maior parte do tempo, trabalhamos com scripts, sem a necessidade de digitar linhas de comando extensas. Se você conhece a sintaxe e os argumentos das funções, saberá como adaptá-los para suas necessidades." 
+
+- Class: text
+  Output: "Voltemos então para nosso gráfico de linhas. Para obter as médias de F1.NORM e F2.NORM para cada VOGAL e para cada AMOSTRA, vamos usar a função summarize(), como vimos na última lição. Examine o esqueleto da linha de comando no script." 
+
+- Class: cmd_question
+  Output: "Primeiro, preencha o nome do novo dataframe em que vamos guardar as medidas das médias: `medias`. Em seguida, identifique o dataframe do qual vamos extrair os dados: `pretonicas`. Vamos agrupar os dados por VOGAL e AMOSTRA. Por fim, vamos computar as medidas de F1.NORM e F2.NORM (nessa ordem) e guardá-las, respectivamente, em colunas chamadas `media_F1` e `media_F2`. Aqui, como estamos criando um novo dataframe com `<-`, usamos a função print() para que o R já mostre o resultado. Ao terminar, revise a digitação e rode com CTRL + ENTER."
+  CorrectAnswer: medias <- pretonicas %>% group_by(VOGAL, AMOSTRA) %>% summarize(media_F1 = mean(F1.NORM), media_F2 = mean(F2.NORM)) %>% print()
+  AnswerTests: omnitest(correctExpr='medias <- pretonicas %>% group_by(VOGAL, AMOSTRA) %>% summarize(media_F1 = mean(F1.NORM), media_F2 = mean(F2.NORM)) %>% print()')
+  Hint: Preencha os argumentos com calma e revise antes de dar CTRL + ENTER.
+
+- Class: text
+  Output: Temos agora as médias de F1 e F2 por vogal e por amostra, e podemos prosseguir para a plotagem do gráfico!
+
+- Class: text
+  Output: "Vamos plotar, primeiramente, um gráfico de linhas que representa o espaço vocálico de paraibanos em São Paulo e de paulistanos nativos, para que possamos compará-los. Cada ponto será uma das vogais i, e, a, o e u, e elas serão ligadas por uma linha. Já vimos, na Lição 5, que o ggplot2 precisa pelo menos: (i) do dataframe do qual extrair as informações; (ii) dos parâmetros estéticos; e (iii) da geometria do gráfico a ser plotado (as duas primeiras linhas do comando). Mantenha as demais linhas com o #, por enquanto."
+
+- Class: mult_question
+  Output: De qual dataframe vamos extrair os dados das médias de F1 e F2?
+  AnswerChoices: medias;pretonicas;ds
+  CorrectAnswer: medias
+  AnswerTests: omnitest(correctVal= 'medias')
+  Hint: Pense mais um pouco!
+  
+- Class: mult_question
+  Output: Queremos plotar um gráfico do espaço vocálico, em que os eixos x e y vão representar as medidas de F1 e F2. Qual variável do dataframe em questão representa o eixo x?
+  AnswerChoices: media_F2;media_F1;F1.NORM;F2.NORM
+  CorrectAnswer: media_F2
+  AnswerTests: omnitest(correctVal= 'media_F2')
+  Hint: Tente de novo!
+    
+- Class: mult_question
+  Output: Qual variável do dataframe em questão deve ocupar o eixo y?
+  AnswerChoices: media_F1;media_F2;F1.NORM;F2.NORM
+  CorrectAnswer: media_F1
+  AnswerTests: omnitest(correctVal= 'media_F1')
+  Hint: Aqui você precisa de conhecimentos linguísticos!
+    
+- Class: mult_question
+  Output: No argumento color, queremos definir uma cor diferente para a linha dos paraibanos e outra para a dos paulistanos. Qual variável categoriza o local de origem dos falantes? (Desculpa por essa pergunta tão óbvia...)
+  AnswerChoices: AMOSTRA;VOGAL;PARTICIPANTE
+  CorrectAnswer: AMOSTRA
+  AnswerTests: omnitest(correctVal= 'AMOSTRA')
+  Hint: Acho que você digitou o número errado!
+    
+- Class: cmd_question
+  Output: "Com essas informações, já conseguimos plotar uma primeira versão do gráfico. Preencha o comando com essas informações, substituindo df e as palavras VAR, e rode com CTRL + ENTER."
+  CorrectAnswer: ggplot(medias, aes(x = media_F2, y = media_F1, color = AMOSTRA)) + geom_line() + theme_bw()
+  AnswerTests: omnitest(correctExpr='ggplot(medias, aes(x = media_F2, y = media_F1, color = AMOSTRA)) + geom_line() + theme_bw()')
+  Hint: Preencha os argumentos com calma e revise antes de dar CTRL + ENTER.
+
+- Class: text
+  Output: "Eita! Se você está familiarizado com a representação das vogais no quadro do IPA, deve ter percebido que tem um problema nesse gráfico! Os eixos x e y, ambos de variáveis numéricas/contínuas, estão ordenados de modo crescente: os valores aumentam de baixo para cima e da esquerda para a direita. Mas lembre-se de suas aulas de Fonética: os valores de F1 e de F2 são convencionalmente representados de modo invertido, de modo a deixar as vogais anteriores à esquerda e as vogais fechadas na parte de cima."
+  
+- Class: cmd_question
+  Output: "Conseguimos consertar isso rapidinho com as funções scale_x_reverse() e scale_y_reverse(). Retire o comentário # dessas duas linhas e rode o comando novamente."
+  CorrectAnswer: ggplot(medias, aes(x = media_F2, y = media_F1, color = AMOSTRA)) + geom_line() + scale_x_reverse() + scale_y_reverse() + theme_bw()
+  AnswerTests: omnitest(correctExpr='ggplot(medias, aes(x = media_F2, y = media_F1, color = AMOSTRA)) + geom_line() + scale_x_reverse() + scale_y_reverse() + theme_bw()')
+  Hint: Releia as instruções com calma!
+    
+- Class: cmd_question
+  Output: "Bem melhor, não? Um linguista bem treinado já consegue ver esse gráfico e tirar várias informações interessantes. Mas vamos deixá-lo mais informativo, adicionando as vogais para facilitar sua interpretação. Para isso, podemos usar a geometria geom_label(), que insere rótulos em gráficos e que neste código está logo abaixo de geom_line(). Mas, para que as vogais sejam devidamente mapeadas aos rótulos, precisamos especificar qual variável contém os rótulos, com o argumento label = VOGAL dentro dos parâmetros estéticos aes(). Execute então esses dois passos: retire o # da linha com geom_label, e insira o argumento label em aes()."
+  CorrectAnswer: ggplot(medias, aes(x = media_F2, y = media_F1, color = AMOSTRA, label = VOGAL)) + geom_line() + geom_label() + scale_x_reverse() + scale_y_reverse() + theme_bw()
+  AnswerTests: omnitest(correctExpr='ggplot(medias, aes(x = media_F2, y = media_F1, color = AMOSTRA, label = VOGAL)) + geom_line() + geom_label() + scale_x_reverse() + scale_y_reverse() + theme_bw()')
+  Hint: Releia as instruções com calma!
+    
+- Class: cmd_question
+  Output: "As duas últimas linhas desse comando já são conhecidas por você: a função ggtitle() insere um título na figura e a função labs() permite definir o nome dos eixos. Já deixei esses textos prontos. Basta descomentar as linhas (apagar o #) e rodá-las. "
+  CorrectAnswer: ggplot(medias, aes(x = media_F2, y = media_F1, color = AMOSTRA, label = VOGAL)) + geom_line() + geom_label() + scale_x_reverse() + scale_y_reverse() + ggtitle("Valores médios de F1 e F2 normalizados nas amostras PBSP e SP2010") + labs(x = "F2 normalizado", y = "F1 normalizado") + theme_bw()
+  AnswerTests: omnitest(correctExpr='ggplot(medias, aes(x = media_F2, y = media_F1, color = AMOSTRA, label = VOGAL)) + geom_line() + geom_label() + scale_x_reverse() + scale_y_reverse() + ggtitle("Valores médios de F1 e F2 normalizados nas amostras PBSP e SP2010") + labs(x = "F2 normalizado", y = "F1 normalizado") + theme_bw()')
+  Hint: Releia as instruções com calma!
+    
+- Class: text
+  Output: "Na última lição, já havíamos visto que as médias de altura (F1) das vogais /e/ e /o/ dos parabainos têm valores mais altos -- i.e., tendem a ser realizações mais baixas -- do que as vogais dos paulistanos. Essa figura, no entanto, é capaz de informar também a posição relativa quanto ao traço [+- anterior]. Para mais bem visualizá-las, clique sobre Zoom na aba Plots."
+  
+- Class: text
+  Output: "Caso queira exportar o gráfico, lembre-se das funções png() e dev.off(), que vimos na Lição 5."
+  
+- Class: text
+  Output: "Nesse gráfico que plotamos, as milhares de vogais dos participantes paraibanos e paulistanos foram resumidas em poucos pontos, as médias de F1 e F2. Vimos na última lição que, para além das medidas de tendência central, também é importante conhecer a dispersão dos dados. Um gráfico de dispersão nos permite visualizar não só pontos isolados, mas distribuição de todos os dados da amostra."
+  
+- Class: text
+  Output: "Neste próximo comando, não há linhas comentadas, pois você já conhece a maior parte das funções: ggplot() -- que define o dataframe e os parâmetros gráficos, geom_point() -- que plota pontos, scale_x_reverse() e scale_y_reverse() -- que invertem os eixos x e y, ggtitle() -- que inclui um título, labs() -- que incluir rótulos para os eixos, e theme_bw() -- que define o tema visual.  "
+
+- Class: text
+  Output: "A única função nova é facet_grid(). Essa função permite criar vários subgráficos semelhantes, de acordo com algum critério, que serão dispostos num grid. Aqui, vamos criar dois gráficos de dispersão, uma para a amostra PBSP, e outro para SP2010. Daí a definição de (. ~ AMOSTRA) como argumento dessa função."
+  
+- Class: cmd_question
+  Output: Nesse comando, só falta definir os argumentos de ggplot(). Vamos plotar a localização (medidas de F1 e F2) de todas as vogais da planilha original, de modo que o dataframe será `pretonicas`. O eixo x será ocupado pelas medidas de F2.NORM, e o eixo y, pelas medidas de F1.NORM. Para mais bem visualizar os níveis de VOGAL, vamos plotá-las cada uma com uma cor. Substitua então os termos df e VAR na linha de comando pelos dados relevantes, revise o código e rode com CTRL + ENTER.
+  CorrectAnswer: ggplot(pretonicas, aes(x = F2.NORM, y = F1.NORM, color = VOGAL)) + geom_point() + scale_x_reverse() + scale_y_reverse() + facet_grid(. ~ AMOSTRA) + ggtitle("Dispersão das medidas de F1 e F2 normalizados nas amostras PBSP e SP2010") + labs(x = "F2 normalizado", y = "F1 normalizado") + theme_bw()
+  AnswerTests: omnitest(correctExpr='ggplot(pretonicas, aes(x = F2.NORM, y = F1.NORM, color = VOGAL)) + geom_point() + scale_x_reverse() + scale_y_reverse() + facet_grid(. ~ AMOSTRA) + ggtitle("Dispersão das medidas de F1 e F2 normalizados nas amostras PBSP e SP2010") + labs(x = "F2 normalizado", y = "F1 normalizado") + theme_bw()')
+  Hint: Releia as instruções passo a passo!
+    
+- Class: text
+  Output: Não ficou bacana? São várias observações que podem ser feitas sobre esse gráficos como, por exemplo, a maior dispersão das vogais /e/ e /o/ dos migrantes paraibanos do que aquelas dos paulistanos (talvez, justamente, pela situação de migração e contato com outro dialeto?...)
+  
+- Class: figure
+  Output: Vamos ver agora outro tipo de gráfico para variáveis numéricas, o boxplot. Antes de plotarmos um, vamos ver quais são suas características. Na aba Plots, abri um esquema do que representa cada elemento de um boxplot. 
+  Figure: mostrar-imagem-bp1.R
+  FigureType: new
+
+- Class: text
+  Output: "Comecemos pelo meio. A mediana é normalmente representada por uma linha mais escura e, como você já sabe, ela é a observação central quando se colocam os dados numa ordem crescente. Semelhantes à mediana são as medidas de primeiro quartil e terceiro quartil; mas, diferentemente da mediana (que representa o ponto em 50% da distribuição), eles indicam, respectivamente, os valores em 25% e 75% da distribuição."
+
+- Class: text
+  Output: "Em seguida temos os whiskers, ou fios de bigode. Há um para cima e outro para baixo da 'caixa' que forma o meio da distribuição. Eles são calculados tendo o primeiro e o terceiro quartil como referências. Subtrai-se o valor do primeiro quartil do terceiro, o que dá a extensão da caixa. Esse valor é multiplicado por 1.5, o que dará a extensão aproximada do fio do bigode para cima e para baixo."
+
+- Class: text
+  Output: "Por fim, qualquer valor para além dos fios de bigode, para cima e para baixo, é considerado outlier, ou valor atípico. Desse modo, o boxplot também permite visualizar a distribuição e a dispersão dos dados." 
+
+- Class: text
+  Output: "No boxplot que vamos plotar, vamos comparar a distribuição de dados das 5 vogais para as 2 amostras. Aqui, assim como no gráfico de dispersão, não há linhas comentadas, porque você já é capaz de interpretá-las. Falta substituir devidamente os valores df e VAR." 
+
+- Class: figure
+  Output: "Desta vez, vamos fazer um pouco diferente. Veja a figura que acabei de abrir em Plots: este deve ser o resultado de seu código! A partir dela, determine o que deve entrar em df,  e quais variáveis definem os parâmetros estéticos de x, y e color."
+  Figure: mostrar-imagem-bp2.R
+  FigureType: new
+  
+- Class: mult_question
+  Output: Qual dataframe compreende os dados de interesse?
+  AnswerChoices: pretonicas;medias;df
+  CorrectAnswer: pretonicas
+  AnswerTests: omnitest(correctVal= 'pretonicas')
+  Hint: Pense qual dataframe tem os dados que usaremos!
+    
+- Class: mult_question
+  Output: Qual variável ocupa o eixo x? 
+  AnswerChoices: AMOSTRA;PBSP;SP2010
+  CorrectAnswer: AMOSTRA
+  AnswerTests: omnitest(correctVal= 'AMOSTRA')
+  Hint: Qual é a VARIÁVEL (não a variante)?
+    
+- Class: mult_question
+  Output: Qual variável ocupa o eixo y?
+  AnswerChoices: F1.NORM;F1 normalizado;F1
+  CorrectAnswer: F1.NORM
+  AnswerTests: omnitest(correctVal= 'F1.NORM')
+  Hint: Reveja o dataframe se necessário.
+  
+- Class: mult_question
+  Output: Qual variável define as cores dos boxplots? 
+  AnswerChoices: VOGAL;F1.NORM;AMOSTRA
+  CorrectAnswer: VOGAL
+  AnswerTests: omnitest(correctVal= 'VOGAL')
+  Hint: As cores variam de acordo com...?
+    
+- Class: mult_question
+  Output: Qual variável define o grid de facetas?
+  AnswerChoices: VOGAL;F1.NORM;AMOSTRA
+  CorrectAnswer: VOGAL
+  AnswerTests: omnitest(correctVal= 'VOGAL')
+  Hint: Veja como cada faceta está nomeada na figura.
+  
+- Class: cmd_question
+  Output: De posse dessas informações, substitua os termos `df` e `VAR` devidamente no script, revise o código e rode com CTRL + ENTER.
+  CorrectAnswer: ggplot(pretonicas, aes(x = AMOSTRA, y = F1.NORM, color = VOGAL)) + geom_boxplot(notch = FALSE) + scale_y_reverse() + labs(x = "Amostra", y = "F1 normalizado") + facet_grid(. ~ VOGAL) + theme_bw() 
+  AnswerTests: omnitest(correctExpr='ggplot(pretonicas, aes(x = AMOSTRA, y = F1.NORM, color = VOGAL)) + geom_boxplot(notch = FALSE) + scale_y_reverse() + labs(x = "Amostra", y = "F1 normalizado") + facet_grid(. ~ VOGAL) + theme_bw() ')
+  Hint: Reveja as respostas das questões de múltipla escolha, se necessário.
+  
+- Class: text
+  Output: Esse exercício de visualizar o gráfico que se quer plotar e, a partir dele, determinar o código, é algo que deve acontecer com frequência na prática. Muitas vezes, temos uma figura como modelo, e queremos reproduzi-la em nossos dados; em outros momentos, você pode simplesmente imaginar o gráfico que quer plotar em sua mente, e o desafio é traduzi-lo em R! 
+  
+- Class: cmd_question
+  Output: Você pode estar se perguntando o que faz o argumento notch = FALSE em geom_boxplot(). Para descobrir, mude-o para TRUE e rode o comando.
+  CorrectAnswer: ggplot(pretonicas, aes(x = AMOSTRA, y = F1.NORM, color = VOGAL)) + geom_boxplot(notch = TRUE) + scale_y_reverse() + labs(x = "Amostra", y = "F1 normalizado") + facet_grid(. ~ VOGAL) + theme_bw()
+  AnswerTests: omnitest(correctExpr='ggplot(pretonicas, aes(x = AMOSTRA, y = F1.NORM, color = VOGAL)) + geom_boxplot(notch = TRUE) + scale_y_reverse() + labs(x = "Amostra", y = "F1 normalizado") + facet_grid(. ~ VOGAL) + theme_bw()')
+  Hint: Troque FALSE por TRUE na linha de comando.
+  
+- Class: text
+  Output: O argumento notch estabelece se queremos ou não plotar um entalhe na altura da mediana, por meio de um valor lógico (T ou TRUE para verdadeiro ou F ou FALSE para falso). Mas ele não é apenas uma questão estética. 
+    
+- Class: text
+  Output: "Na figura, vemos claramente que a vogal /a/ é a mais baixa e que as vogais /i/ e /u/ são mais altas. Vemos também que os paulistanos tendem a realizar as vogais /i/, /a/ e /u/ pretônicas como mais baixas que os paraibanos, mas que as vogais médias /e/ e /o/ são mais altas. No entanto, há também uma boa sobreposição entre os intervalos de cada vogal quando comparamos as duas amostras. Não é o caso que os paulistanos sempre realizam /e/ e /o/ pretônicas mais altos e os paraibanos tenham realizações sempre mais baixas. Pelos fios de bigode, vemos também que às vezes um /e/ pode ser tão alto quanto um /i/, ou tão baixo quanto um /a/."
+
+- Class: text
+  Output: "Uma questão que se coloca, ao observar os boxplots, é se essas diferenças na altura das vogais são reais, ou se se devem simplesmente à distribuição dos dados. Mais especificamente, podemos nos perguntar: as vogais /e/ e /o/ dos paraibanos que vivem em São Paulo são realmente mais baixas do que as dos paulistanos? Para responder a essa questão, vamos precisar de ferramentas além da estatística descritiva (que temos implementado por meio de tabelas e gráficos). Vamos precisar de TESTES ESTATÍSTICOS e de ferramentas da ESTATÍSTICA INFERENCIAL."
+  
+- Class: text
+  Output: Os entalhes dos boxplots, no entanto, já são uma primeira pista para saber se podemos afirmar que as vogais /e/ e /o/ de paraibanos são em média mais baixas do que as dos paulistanos. Elas representam um intervalo de confiança -- algo que veremos com mais detalhes na próxima lição. Por ora, basta indicar que, quando os entalhes não se sobrepõem, é provável que a diferença entre as amostras seja estatisticamente significativa. 
+
+- Class: text
+  Output: "Vamos, por fim, ver outro tipo de gráfico que se aplica a variáveis numéricas: o histograma. Quando tratamos de variáveis nominais, vimos que frequências são a medida de quantas vezes algo aconteceu numa amostra. O histograma 'quebra' uma variável numérica em intervalos (p.ex., de 200 a 300, de 301 a 400 etc.) e representa graficamente a frequência dentro de cada intervalo. Isso permite visualizar em qual ou quais intervalos se concentram os dados."
+  
+- Class: text
+  Output: "Veja o código para plotar um histograma no script, no qual aproveito para revisar que o pipe, do tidyverse: %>% permite encadear diversas operações -- pegar o resultado da operação à esquerda e usá-lo no comando seguinte. Vamos plotar um histograma das medições de F1.NORM da vogal /e/ na amostra dos paraibanos. No código, primeiro pegamos o dataframe `pretonicas` e, com filter(), criamos um subconjunto de dados da vogal /e/ na amostra PBSP. Este novo subconjunto de dados (sem nome!) é o dataframe utilizado para fazer o gráfico."
+  
+- Class: cmd_question
+  Output: "Para plotar um histograma, precisamos apenas de uma variável numérica. Vamos usar F1.NORM novamente. Na geometria geom_histogram(), podemos definir o tamanho dos intervalos (binwidth) -- se de 5 em 5, 10 em 10 unidades etc.; com qual cor preencher (fill) as barras e com qual cor definir o contorno das barras (color). No código, inclua a variável F1.NORM e o número 20 para o tamanho dos intervalos de cada barra." 
+  CorrectAnswer: pretonicas %>% filter(VOGAL == "e" & AMOSTRA == "PBSP") %>% ggplot(., aes(x = F1.NORM)) + geom_histogram(binwidth = 20, fill = "white", color = "black") + labs(x = "F1 normalizado", y = "Frequência") + theme_bw() 
+  AnswerTests: omnitest(correctExpr='pretonicas %>% filter(VOGAL == "e" & AMOSTRA == "PBSP") %>% ggplot(., aes(x = F1.NORM)) + geom_histogram(binwidth = 20, fill = "white", color = "black") + labs(x = "F1 normalizado", y = "Frequência") + theme_bw()')
+  Hint: Preencha os argumentos com calma e revise antes de dar CTRL + ENTER.
+  
+- Class: text
+  Output: "Um histograma se parece com um gráfico de barras, mas não devemos confundi-los. Vimos que gráficos de barras se aplicam a variáveis nominais (como as lojas de departamento em Nova Iorque). Um histograma, diferentemente, se aplica a variáveis contínuas, de modo que as barras são representadas no contínuo do eixo x. São informações diferentes." 
+  
+- Class: text
+  Output: "O que o histograma nos informa? Ele mostra como se DISTRIBUEM e se DISPERSAM os dados da variável numérica. Nesse sentido, o histograma é uma representação visual das medidas de desvio padrão / variância, bem como das medidas de tendência central (média, mediana, moda). Quanto menos dispersos os dados, maior será sua concentração em torno de um ponto médio."
+  
+- Class: text
+  Output: A figura mostra que a maior parte das medições de F1.NORM da vogal /e/ de paraibanos se concentra entre 410 e 430 Hz e entre 430 e 450 Hz -- as duas barras com maior número de ocorrências (frequência). Os intervalos são de 20 Hz porque assim definimos com binwidth acima. Também houve ocorrências de /e/ com medidas acima e abaixo desses valores, mas eles foram menos frequentes.
+  
+- Class: cmd_question
+  Output: "Vamos checar como os dados se dispersam em torno da média e da mediana. O comando para computar a média e a mediana já está pronto neste ponto do script. Basta rodá-lo -- mas certifique-se de que entende o que está sendo feito aí! "
+  CorrectAnswer: med_centrais_PBSPe <- pretonicas %>% filter(., VOGAL == "e" & AMOSTRA == "PBSP") %>% summarize(media = mean(F1.NORM), mediana = median(F1.NORM)) %>% print()
+  AnswerTests: omnitest(correctExpr='med_centrais_PBSPe <- pretonicas %>% filter(., VOGAL == "e" & AMOSTRA == "PBSP") %>% summarize(media = mean(F1.NORM), mediana = median(F1.NORM)) %>% print()')
+  Hint: Rode a linha de comando neste ponto do script com CTRL + ENTER.
+  
+- Class: text
+  Output: "Poderíamos inspecionar os valores de `media` e `mediana` no Console. No entanto, melhor do que isso, é visualizá-los! Vamos plotar, sobre o histograma, duas linhas que indicam esses pontos."
+  
+- Class: cmd_question
+  Output: "A linha de comando aqui reproduz o mesmo para o histograma que acabamos de criar, mas acrescenta mais duas linhas com a função geom_vline() que, como o nome já indica, plota uma linha vertical. Dentro dessa função, especificamos em qual ponto a linha vertical deve cortar o eixo x (xintercept): respectivamente, nos valores da média e da mediana do dataframe que acabamos de computar. A média será representada uma linha azul e a mediana uma linha vermelha. Substitua novamente VAR e o valor para binwidth, revise e rode o comando!" 
+  CorrectAnswer: pretonicas %>% filter(., VOGAL == "e" & AMOSTRA == "PBSP") %>% ggplot(., aes(x = F1.NORM)) + geom_histogram(binwidth = 20, fill = "white", color = "black") + labs(x = "F1 normalizado", y = "Frequência") + theme_bw() + geom_vline(xintercept = med_centrais_PBSPe$media, color = "blue") + geom_vline(xintercept = med_centrais_PBSPe$mediana, color = "red") 
+  AnswerTests: omnitest(correctExpr='pretonicas %>% filter(., VOGAL == "e" & AMOSTRA == "PBSP") %>% ggplot(., aes(x = F1.NORM)) + geom_histogram(binwidth = 20, fill = "white", color = "black") + labs(x = "F1 normalizado", y = "Frequência") + theme_bw() + geom_vline(xintercept = med_centrais_PBSPe$media, color = "blue") + geom_vline(xintercept = med_centrais_PBSPe$mediana, color = "red")')
+  Hint: Releia as instruções com calma.
+  
+- Class: text
+  Output: Vemos que a média e a mediana são praticamente coincidentes, próximas ao topo da distribuição.
+  
+- Class: figure
+  Output: "Você se lembra da figura que acabei de abrir em Plots, vista na lição passada? Esta figura representa modelos idealizados da distribuição e dispersão dos dados; nosso histograma representa uma distribuição real." 
+  Figure: mostrar-imagem-dist.R
+  FigureType: new
+  
+- Class: mult_question
+  Output: Com qual das figuras você acha que nosso histograma mais se parece?
+  AnswerChoices: com a figura do meio, um distribuição normal;com a figura à esquerda, com viés negativo;com a figura à direita, com viés positivo  
+  CorrectAnswer: com a figura do meio, um distribuição normal
+  AnswerTests: omnitest(correctVal= 'com a figura do meio, um distribuição normal')
+  Hint: Ok, eu te perguntei 'o que você acha', mas tem uma resposta certa!
+    
+- Class: text
+  Output: "Nosso histograma se parece com uma distribuição normal e, na verdade, isso não é surpreendente. Temos usado os dados de F1 e de F2 NORMALIZADOS de acordo com o método de Lobanov. O que a normalização faz é justamente isso: transformar os dados em uma distribuição que se aproxima da distribuição normal."
+  
+- Class: text
+  Output: "Você já deve ter percebido que o termo 'distribuição normal', aqui, é o um termo técnico. Ela se refere a dados que se distribuem na forma de uma curva de sino. Veremos as propriedades dessa distribuição com mais detalhes na próxima lição."
+  
+- Class: video
+  Output: "Você quer não só praticar, mas fazer gráficos cada vez mais sofisticados? Recomendo fazer esse excelente tutorial em <http://tutorials.iq.harvard.edu/R/Rgraphics/Rgraphics.html>. Você quer visitar essa página agora?"
+  VideoLink: http://tutorials.iq.harvard.edu/R/Rgraphics/Rgraphics.html
+
+- Class: video
+  Output: "Na Lição 5 e nesta, vimos apenas alguns poucos tipos de gráficos: de barras, de linhas, histogramas, dispersão e boxplots. Mas existem vários outros que você deve explorar. No site The R Graph Gallery, há uma enorme coleção de gráficos produzidos no R, com seus respectivos códigos. Outros tipos de gráficos podem mais bem expressar as relações que você quer mostrar. Para visitar essa página agora, digite Y."
+  VideoLink: http://www.r-graph-gallery.com/
+    
+- Class: video
+  Output: "Por fim, mas não menos importante, recomendo a consulta constante ao livro \"R Graphics Cookbook\", de Winston Chang. Trata-se realmente de um livro de receitas, que apresenta \"problemas\" -- o que você quer fazer -- e o passo a passo para solucioná-los.  Uma versão dele se encontrar online em https://r-graphics.org/. Digite Y para visitar essa página."
+  VideoLink: https://r-graphics.org/
+
+- Class: text
+  Output: "A mensagem aqui é: não deixa as ferramentas conduzirem sua análise! Você, como pesquisador@, deve estabelecer o que é mais adequado para os seus dados."
+
+- Class: text
+  Output: Faça agora os exercícios da lição 7 no curso Introducao a Estatistica para Linguistas - Exercícios.

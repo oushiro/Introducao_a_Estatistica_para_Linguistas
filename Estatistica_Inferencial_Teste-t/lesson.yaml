@@ -1,0 +1,381 @@
+- Class: meta
+  Course: Introducao_a_Estatistica_para_Linguistas
+  Lesson: Estatistica Inferencial Teste-t
+  Author: Livia Oushiro
+  Type: Standard
+  Organization: UNICAMP
+  Version: 2.4.3
+
+- Class: figure
+  Output: "Na Lição 9, vimos testes estatísticos univariados para variáveis nominais. Nesta lição, veremos um teste que se aplica a variáveis numéricas: o teste-t."
+  Figure: Licao10-background.R
+  FigureType: new
+  
+- Class: cmd_question
+  Output: Antes de mais nada, carregue o pacote tidyverse.
+  CorrectAnswer: library(tidyverse)
+  AnswerTests: omnitest(correctExpr='library(tidyverse)')
+  Hint: Digite library(tidyverse) e pressione CTRL + ENTER.
+  
+- Class: cmd_question
+  Output: "Vamos trabalhar com os dados das vogais pretônicas. Deixei-os disponíveis no dataframe `pretonicas`. Cheque a estrutura desse dataframe."
+  CorrectAnswer: str(pretonicas)
+  AnswerTests: omnitest(correctExpr='str(pretonicas)')
+  Hint: Use a função str().
+
+- Class: cmd_question
+  Output: "Nesta lição, vamos trabalhar apenas com os dados da vogal /e/ pretônicas. Por vezes será nos dados apenas de paraibanos ou de paulistanos, por vezes será para ambos os grupos. Crie então um subconjunto de dados chamado PBSP_e, com os dados da VOGAL /e/ na AMOSTRA PBSP."
+  CorrectAnswer: PBSP_e <- filter(pretonicas, VOGAL == "e" & AMOSTRA == "PBSP")
+  AnswerTests: any_of_exprs('PBSP_e <- filter(pretonicas, VOGAL == "e" & AMOSTRA == "PBSP")', 'PBSP_e <- filter(pretonicas, AMOSTRA == "PBSP" & VOGAL == "e")', 'PBSP_e <- pretonicas %>% filter(VOGAL == "e" & AMOSTRA == "PBSP")', 'PBSP_e <- pretonicas %>% filter(AMOSTRA == "PBSP" & VOGAL == "e")', 'PBSP_e <- pretonicas %>% filter(., VOGAL == "e" & AMOSTRA == "PBSP")', 'PBSP_e <- pretonicas %>% filter(., AMOSTRA == "PBSP" & VOGAL == "e")')
+  Hint: Use a função filter().
+
+- Class: cmd_question
+  Output: "Crie também um subconjunto de dados chamado SP2010_e, com os dados da VOGAL /e/ na AMOSTRA SP2010."
+  CorrectAnswer: SP2010_e <- filter(pretonicas, VOGAL == "e" & AMOSTRA == "SP2010")
+  AnswerTests: any_of_exprs('SP2010_e <- filter(pretonicas, VOGAL == "e" & AMOSTRA == "SP2010")', 'SP2010_e <- filter(pretonicas, AMOSTRA == "SP2010" & VOGAL == "e")', 'SP2010_e <- pretonicas %>% filter(VOGAL == "e" & AMOSTRA == "SP2010")', 'SP2010_e <- pretonicas %>% filter(AMOSTRA == "SP2010" & VOGAL == "e")', 'SP2010_e <- pretonicas %>% filter(., VOGAL == "e" & AMOSTRA == "SP2010")', 'SP2010_e <- pretonicas %>% filter(., AMOSTRA == "SP2010" & VOGAL == "e")')
+  Hint: Use a função filter().
+
+- Class: cmd_question
+  Output: "E crie um subconjunto de dados da vogal /e/ (com dados de PBSP e SP2010), chamado VOGAL_e, que vamos usar mais adiante."
+  CorrectAnswer: VOGAL_e <- filter(pretonicas, VOGAL == "e")
+  AnswerTests: any_of_exprs('VOGAL_e <- filter(pretonicas, VOGAL == "e")', 'VOGAL_e <- pretonicas %>% filter(VOGAL == "e")', 'VOGAL_e <- pretonicas %>% filter(., VOGAL == "e")')
+  Hint: Use a função filter().
+
+- Class: cmd_question
+  Output: "Vamos agora fazer dois histogramas das medidas de F1.NORM (=altura das vogais) em uma mesma figura para compará-los. Complete a linha de comando neste ponto do script, substituindo, com calma, os valores df, VAR e VAR. O dataframe é VOGAL_e -- que contém dados de ambas as amostras --, o valor da variável em x é F1.NORM e da variável em facet_grid() é AMOSTRA, para que cada faceta contenha os dados de um dos grupos. A variável AMOSTRA vem antes de ~ para ordenar os gráficos um em cima do outro, e não lado a lado."
+  CorrectAnswer: ggplot(VOGAL_e, aes(x = F1.NORM)) + geom_histogram() + facet_grid(AMOSTRA ~ .) 
+  AnswerTests: omnitest(correctExpr='ggplot(VOGAL_e, aes(x = F1.NORM)) + geom_histogram() + facet_grid(AMOSTRA ~ .)')
+  Hint: Releia as instruções com calma antes de pressionar CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Na figura, as medidas de F1.NORM para os paraibanos parecem ser, em geral, mais altas e mais dispersas do que para os paulistanos. Calcule a média e o desvio padrão de F1.NORM para PBSP e SP2010, e guarde os resultados num novo dataframe chamado `estatisticas`. "
+  CorrectAnswer: estatisticas <- VOGAL_e %>% group_by(AMOSTRA) %>% summarize(media_F1 = mean(F1.NORM), desvio_F1 = sd(F1.NORM)) %>% print()
+  AnswerTests: omnitest(correctExpr='estatisticas <- VOGAL_e %>% group_by(AMOSTRA) %>% summarize(media_F1 = mean(F1.NORM), desvio_F1 = sd(F1.NORM)) %>% print()')
+  Hint: Releia as instruções com calma! Você precisa substituir os termos novo.df, df, VAR e funcao.
+
+- Class: mult_question
+  Output: "Compare as médias de F1.NORM entre paraibanos e paulistanos: qual é maior?"
+  AnswerChoices: a média de F1.NORM de paraibanos;a média de F1.NORM de paulistanos
+  CorrectAnswer: a média de F1.NORM de paraibanos
+  AnswerTests: omnitest(correctVal= 'a média de F1.NORM de paraibanos')
+  Hint: Veja os valores de médias calculados acima.
+
+- Class: mult_question
+  Output: "Compare os valores de desvio padrão de F1.NORM entre paraibanos e paulistanos: qual é maior?"
+  AnswerChoices: o desvio padrão de F1.NORM de paraibanos;o desvio padrão de F1.NORM de paulistanos
+  CorrectAnswer: o desvio padrão de F1.NORM de paraibanos
+  AnswerTests: omnitest(correctVal= 'o desvio padrão de F1.NORM de paraibanos')
+  Hint: Veja os valores de desvio padrão calculados acima.
+
+- Class: cmd_question
+  Output: "Como vimos na Lição 7, outro modo de visualizar a dispersão dos dados é por meio de boxplots. Faça um boxplot das medidas de F1.NORM por AMOSTRA no subconjunto de dados da VOGAL /e/. No código, substitua os termos df, VAR, geometria e reverterEixo. Inclua notch nos boxplots."
+  CorrectAnswer: VOGAL_e %>% ggplot(., aes(x = AMOSTRA, y = F1.NORM)) + geom_boxplot(notch = TRUE) + scale_y_reverse() 
+  AnswerTests: any_of_exprs('VOGAL_e %>% ggplot(., aes(x = AMOSTRA, y = F1.NORM)) + geom_boxplot(notch = TRUE) + scale_y_reverse()', 'VOGAL_e %>% ggplot(., aes(x = AMOSTRA, y = F1.NORM)) + geom_boxplot(notch = T) + scale_y_reverse()')
+  Hint: Digite VOGAL_e %>% ggplot(., aes(x = AMOSTRA, y = F1.NORM)) + geom_boxplot(notch = TRUE) + scale_y_reverse(). Se teve dificuldade em montar esta linha de comando, recomendo que refaça a Lição 7.
+
+- Class: text
+  Output: "Até aqui, refizemos os passos da Lição 7, pois esta teria sido sua trajetória de análise: começar com cálculos de medidas estatísticas básicas e visualização dos dados para estabelecer hipóteses. A partir dos histogramas e do boxplot, das medidas de média e desvio padrão, podemos querer verificar se as vogais médias pretônicas /e/ para paraibanos são significativamente mais baixas do que as dos paulistanos. Pelos entalhes nos boxplots, temos uma boa evidência de que as médias são significativamente diferentes; cabe agora um teste estatístico para reforçar essa evidência."
+
+- Class: text
+  Output: "O teste-t -- no R, t.test() -- compara médias e variâncias de uma distribuição com uma distribuição esperada ou com a distribuição de outro grupo. Ele tem, contudo, um requisito: a distribuição dos dados deve seguir a distribuição normal (o formato da curva de sino), ou deve ser aplicada a uma amostra com grande número de dados. Caso a distribuição não seja normal ou a amostra seja pequena, aplica-se uma variante do teste-t, chamada Teste de Wilcoxon -- no R, wilcox.test(). Aqui, vamos seguir a primeira condição - seguir a distribuição normal ou não. O teste-t é um teste paramétrico e o teste de Wilcoxon é um teste não paramétrico."
+
+- Class: mult_question
+  Output: "Olhando para os histogramas (volte a eles com as flechinhas azuis), você acha que a distribuição das medidas de F1.NORM da vogal /e/ para paraibanos segue a distribuição normal?"
+  AnswerChoices: sim;não;não sei!
+  CorrectAnswer: sim
+  AnswerTests: omnitest(correctVal='sim')
+  Hint: Escolha uma opção!
+
+- Class: mult_question
+  Output: "E para os paulistanos?"
+  AnswerChoices: não;sim;não sei!
+  CorrectAnswer: não
+  AnswerTests: omnitest(correctVal='não')
+  Hint: Escolha uma opção!
+
+- Class: cmd_question
+  Output: "A inspeção gráfica é um bom primeiro passo, mas deixa margem para muita dúvida. O teste de Shapiro permite obter uma medida mais acurada do quanto a distribuição se aproxima da distribuição normal. No R, ele é feito com a função shapiro.test(), que se aplica a um vetor de dados numéricos. Aplique a função aos dados de F1.NORM do subconjunto PBSP_e."
+  CorrectAnswer: shapiro.test(PBSP_e$F1.NORM)
+  AnswerTests: omnitest(correctExpr='shapiro.test(PBSP_e$F1.NORM)')
+  Hint: Digite shapiro.test(PBSP_e$F1.NORM) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "E aplique-a também aos de F1.NORM do subconjunto SP2010_e."
+  CorrectAnswer: shapiro.test(SP2010_e$F1.NORM)
+  AnswerTests: omnitest(correctExpr='shapiro.test(SP2010_e$F1.NORM)')
+  Hint: Digite shapiro.test(SP2010_e$F1.NORM) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: Para aplicação do teste de Shapiro, usamos a função da instalação base do R. Só por curiosidade, também seria possível fazer isso por meio do dplyr; no entanto, como o resultado do teste de Shapiro é uma lista, também seria necessário guardar o resultado em uma lista (não um dataframe). A linha de comando neste ponto do script, já pronta, mostra como isso poderia ser feito, aplicando-se a função list() sobre o teste de Shapiro. Rode-a para ver o resultado.
+  CorrectAnswer: shapiro <- pretonicas %>% filter(VOGAL == "e") %>% group_by(AMOSTRA) %>% summarize(res = list(shapiro.test(F1.NORM)))
+  AnswerTests: omnitest(correctExpr='shapiro <- pretonicas %>% filter(VOGAL == "e") %>% group_by(AMOSTRA) %>% summarize(res = list(shapiro.test(F1.NORM)))')
+  Hint: Rode a linha de comando deste ponto do script.
+  
+- Class: cmd_question
+  Output: O resultado pode ser acessado por shapiro$res, em que `shapiro` é o objeto criado pelo comando acima e `res` é onde guardamos o resultado do teste de Shapiro. Rode essa linha de comando.
+  CorrectAnswer: shapiro$res
+  AnswerTests: omnitest(correctExpr='shapiro$res')
+  Hint: Rode a linha de comando shapiro$res com CTRL + ENTER.
+  
+- Class: text
+  Output: "O teste de Shapiro testa a hipótese NULA que os dados vêm de uma distribuição normal. Isso significa que um p < 0.05 indica que a distribuição provavelmente NÃO é normal."
+
+- Class: mult_question
+  Output: "Veja o resultado do teste de Shapiro nos dados de PBSP_e. A que conclusão o pesquisador pode chegar?"
+  AnswerChoices: a distribuição é normal;a distribuição não é normal
+  CorrectAnswer: a distribuição é normal
+  AnswerTests: omnitest(correctVal= 'a distribuição é normal')
+  Hint: Se não acertou desta vez, tente a outra opção!
+
+- Class: mult_question
+  Output: "Qual teste então pode ser aplicado aos dados de PBSP_e?"
+  AnswerChoices: t.test();wilcox.test()
+  CorrectAnswer: t.test()
+  AnswerTests: omnitest(correctVal= 't.test()')
+  Hint: Se não acertou desta vez, tente a outra opção!
+
+- Class: mult_question
+  Output: "E sobre o resultado do teste de Shapiro nos dados de SP2010_e?"
+  AnswerChoices: a distribuição não é normal;a distribuição é normal
+  CorrectAnswer: a distribuição não é normal
+  AnswerTests: omnitest(correctVal= 'a distribuição não é normal')
+  Hint: Se não acertou desta vez, tente a outra opção!
+
+- Class: mult_question
+  Output: "Qual teste então pode ser aplicado aos dados de SP2010_e?"
+  AnswerChoices: wilcox.test();t.test()
+  CorrectAnswer: wilcox.test()
+  AnswerTests: omnitest(correctVal= 'wilcox.test()')
+  Hint: Se não acertou desta vez, tente a outra opção!
+
+- Class: cmd_question
+  Output: "Façamos isso. Vamos aplicar o teste-t à distribuição de F1.NORM dos dados de PBSP_e. Em sua forma mais simples, assim como no teste de proporções (Lição 9), pode-se verificar se a média dos dados observados é igual a uma média esperada. Neste caso, a função t.test() tem dois argumentos: (i) o vetor de dados numéricos com os dados observados; e (ii) o argumento mu, que especifica o valor esperado. Suponhamos que um estudo prévio sobre vogais médias pretônicas na fala de paraibanos tenha indicado uma média de 440 Hz para a vogal /e/; vamos usar esse valor para comparação."
+  CorrectAnswer: t.test(PBSP_e$F1.NORM, mu = 440)
+  AnswerTests: omnitest(correctExpr='t.test(PBSP_e$F1.NORM, mu = 440)')
+  Hint: Digite t.test(PBSP_e$F1.NORM, mu = 440) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "Vejamos o resultado de um teste-t. Primeiro o R informa o teste que foi realizado (teste-t de uma amostra) e, logo em seguida, o conjunto de dados (PBSP_e$F1.NORM). A terceira linha informa a medida t, os graus de liberdade e o valor de significância. Isso é paralelo ao teste de qui-quadrado, visto na Lição 9, com a diferença que, em vez de uma tabela de distribuição de qui-quadrado, consulta-se uma tabela de distribuição t. Como variáveis numéricas podem ter um número muito maior de graus de liberdade, ela não é mostrada aqui (como na última lição), mas você pode facilmente encontrá-la na Internet."
+
+- Class: text
+  Output: "Logo em seguida o R enuncia a hipótese alternativa e o intervalo de confiança da distribuição (default = 95%). Se quisesse mudar o intervalo de confiança, bastaria especificar o argumento conf.level. Veja que o intervalo de confiança do teste acima (428.6 Hz a 434.9 Hz) não contém a média esperada (mu = 440), de modo que a hipótese nula (= a média é igual a 440) pode ser rejeitada e a hipótese alternativa (= a média não é igual a 440) pode ser acatada. Por último, o R mostra a média da amostra (431.7 Hz), que é justamente o que havíamos calculado acima para as medidas de F1.NORM da vogal /e/ entre os paraibanos."
+
+- Class: text
+  Output: "Assim como o teste de qui-quadrado, a aplicação do teste-t é extremamente simples. Mas não importa apenas saber como aplicá-lo, mas também QUANDO aplicá-lo (a uma variável numérica) e DE ONDE SAÍRAM as medidas estatísticas." 
+
+- Class: figure
+  Output: "Para sua curiosidade, o valor-t é calculado de acordo com a fórmula que aparece agora em Plots. X-barra é o valor da média da amostra (para nós, estatisticas$media_F1[1]) e mu é a média esperada (aqui, 440); S é o valor de desvio padrão da amostra (estatisticas$desvio_F1[1]) e n é o número de observações." 
+  Figure: mostrarTestet.R
+  FigureType: new
+
+- Class: mult_question
+  Output: "No R, como seria escrita a fórmula da figura de acordo com nossos dados?"
+  AnswerChoices: (estatisticas$media_F1[1] - 440) / (estatisticas$desvio_F1[1] / sqrt(length(PBSP_e$F1.NORM)));(estatisticas$media_F1[1] - 440) / (estatisticas$desvio_F1[1] / sqrt(PBSP));(440 - estatisticas$media_F1[1]) / (estatisticas$desvio_F1[1] / length(PBSP_e$F1.NORM));estatisticas$media_F1[1] - 440 / estatisticas$desvio_F1[1] / sqrt(length(PBSP_e$F1.NORM))
+  CorrectAnswer: (estatisticas$media_F1[1] - 440) / (estatisticas$desvio_F1[1] / sqrt(length(PBSP_e$F1.NORM)))
+  AnswerTests: omnitest(correctVal= '(estatisticas$media_F1[1] - 440) / (estatisticas$desvio_F1[1] / sqrt(length(PBSP_e$F1.NORM)))')
+  Hint: A raiz quadrada, no R, é dada pela função sqrt(). A extensão de um vetor é dada pela função length().
+
+- Class: cmd_question
+  Output: "Execute a linha de comando (estatisticas$media_F1[1] - 440) / (estatisticas$desvio_F1[1] / sqrt(length(PBSP_e$F1.NORM))) para calcular o valor-t."
+  CorrectAnswer: (estatisticas$media_F1[1] - 440) / (estatisticas$desvio_F1[1] / sqrt(length(PBSP_e$F1.NORM)))
+  AnswerTests: omnitest(correctExpr='(estatisticas$media_F1[1] - 440) / (estatisticas$desvio_F1[1] / sqrt(length(PBSP_e$F1.NORM)))')
+  Hint: Digite (estatisticas$media_F1[1] - 440) / (estatisticas$desvio_F1[1] / sqrt(length(PBSP_e$F1.NORM))) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "Compare este valor com o valor-t calculado no teste-t acima. É o mesmo, certo? Quanto aos graus de liberdade, ele é o número de observações - 1. Como há 340 dados de F1.NORM da vogal /e/ para paraibanos, df = 339."
+
+- Class: text
+  Output: "(Para outros tipos de teste-t que veremos adiante, o cálculo do valor-t e dos graus de liberdade é um pouco diferente. Para mais informações, veja http://www.statisticshowto.com/t-test/.)"
+
+- Class: mult_question
+  Output: "Assim como no teste de proporções, é possível estabelecer hipóteses bi ou unidirecionais. Para as vogais médias pretônicas /e/ na fala de migrantes paraibanos, a expectativa é que esses valores se aproximem mais das medidas de F1 dos paulistanos -- vogais relativamente mais altas, ou F1 mais baixo. Neste caso, o pesquisador poderia estabelecer uma hipótese unidirecional: A média de F1.NORM para paraibanos em São Paulo é mais baixa do que a média de F1.NORM para paraibanos não migrantes. No R, como esta hipótese seria colocada da função t.test()?"
+  AnswerChoices: t.test(PBSP_e$F1.NORM, mu = 440, alternative = "less");t.test(PBSP_e$F1.NORM, mu = 440, alternative = "greater");t.test(PBSP_e$F1.NORM, mu = 440, alternative = "two.sided")
+  CorrectAnswer: t.test(PBSP_e$F1.NORM, mu = 440, alternative = "less")
+  AnswerTests: omnitest(correctVal= 't.test(PBSP_e$F1.NORM, mu = 440, alternative = "less")')
+  Hint: Pense mais um pouco!
+
+- Class: cmd_question
+  Output: "Faça agora o teste unidirecional, com alternative = \"less\"."
+  CorrectAnswer: t.test(PBSP_e$F1.NORM, mu = 440, alternative = "less")
+  AnswerTests: omnitest(correctExpr='t.test(PBSP_e$F1.NORM, mu = 440, alternative = "less")')
+  Hint: "Digite t.test(PBSP_e$F1.NORM, mu = 440, alternative = \"less\") e pressione CTRL + ENTER." 
+  
+- Class: text
+  Output: Evidentemente, a escolha de um teste uni ou bidirecional depende de suas questões de pesquisa, hipóteses e expectativas. O conhecimento necessário aí é a sua formação em Linguística!
+
+- Class: cmd_question
+  Output: "Vamos agora aplicar o teste para as vogais dos paulistanos. Lembre-se que, neste caso, como a distribuição não é normal, devemos aplicar o teste de Wilcoxon, cuja função no R é wilcox.test() -- atenção para o nome da função, que é diferente do nome do teste! Como primeiro argumento, use o vetor de dados de F1.NORM de SP2010_e, e como segundo argumento uma média hipotética mu = 410."
+  CorrectAnswer: wilcox.test(SP2010_e$F1.NORM, mu = 410)
+  AnswerTests: omnitest(correctExpr='wilcox.test(SP2010_e$F1.NORM, mu = 410)')
+  Hint: Digite wilcox.test(SP2010_e$F1.NORM, mu = 410) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "O resultado da função wilcox.test() é mais resumido, mas a interpretação é semelhante. O teste nos informa que as médias não são iguais, com probabilidade bem abaixo de p < 0,001. Para esta função, o default é não exibir os valores do intervalo de confiança e a média da amostra; caso queira vê-los, é necessário especificar o argumento conf.int = T. Faça isso agora a partir da linha de comando acima."
+  CorrectAnswer: wilcox.test(SP2010_e$F1.NORM, mu = 410, conf.int = T)
+  AnswerTests: omnitest(correctExpr='wilcox.test(SP2010_e$F1.NORM, mu = 410, conf.int = T)')
+  Hint: Digite wilcox.test(SP2010_e$F1.NORM, mu = 410, conf.int = T) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "Note, contudo, que como se trata de uma distribuição não normal, as estimativas são menos precisas. Assim como na função t.test(), você também poderia estabelecer uma hipótese unidirecional com o argumento alternative, e mudar o intervalo de confiança com o argumento conf.level."
+
+- Class: text
+  Output: "Nos exemplos acima, empregamos uma média esperada mu hipoteticamente vinda de algum estudo prévio, e analisamos os dados de PBSP_e e SP2010_e separadamente. Mas as funções t.test() e wilcox.test() também podem comparar a média e a variância/desvio padrão de dois grupos, como é justamente o nosso caso. Quando se quer comparar dois grupos, o primeiro argumento de ambas as funções é uma fórmula no formato y ~ x, em que y é a variável dependente e x é a variável independente. Memorize essa notação, pois ela será vista novamente mais adiante no curso. Aqui, queremos comparar F1.NORM ~ AMOSTRA. O segundo argumento é o conjunto de dados -- para nós, VOGAL_e." 
+
+- Class: cmd_question
+  Output: "Para decidir qual dos testes aplicar (teste-t ou teste de Wilcoxon), façamos um teste de Shapiro sobre os dados de F1.NORM do subconjunto VOGAL_e."
+  CorrectAnswer: shapiro.test(VOGAL_e$F1.NORM)
+  AnswerTests: omnitest(correctExpr='shapiro.test(VOGAL_e$F1.NORM)')
+  Hint: Digite shapiro.test(VOGAL_e$F1.NORM) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "O teste nos informa que a distribuição dos dados não é normal e, portanto, é mais recomendado aplicar o teste de Wilcoxon. Essa decisão também poderia ter sido tomada pelo simples fato de que sabemos que a distribuição de uma das amostras (a dos paulistanos) não tem distribuição normal."
+
+- Class: cmd_question
+  Output: "Digite então wilcox.test(F1.NORM ~ AMOSTRA, data = VOGAL_e, conf.int = T)."
+  CorrectAnswer: wilcox.test(F1.NORM ~ AMOSTRA, data = VOGAL_e, conf.int = T)
+  AnswerTests: omnitest(correctExpr='wilcox.test(F1.NORM ~ AMOSTRA, data = VOGAL_e, conf.int = T)')
+  Hint: Digite wilcox.test(F1.NORM ~ AMOSTRA, data = VOGAL_e, conf.int = T) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "O resultado de um teste de Wilcoxon de duas amostras (= dois grupos) segue a mesma estrutura que já vimos acima; no entanto, uma diferença é que a estatística gerada é um valor W. Outra é o fato que a medida da comparação não são as médias em si, mas sim se a diferença entre elas é igual ou não a zero. É nesse sentido que se deve entender a hipótese alternativa (true location shift is not equal to 0) e os valores do intervalo de confiança. No teste feito acima, o intervalo de confiança, de 5.18 a 13.21, não contém zero, o que nos leva à rejeição da hipótese nula, com p < 0,001. A medida de estimativa ao final (9.15) é o valor da diferença estimada entre os grupos." 
+- Class: cmd_question
+  Output: "Veja que a estimativa da diferença entre as médias é um pouco diferente da diferença entre a média de PBSP e de SP2010. Digite abaixo estatisticas$media_F1[1] - estatisticas$media_F1[2] para comparar."
+  CorrectAnswer: estatisticas$media_F1[1] - estatisticas$media_F1[2]
+  AnswerTests: omnitest(correctExpr='estatisticas$media_F1[1] - estatisticas$media_F1[2]')
+  Hint: Digite estatisticas$media_F1[1] - estatisticas$media_F1[2] e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "A diferença observada entre as médias é um pouco menor. Como os dados advêm de uma distribuição não normal, o teste de Wilcoxon ajustou a estimativa da diferença."
+
+- Class: cmd_question
+  Output: "Por curiosidade, vamos aplicar a função t.test() ao mesmo conjunto de dados, para familiarização com o resultado fornecido pelo R. Digite t.test(F1.NORM ~ AMOSTRA, data = VOGAL_e)."  
+  CorrectAnswer: t.test(F1.NORM ~ AMOSTRA, data = VOGAL_e)
+  AnswerTests: omnitest(correctExpr='t.test(F1.NORM ~ AMOSTRA, data = VOGAL_e)')
+  Hint: Digite t.test(F1.NORM ~ AMOSTRA, data = VOGAL_e) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "O teste-t de duas amostras também mede a diferença entre as médias e testa a hipótese nula que a diferença é igual a zero. Os valores do intervalo de confiança estimam que a diferença entre as medidas de F1.NORM para paraibanos e paulistanos está entre 4.7 Hz e 12.9 Hz, intervalo que não inclui zero -- daí a diferença entre as médias ser significativa. Ao final, o R apresenta as médias do grupo 1 e do grupo 2."
+
+- Class: mult_question
+  Output: "Assim como fizemos no teste de uma amostra, podemos estabelecer uma hipótese unidirecional. Para as vogais pretônicas /e/ de paraibanos e de paulistanos, pode-se esperar que a média de F1.NORM de paraibanos seja maior que a de paulistanos, ou que a média de F1.NORM de paulistanos seja menor que a de paraibanos. Como você acha que o R determina a direção da comparação?"
+  AnswerChoices: pela ordem dos níveis no dataframe;pela ordem alfabética dos níveis;é uma ordem aleatória, que muda a cada teste
+  CorrectAnswer: pela ordem dos níveis no dataframe
+  AnswerTests: omnitest(correctVal= 'pela ordem dos níveis no dataframe')
+  Hint: Pense mais um pouco!
+    
+- Class: cmd_question
+  Output: Exato! Pela ordem dos níveis, que pode ter sido definida pelo usuário ao importar os dados com read_csv(), ou, caso não tenham sido feitas modificações, a ordem em que os níveis aparecem no dataframe. É importante, portanto, checar a ordem dos níveis de AMOSTRA para bem interpretar o resultado do teste-t. Aplique a função levels() a esse vetor para termos certeza da ordem dos níveis de AMOSTRA.
+  CorrectAnswer: levels(VOGAL_e$AMOSTRA)
+  AnswerTests: any_of_exprs('levels(VOGAL_e$AMOSTRA)', 'levels(pretonicas$AMOSTRA)')
+  Hint: Digite levels(VOGAL_e$AMOSTRA) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Pela ordem no dataframe, o R vai comparar PBSP com SP2010, e não o contrário. Como esperamos que a média de F1.NORM seja maior para PBSP do que para SP2010, devemos estabelecer alternative = \"greater\" nas funções wilcox.test() ou t.test(). Volte à última linha de comando em que usamos a função wilcox.test() e acrescente o argumento alternative = \"greater\"."
+  CorrectAnswer: wilcox.test(F1.NORM ~ AMOSTRA, data = VOGAL_e, conf.int = T, alternative = "greater")
+  AnswerTests: omnitest(correctExpr='wilcox.test(F1.NORM ~ AMOSTRA, data = VOGAL_e, conf.int = T, alternative = "greater")')
+  Hint: Digite wilcox.test(F1.NORM ~ AMOSTRA, data = VOGAL_e, conf.int = T, alternative = "greater") e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "Fizemos isso apenas para que você tenha em conta que sempre pode realizar testes bi ou unidirecionais. Na verdade, o resultado significativo do teste unidirecional era previsível. Lembra-se do exemplo da moeda (Lição 8)? Lá vimos que o teste bidirecional (como era o caso do juiz imparcial) é mais rigoroso para rejeição da hipótese nula do que o teste unidirecional (como era o seu caso). Se a hipótese nula foi rejeitada num teste bidirecional, ela também será no teste unidirecional que prevê a direção dos dados observados."
+
+- Class: text
+  Output: "Um terceiro tipo de teste-t/teste de Wilcoxon é de amostras pareadas. Aqui, permita-me usar um novo conjunto de dados, pois os dados de vogais pretônicas de paraibanos e paulistanos não são adequados para um teste pareado. Vamos usar um exemplo retirado do curso Statistical Inference, do swirl -- outro curso que recomendo fazer --, mas que não tem nada a ver com Linguística, infelizmente. (Se você quiser doar seus dados e ter seus trabalhos divulgados neste curso, estou às ordens...)"
+
+- Class: text
+  Output: "Um exemplo linguístico em que se poderia aplicar um teste-t pareado seria testar a eficácia de determinado método de ensino. Digamos que um grupo de 10 alunos de um curso de inglês fizesse uma prova, depois passasse por uma aula, e em seguida fizesse nova prova sobre o mesmo assunto. O pesquisador quer comparar se o desempenho do aluno -- medido pelas provas -- melhorou depois da aula. O pesquisador tem em mãos 20 notas de provas, mas cada uma dessas notas não é uma observação independente vinda da população. É mais provável que alunos que já tinham tido uma nota boa na primeira prova continuem com uma boa nota na segunda prova. Cada nota da prova 1 está associada a uma nota da prova 2. É aí que cabe fazer uma comparação de médias em que os dados são pareados."
+
+- Class: cmd_question
+  Output: "No conjunto de dados não linguísticos com que vamos trabalhar, tem-se os resultados de um estudo médico sobre o sono, que testa o efeito de duas drogas que foram ministradas a 10 pacientes. Para mais informações, visite <https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/sleep.html>. Este conjunto de dados está disponível no dataframe sleep, que faz parte da instalação base do R. Digite sleep para vê-lo no Console."
+  CorrectAnswer: sleep
+  AnswerTests: omnitest(correctExpr='sleep')
+  Hint: Digite sleep e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "A primeira coluna mostra o resultado obtido após a aplicação das drogas; a segunda coluna indica qual foi a droga (grupo 1 ou grupo 2); e a terceira coluna identifica o paciente (de 1 a 10). Se fizermos simplesmente a média das medições da droga 1 e da droga 2, não podemos saber efetivamente se cada paciente melhorou ou não."
+
+- Class: cmd_question
+  Output: "Para fazer um teste-t pareado, precisamos de dois vetores de mesma extensão e mesma ordem, para que os pares estejam devidamente ordenados. Crie primeiro um vetor chamado g1, com as medições da primeira coluna, das linhas 1 a 10."
+  CorrectAnswer: g1 <- sleep[1:10, 1]
+  AnswerTests: any_of_exprs('g1 <- sleep$extra[1:10]', 'g1 <- sleep[1:10, 1]')
+  Hint: Digite g1 <- sleep[1:10, 1] e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Crie agora um vetor chamado g2, com as medições da primeira coluna, das linhas 11 a 20."
+  CorrectAnswer: g2 <- sleep[11:20, 1]
+  AnswerTests: any_of_exprs('g2 <- sleep[11:20, 1]', 'g2 <- sleep$extra[11:20]')
+  Hint: Digite g2 <- sleep[11:20, 1]
+
+- Class: cmd_question
+  Output: "Aplique o teste de Shapiro a g1 para verificar se a distribuição é normal."
+  CorrectAnswer: shapiro.test(g1)
+  AnswerTests: omnitest(correctExpr='shapiro.test(g1)')
+  Hint: Digite shapiro.test(g1) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Aplique o teste de Shapiro a g2 para verificar se a distribuição é normal."
+  CorrectAnswer: shapiro.test(g2)
+  AnswerTests: omnitest(correctExpr='shapiro.test(g2)')
+  Hint: Digite shapiro.test(g2) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Como ambas as amostras têm distribuição normal, podemos aplicar t.test(). O teste-t pareado toma como argumentos os dois vetores e mais o argumento paired = T. Digite então t.test(g1, g2, paired = T) para ver o resultado."
+  CorrectAnswer: t.test(g1, g2, paired = T)
+  AnswerTests: omnitest(correctExpr='t.test(g1, g2, paired = T)')
+  Hint: Digite t.test(g1, g2, paired = T) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "O R indica que a diferença é significativa, e que a diferença g1 - g2 é em média -1.58. Para comparar, veja o resultado de um teste-t caso não se especificasse que as amostras são pareadas. Digite t.test(g1, g2) -- o que seria o mesmo que t.test(extra ~ group, data = sleep). "
+  CorrectAnswer: t.test(g1, g2)
+  AnswerTests: any_of_exprs('t.test(g1, g2)', 't.test(extra ~ group, data = sleep)')
+  Hint: Digite t.test(g1, g2) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "Neste caso, o intervalo de confiança vai de -3.37 a 0.21, um intervalo que inclui o zero, de modo que a diferença entre as amostras poderia ter sido nula. A significância reflete isso: o valor-p calculado está acima de 0.05. Veja que deixar de especificar o fato de que os dados são pareados pode mudar o resultado do teste: no primeiro caso, o teste indicou que houve diferença, e no segundo caso não."
+
+- Class: text
+  Output: "Ao reportar os resultados de um teste-t ou teste de Wilcoxon, é importante indicar qual medida estatística foi gerada (t ou W), os graus de liberdade, o valor-p, o tipo de teste (uma amostra, duas amostras, duas amostras pareadas), se o teste foi uni ou bicaudal, junto com os valores de médias e de erro padrão de cada distribuição. Não há uma função específica na instalação base do R para calcular o erro padrão, mas ele é facilmente calculável. Como vimos na Lição 6, essa medida é o valor do desvio padrão dividido pela raiz quadrada do número de observações -- no R: sd(x)/sqrt(length(x)). O resultado do teste de Wilcoxon sobre a diferença entre a média de F1.NORM entre as amostras pode ser assim reportado: \"Um teste de Wilcoxon bicaudal foi feito para comparar as médias de F1 normalizadas da vogal pretônica /e/ nas amostras de paraibanos e de paulistanos. Em média, a vogal /e/ de paraibanos é significativamente mais baixa (média = 431,7Hz, erro padrão = 1,60) do que a de paulistanos (média = 423Hz, erro padrão = 1,33), W = 70.330, p < 0,001.\"."
+
+- Class: mult_question
+  Output: "Vamos fazer uma pequena revisão antes de concluir esta lição. Quando se aplica um teste-t ou teste de Wilcoxon?"
+  AnswerChoices: quando se tem uma variável numérica e se quer comparar as médias de dois grupos;quando se tem uma variável nominal e se quer comparar as médias de dois grupos;quando se tem uma variável fatorial e se quer comparar as médias de dois grupos
+  CorrectAnswer: quando se tem uma variável numérica e se quer comparar as médias de dois grupos
+  AnswerTests: omnitest(correctVal= 'quando se tem uma variável numérica e se quer comparar as médias de dois grupos')
+  Hint: Pense mais um pouco!
+
+- Class: mult_question
+  Output: "Quando se aplica um teste-t (e não um teste de Wilcoxon)?"
+  AnswerChoices: quando a distribuição dos dados segue a distribuição normal;quando a distribuição dos dados não segue a distribuição normal;quando a distribuição dos dados segue a distribuição binomial;quando a distribuição dos dados segue a distribuição de qui-quadrado
+  CorrectAnswer: quando a distribuição dos dados segue a distribuição normal
+  AnswerTests: omnitest(correctVal= 'quando a distribuição dos dados segue a distribuição normal')
+  Hint: Pense mais um pouco!
+
+- Class: mult_question
+  Output: "Além da inspeção de histogramas, como se pode determinar se uma distribuição é normal?"
+  AnswerChoices: por meio do teste de Shapiro, com a função shapiro.test();por meio do teste de Wilcoxon, com a função wilcox.test();por meio do teste-t, com a função t.test()
+  CorrectAnswer: por meio do teste de Shapiro, com a função shapiro.test()
+  AnswerTests: omnitest(correctVal= 'por meio do teste de Shapiro, com a função shapiro.test()')
+  Hint: Pense mais um pouco!
+
+- Class: mult_question
+  Output: "Quando se aplica um teste-t/teste de Wilcoxon de uma amostra?"
+  AnswerChoices: quando se quer comparar uma distribuição com uma média conhecida;quando se quer comparar as distribuições entre dois grupos diferentes de nossos dados;quando se quer comparar as distribuições entre dois grupos pareados de nossos dados
+  CorrectAnswer: quando se quer comparar uma distribuição com uma média conhecida
+  AnswerTests: omnitest(correctVal= 'quando se quer comparar uma distribuição com uma média conhecida')
+  Hint: Pense mais um pouco!
+
+- Class: mult_question
+  Output: "Quando se aplica um teste-t/teste de Wilcoxon de duas amostras?"
+  AnswerChoices: quando se quer comparar as distribuições entre dois grupos diferentes de nossos dados;quando se quer comparar uma distribuição com a uma média conhecida;quando se quer comparar as distribuições entre dois grupos pareados de nossos dados
+  CorrectAnswer: quando se quer comparar as distribuições entre dois grupos diferentes de nossos dados
+  AnswerTests: omnitest(correctVal= 'quando se quer comparar as distribuições entre dois grupos diferentes de nossos dados')
+  Hint: Pense mais um pouco!
+
+- Class: mult_question
+  Output: "Quando se aplica um teste-t/teste de Wilcoxon pareado?"
+  AnswerChoices: quando se quer comparar as distribuições entre dois grupos pareados de nossos dados;quando se quer comparar as distribuições entre dois grupos diferentes de nossos dados;quando se quer comparar uma distribuição com a uma média conhecida
+  CorrectAnswer: quando se quer comparar as distribuições entre dois grupos pareados de nossos dados
+  AnswerTests: omnitest(correctVal= 'quando se quer comparar as distribuições entre dois grupos pareados de nossos dados')
+  Hint: Pense mais um pouco!
+
+- Class: text
+  Output: "Recomendo a leitura de Dalgaard (2008: cap 5) e de Levshina (2015, cap 5) para reforçar os conceitos aqui aprendidos. Faça também os exercícios correspondentes a esta lição!"

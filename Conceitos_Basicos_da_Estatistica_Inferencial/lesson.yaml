@@ -1,0 +1,329 @@
+- Class: meta
+  Course: Introducao_a_Estatistica_para_Linguistas
+  Lesson: Conceitos Basicos da Estatistica Inferencial
+  Author: Livia Oushiro
+  Type: Standard
+  Organization: UNICAMP
+  Version: 2.4.2
+
+- Class: figure
+  Output: "Nesta lição, vamos tratar de alguns conceitos centrais da Estatística Inferencial: HIPÓTESE ALTERNATIVA e HIPÓTESE NULA; DISTRIBUIÇÃO NORMAL; SIGNIFICÂNCIA; ERROS DO TIPO I e DO TIPO II; e INTERVALO DE CONFIANÇA."
+  Figure: Licao08-background.R
+  FigureType: new
+  
+- Class: figure
+  Output: "Até agora, fizemos tabelas e gráficos de dados de variáveis nominais, ordinais e numéricas. Reproduzo um desses gráficos na aba Plots: a proporção de apagamento de /r/ pós-vocálico em lojas de departamento de Nova Iorque na década de 1960, com base nos dados de Labov (1972). Vimos que houve menos r0 entre os funcionários da Saks, um pouco mais na Macy's, e mais ainda na S. Klein. Em nenhuma loja houve 0% ou 100% da variante 'apagamento de /r/'."
+  Figure: Labov-store.R
+  FigureType: new
+
+- Class: figure
+  Output: "Aqui está outro gráfico que plotamos anteriormente: a distribuição das vogais pretônicas nas amostras de falantes paraibanos e paulistanos residentes em São Paulo. Vemos que há diferenças entre as vogais e entre os dois grupos de falantes, mas que também há muita sobreposição no intervalo de F1 para cada vogal. Há dados, por exemplo, de /o/ cujas medidas de F1 são tão baixas quanto as de vogais /a/."
+  Figure: vogais-bp.R
+  FigureType: new
+
+- Class: text
+  Output: "Quando se lida com dados reais, inevitavelmente se depara com a variação. Há uma série de fenômenos no mundo -- e na língua! -- que não são categóricos. E, quando se trata de variação, sempre há um grau de incerteza. Quem vai ganhar a próxima eleição? Será que hoje vai chover?" 
+
+- Class: text
+  Output: "O fato de que há variação no mundo, contudo, não implica que tudo seja caótico, regido pelo puro acaso e aleatoriedade. Mesmo nos casos em que determinado resultado não seja 100% certo, podemos estimar PROBABILIDADES. As pesquisas de intenção de voto antes de uma eleição e a previsão diária do tempo são exemplos disso." 
+
+- Class: text
+  Output: "Nos dados de vogais pretônicas, vemos que as vogais médias /e/ e /o/ são mais baixas na fala de paraibanos do que na de paulistanos. Mas com tanta variação e sobreposição de medições, uma pergunta que se coloca é: será que isso aconteceu por acaso? Será que, em outro conjunto de dados, a distribuição de F1 dessas vogais poderia ter sido igual, ou quiçá se observassem vogais mais baixas entre paulistanos? Uma primeira resposta para essas perguntas é: sim, isso é POSSÍVEL. Mas quão PROVÁVEL isso é?"
+
+- Class: text
+  Output: "Em pesquisas científicas, levantamos hipóteses a serem testadas. Para que hipóteses possam ser colocadas à prova, elas precisam se configurar como uma afirmação que se refere a mais do que um único evento e precisam ser falseáveis (Gries 2013:11). A primeira dessas características parece ser autoevidente. Se uma hipótese não é generalizável para além de uma única observação, ela é de pouco uso para ser testada."
+
+- Class: text
+  Output: "A falseabilidade diz respeito à própria possibilidade de colocar a hipótese à prova e refutá-la. Por exemplo, a seguinte afirmação pode ser falseada: \"Alunos universitários cotistas têm desempenho escolar tão bom quanto ou melhor do que de alunos universitários não cotistas\"."
+
+- Class: text
+  Output: "A hipótese acima é chamada de H1 ou hipótese alternativa. A ela, opõe-se a H0, ou hipótese nula. A hipótese nula é normalmente formulada com a negação de H1. Neste exemplo, H0 seria \"Alunos universitários cotistas não têm desempenho escolar tão bom quanto ou melhor do que de alunos universitários não cotistas\"."
+
+- Class: text
+  Output: "H1 + H0 devem abarcar todos os resultados possíveis. Se algum cenário ou resultado não é previsto nem por H1 nem por H0, a hipótese está mal formulada. Em um levantamento sobre o desempenho escolar de cotistas e não cotistas, só há três resultados possíveis: (i) cotistas têm melhor desempenho do que não cotistas; (ii) cotistas têm desempenho tão bom quanto de não cotistas; (iii) cotistas têm desempenho pior do que não cotistas. Todos esses cenários estão cobertos em H1 + H0."
+  
+- Class: text
+  Output: "By the way: diversos estudos, com base no método científico, demonstram que alunos cotistas têm desempenho tão bom quanto ou melhor do que não cotistas."
+
+- Class: text
+  Output: "H1 e H0 são formuladas como afirmações categóricas para que sejam falseáveis. Mas, como vimos, a realidade dos dados nem sempre (na verdade, quase nunca) é categórica."
+
+- Class: text
+  Output: "Vejamos um exemplo cotidiano para ver H1 e H0 em ação. O exemplo a seguir é adaptado de Gries (2013: 29ss). Imagine que decidimos jogar cara e coroa. Eu sou cara e você é coroa, ok? Para tornar as coisas mais interessantes, apostamos dinheiro: toda vez que cair cara, você me dá 5 reais; toda vez que cair coroa, eu te dou 5 reais. Estabelecemos de antemão que a moeda será jogada 100 vezes."
+
+- Class: text
+  Output: "Digamos que, ao final de 100 jogadas, eu tenha ganhado 52 vezes e você 48. Você diria que eu roubei?"
+
+- Class: text
+  Output: "E se eu tivesse ganhado 54 vezes e você 46?"
+
+- Class: text
+  Output: "E se eu tivesse ganhado 60 vezes e você 40?"
+
+- Class: text
+  Output: "Não há um limite absolutamente exato para decidir que alguém está roubando num jogo da moeda. Mas o ponto aqui é: a depender do resultado, você ia desconfiar seriamente de que eu roubei. Você nem coloca em questão o cenário oposto -- você estar roubando, pois você, que é honesto, sabe que não está roubando. Se eu tivesse ganhado 90 vezes e você apenas 10, acho muito difícil que você pensasse: \"Puxa, como ela é sortuda!...\". E o motivo disso é simples: embora 90 vs 10 seja um resultado POSSÍVEL, ele é muito pouco PROVÁVEL."
+  
+- Class: cmd_question
+  Output: "Pare um pouco para pensar a partir de qual resultado você acharia que estou roubando (55? 60? 62?...). Digite esse número abaixo, atribuindo-o a uma variável chamada x." 
+  CorrectAnswer: x <- 60
+  AnswerTests: any_of_exprs('x<-51', 'x<-52', 'x<-53', 'x<-54', 'x<-55', 'x<-56', 'x<-57', 'x<-58', 'x<-59', 'x<-60', 'x<-61', 'x<-62', 'x<-63', 'x<-64', 'x<-65', 'x<-66', 'x<-67', 'x<-68', 'x<-69', 'x<-70', 'x<-71', 'x<-72', 'x<-73', 'x<-74', 'x<-75', 'x<-76', 'x<-77', 'x<-78', 'x<-79', 'x<-80', 'x<-81', 'x<-82', 'x<-83', 'x<-84', 'x<-85', 'x<-86', 'x<-87', 'x<-88', 'x<-89', 'x<-90', 'x<-91', 'x<-92', 'x<-93', 'x<-94', 'x<-95', 'x<-96', 'x<-97', 'x<-98', 'x<-99', 'x<-100')
+  Hint: Digite um número entre 51 e 100 e o atribua a uma variável chamada x.
+
+- Class: text
+  Output: "Você está efetivamente estabelecendo uma hipótese: minha oponente está roubando no jogo de moeda! Esta é a hipótese alternativa, H1. A hipótese nula afirma o contrário: minha oponente NÃO está roubando."
+
+- Class: figure
+  Output: "A beleza na Estatística está no desenvolvimento de métodos para calcular essas probabilidades. Vamos simplificar nosso jogo da moeda de 100 para 3 jogadas para facilitar a demonstração. Em três jogadas de moeda, há no total 8 resultados possíveis, discriminados na figura que acabei de abrir em Plots (Gries 2013: 34). "
+  Figure: mostrar-Gries.R
+  FigureType: new
+
+- Class: text
+  Output: "Considerando que a moeda é honesta, não viciada, a probabilidade de cada um dos 8 resultados ocorrer é 1 / 8 = 0,125. Com isso é fácil computar a probabilidade de cada resultado final: a probabilidade de 3 caras e 0 coroas (ou de 0 caras e 3 coroas) é 0,125; a probabilidade de 2 caras e 1 coroa (ou 1 cara e 2 coroas) é 3 * 0,125 = 0,375."
+
+- Class: cmd_question
+  Output: "É fácil calcular à mão quais são todos os resultados possíveis de três jogadas de moeda, mas ficaria mais difícil fazer isso em um número maior de jogadas. Para 100 jogadas, o total de possíveis resultados é 2 ^ 100 (em que `^` representa 'elevado a'). Faça esse cálculo no R agora."
+  CorrectAnswer: 2 ^ 100
+  AnswerTests: omnitest(correctExpr='2 ^ 100')
+  Hint: Digite 2 ^ 100 e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "Esse é um número com tantos dígitos que o R fornece o resultado em `notação e`: 1.267651e+30, que equivale a 1,267651 * (10 ^ 30). Já é difícil fazer sentido desse número -- quem dirá calcular as probabilidades de cada um desses possíveis resultados! Mas é claro que o R tem uma função para fazer esse cálculo."
+
+- Class: cmd_question
+  Output: "Os resultados de um jogo de cara ou coroa seguem uma distribuição binomial, pois há dois resultados possíveis. Uma função para calcular probabilidades dentro de uma distribuição binomial é dbinom(). Em uma forma simples, ela toma como argumentos (i) o número de sucessos de uma variável binária (p.ex., 3 caras); (ii) o número de tentativas; (iii) a probabilidade de se ter aquele resultado em uma tentativa (para a moeda, 50%, ou 0,5). Digite então dbinom(3, 3, 0.5) para ver o resultado."
+  CorrectAnswer: dbinom(3, 3, 0.5)
+  AnswerTests: omnitest(correctExpr='dbinom(3, 3, 0.5)')
+  Hint: Digite dbinom(3, 3, 0.5) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "O R informa que a probabilidade de se ter 3 caras em 3 jogadas de moeda, em que a probabilidade de cara é 0.5, é 0,125 -- exatamente como calculamos acima. Podemos também pedir que o R calcule a probabilidade de todos os resultados possíveis -- de 0 a 3 caras (o que também cobre os resultados de se ter 3 a 0 coroas). Digite dbinom(0:3, 3, 0.5) para ver o resultado."
+  CorrectAnswer: dbinom(0:3, 3, 0.5)
+  AnswerTests: omnitest(correctExpr='dbinom(0:3, 3, 0.5)')
+  Hint: Digite dbinom(0:3, 3, 0.5) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "O R mostra, em ordem, qual é a probabilidade de se ter 0 cara, 1 cara, 2 caras e 3 caras. Que tal colocar isso num gráfico? Já vimos que é mais fácil compreender elementos gráficos do que textuais. Vamos usar aqui a função barplot(), da instalação base do R, para você também conhecê-la (e ver que o resultado é bem mais feinho que os gráficos do ggplot2, mas ele já vai dar conta do recado). Como primeiro argumento, use a função dbinom() do modo como especificamos acima. Como segundo argumento, use beside = T, para que as barras fiquem lado a lado."
+  CorrectAnswer: barplot(dbinom(0:3, 3, 0.5), beside = T)
+  AnswerTests: omnitest(correctExpr='barplot(dbinom(0:3, 3, 0.5), beside = T)')
+  Hint: Digite barplot(dbinom(0:3, 3, 0.5), beside = T) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "As barras representam, da esquerda para a direita, os valores 0.125, 0.375, 0.375 e 0.125 computados acima para a probabilidade de 0, 1, 2, e 3 caras respectivamente."
+
+- Class: cmd_question
+  Output: "Vamos agora visualizar quais são as probabilidades de se ter de 0 a 6 caras em 6 jogadas de moeda. A partir da linha de comando acima, substitua os dois '3' por '6' para obter barplot(dbinom(0:6, 6, 0.5), beside = T)."
+  CorrectAnswer: barplot(dbinom(0:6, 6, 0.5), beside = T)
+  AnswerTests: omnitest(correctExpr='barplot(dbinom(0:6, 6, 0.5), beside = T)')
+  Hint: Digite barplot(dbinom(0:6, 6, 0.5), beside = T) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Faça o mesmo para 12 jogadas de moeda. A partir da linha de comando acima, substitua '6' por '12'."
+  CorrectAnswer: barplot(dbinom(0:12, 12, 0.5), beside = T)
+  AnswerTests: omnitest(correctExpr='barplot(dbinom(0:12, 12, 0.5), beside = T)')
+  Hint: Digite barplot(dbinom(0:12, 12, 0.5), beside = T) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Faça o mesmo para 25 jogadas de moeda para computar todas as probabilidades de 0 a 25 caras."
+  CorrectAnswer: barplot(dbinom(0:25, 25, 0.5), beside = T)
+  AnswerTests: omnitest(correctExpr='barplot(dbinom(0:25, 25, 0.5), beside = T)')
+  Hint: Digite barplot(dbinom(0:25, 25, 0.5), beside = T) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Faça o mesmo para 50 jogadas de moeda para computar todas as probabilidades de 0 a 50 caras."
+  CorrectAnswer: barplot(dbinom(0:50, 50, 0.5), beside = T) 
+  AnswerTests: omnitest(correctExpr='barplot(dbinom(0:50, 50, 0.5), beside = T)')
+  Hint: Digite barplot(dbinom(0:50, 50, 0.5), beside = T) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Faça o mesmo para 100 jogadas de moeda para computar todas as probabilidades de 0 a 100 caras."
+  CorrectAnswer: barplot(dbinom(0:100, 100, 0.5), beside = T)
+  AnswerTests: omnitest(correctExpr='barplot(dbinom(0:100, 100, 0.5), beside = T)')
+  Hint: Digite barplot(dbinom(0:100, 100, 0.5), beside = T) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Faça o mesmo para 1000 jogadas de moeda para computar todas as probabilidades de 0 a 1000 caras."
+  CorrectAnswer: barplot(dbinom(0:1000, 1000, 0.5), beside = T)
+  AnswerTests: omnitest(correctExpr='barplot(dbinom(0:1000, 1000, 0.5), beside = T)')
+  Hint: Digite barplot(dbinom(0:1000, 1000, 0.5), beside = T) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "Ok! Acho que deu pra pegar a ideia. Esses gráficos te lembram alguma coisa?"
+
+- Class: text
+  Output: "Sim! Trata-se da distribuição normal, que vimos em lições anteriores. Reveja os gráficos plotados na aba Plots por meio das flechas pra esquerda e pra direita. À medida que acrescentamos mais tentativas (3, 6, 12, 25 etc.), o gráfico de probabilidades se aproxima cada vez mais da distribuição normal, também conhecida como curva em forma de sino ou curva gaussiana."
+
+- Class: text
+  Output: "Veja o eixo y da figura em plotamos a probabilidade de 0 a 1000 caras em 1000 jogadas de moeda. A maior probabilidade -- que é resultado de 500 caras em 1000 jogadas -- está em torno de 0,025 (2,5%). Neste ponto, cada uma das probabilidades é pequena."
+
+- Class: cmd_question
+  Output: "Não importa qual é o número N de tentativas, a soma de todas as probabilidades 0:N é 1. Faça essa checagem: aplique a função sum() ao cálculo das probabilidades de 0 a 3 caras em 3 tentativas. Digite sum(dbinom(0:3, 3, 0.5))."
+  CorrectAnswer: sum(dbinom(0:3, 3, 0.5))
+  AnswerTests: omnitest(correctExpr='sum(dbinom(0:3, 3, 0.5))')
+  Hint: Digite sum(dbinom(0:3, 3, 0.5)) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Faça o mesmo agora para o cálculo de probabilidades de 0 a 100 caras em 100 tentativas. A partir da linha de comando acima, teste sum(dbinom(0:100, 100, 0.5))."
+  CorrectAnswer: sum(dbinom(0:100, 100, 0.5))
+  AnswerTests: omnitest(correctExpr='sum(dbinom(0:100, 100, 0.5))')
+  Hint: Digite sum(dbinom(0:100, 100, 0.5)) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "Ambos os resultados são 1. E é claro que tem que ser! 1 equivale a 100%, e é certeza de que um dos resultados vai ser um dos resultados possíveis. Isso te parece uma obviedade? Acompanhe o raciocínio, porque isso vai ter consequências importantes para o cálculo de probabilidades." 
+
+- Class: text
+  Output: "Podemos então estipular que a área total da figura que se forma pela distribuição binomial é 1 (ou 100%). Vemos também que as menores probabilidades se encontram nos extremos da distribuição, também chamados de 'caudas'. Você consegue imaginar que o resultado de ter 90 caras em 100 jogadas de moeda está na cauda superior da distribuição, certo?"
+
+- Class: figure
+  Output: "Imagine então se fizermos um corte vertical a partir da probabilidade de ter 90 caras. Exemplifico isso na figura que acabou de abrir em Plots. Neste ponto, as probabilidades são tão pequenas que parecem ser zero -- mas não são! É possível calcular a probabilidade de ter 90 caras ou mais, em 100 jogadas, fazendo o cálculo da área que vai de 90 até 100, concorda? Isso nada mais é do que a soma de todas as probabilidades a partir daquele ponto."
+  Figure: figura-90-100.R
+  FigureType: new
+
+- Class: cmd_question
+  Output: "Calculemos isso no R. A partir da linha de comando acima, em vez de colocar 0:100 no primeiro argumento, vamos colocar 90:100, para obter sum(dbinom(90:100, 100, 0.5))."
+  CorrectAnswer: sum(dbinom(90:100, 100, 0.5))
+  AnswerTests: omnitest(correctExpr='sum(dbinom(90:100, 100, 0.5))')
+  Hint: Digite sum(dbinom(90:100, 100, 0.5)) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "A probabilidade de ter qualquer resultado entre 90 e 100 caras, em 100 jogadas de moeda, é 1.531645e-17, que o R novamente nos dá em notação e. Veja que, neste caso, o valor após 'e' ('elevado a') é negativo. Esse número equivale a 1,531645 x (10 ^ -17). Quando elevamos um número a uma potência negativa, ele se torna um número menor do que 1. Em termos práticos, esse número é 0,0000.... com 16 zeros após a vírgula e terminado em 1531645! Você pode pensar assim: o número negativo é o número de zeros, incluindo aquele antes da vírgula. Ou você ainda pode pensar: esse é um número absurdamente pequeno!!! (Veja também: <http://www.miniwebtool.com/scientific-notation-to-decimal-converter/>)"
+
+- Class: text
+  Output: "Ou seja, não só a probabilidade de ter 90 caras em 100 jogadas é pequena, mas também a soma de todas as probabilidades entre 90 e 100 é infinitesimalmente pequena. É esse conhecimento intuitivo que te faz desconfiar que um resultado de 90 caras em 100 jogadas, caso ocorresse, provavelmente não é fruto do acaso, e que te faz concluir, portanto, que sua oponente deve estar roubando!! A probabilidade de isso acontecer POR PURO ACASO é tão pequena que você é levado a rejeitar a hipótese nula ('minha oponente não está roubando') e aceitar a hipótese alternativa ('minha oponente está roubando'). Essa probabilidade calculada é chamada de VALOR-P, ou VALOR DE SIGNIFICÂNCIA."
+
+- Class: text
+  Output: "Uma probabilidade de 1.531645e-17 é tão pequena que logo a descartamos como extremamente improvável. Façamos agora o raciocínio inverso: a partir de qual probabilidade você consideraria algo muito pouco provável? A partir de 0.01%? 0.1%? 1%? 2%?"
+
+- Class: text
+  Output: "Não há um número certo aí. Mas, convencionalmente, a comunidade científica costuma usar o limite de 5% para considerar algo como muito pouco provável para acontecer ao acaso. Isso é chamado de nível \u03B1: o limite estabelecido pelo pesquisador para rejeitar a hipótese nula. (Note que, se ele é estabelecido pelo pesquisador, ele não necessariamente precisa ser 5%; você pode estabelecer um limite mais baixo, i.e., um teste mais rigoroso, antes de rejeitar a hipótese nula. O importante é respeitar o limite que você impôs, não mudá-lo de acordo com os resultados!)"
+
+- Class: cmd_question
+  Output: "É possível também fazer o cálculo inverso ao que fizemos acima: se eu estabelecer um nível alfa de 5%, a partir de qual resultado eu devo rejeitar H0 de que minha oponente não está roubando e aceitar H1? No R, isso pode ser calculado com a função qbinom(). Digite qbinom(0.05, 100, 0.5, lower.tail = F)."
+  CorrectAnswer: qbinom(0.05, 100, 0.5, lower.tail = F)
+  AnswerTests: any_of_exprs('qbinom(0.05, 100, 0.5, lower.tail = F)', 'qbinom(0.05, 100, 0.5, lower.tail = FALSE)')
+  Hint: Digite qbinom(0.05, 100, 0.5, lower.tail = F) e pressione CTRL + ENTER.
+
+- Class: figure
+  Output: "Na linha de comando acima, o que inserimos foi: o nível alfa estabelecido (0.05), o número de tentativas (100), a probabilidade de o evento ocorrer (0.5) e para ignorar a cauda inferior da distribuição (só estamos atentando à cauda superior). O resultado é 58. Isso significa que a soma de todas as probabilidades de ocorrerem 58 caras ou mais é 5% -- ou seja, já é bem baixa EM CASO DE A HIPÓTESE NULA SER VERDADEIRA (= de sua oponente não estar roubando). Tal ponto é marcado na figura que abriu em Plots, por meio da linha azul."
+  Figure: figura-58-100.R
+  FigureType: new
+
+- Class: cmd_question
+  Output: "Como esse número - 58 - se compara com o valor que você estabeleceu quando pedi para que estipulasse um valor a partir do qual você consideraria que estou roubando? Para saber o nível alfa que você estabeleceu para este teste, faça a soma das probabilidades de se obter de x a 100 caras, em 100 jogadas, quando a probabilidade de se ter cara é 50%, com uso de sum() e dbinom()." 
+  CorrectAnswer: sum(dbinom(x:100, 100, 0.5))
+  AnswerTests: omnitest(correctExpr='sum(dbinom(x:100, 100, 0.5))')
+  Hint: Digite sum(dbinom(x:100, 100, 0.5)).
+
+- Class: figure
+  Output: "Se você estabeleceu um valor mais alto do 58, você queria ter muita certeza de que eu não estava roubando antes de sair fazendo acusações! Em outras palavras, você estabeleceu um nível alfa mais rigoroso, abaixo de 5%. Se você estabeleceu um valor mais baixo do 58, o nível alfa foi menos rigoroso, acima de 5%. Este ponto está ilustrado na figura em Plots com a linha vermelha"
+  Figure: figura-x-100.R
+  FigureType: new
+  
+- Class: mult_question
+  Output: "Neste exemplo, em que você é um dos jogadores e você SABE que não está roubando, sua hipótese só investigou a possibilidade de que EU pudesse estar roubando. Imagine agora outra situação: e se houver um juiz imparcial que está observando nossas jogadas? A partir de que ponto essa pessoa poderia começar a desconfiar de que um dos jogadores está roubando? Seria o mesmo limite (= 58 caras ou 58 coroas)?"
+  AnswerChoices: Sim;Não;Não faço ideia!
+  CorrectAnswer: Não
+  AnswerTests: omnitest(correctVal= 'Não')
+  Hint: Tente achar a resposta!
+  
+- Class: text
+  Output: "Pois é, o limite não seria o mesmo. Da perspectiva de uma terceira pessoa, é necessário olhar para ambos os lados da distribuição. Se o nível alfa estabelecido permanecer 5%, há que se levar em conta 2.5% da cauda inferior e 2.5% da cauda superior (os resultados menos prováveis tanto de um lado quanto de outro)."
+
+- Class: cmd_question
+  Output: "Vamos fazer esse cálculo. A partir de uma das linhas de comando acima, em que usamos a função qbinom(), digite qbinom(0.025, 100, 0.5, lower.tail = T), para verificar a cauda inferior."
+  CorrectAnswer: qbinom(0.025, 100, 0.5, lower.tail = T)
+  AnswerTests: any_of_exprs('qbinom(0.025, 100, 0.5, lower.tail = T)', 'qbinom(0.025, 100, 0.5, lower.tail = TRUE)')
+  Hint: Digite qbinom(0.025, 100, 0.5, lower.tail = T) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "E digite qbinom(0.025, 100, 0.5, lower.tail = F), para verificar a cauda superior."
+  CorrectAnswer: qbinom(0.025, 100, 0.5, lower.tail = F)
+  AnswerTests: any_of_exprs('qbinom(0.025, 100, 0.5, lower.tail = F)', 'qbinom(0.025, 100, 0.5, lower.tail = FALSE)')
+  Hint: Digite qbinom(0.025, 100, 0.5, lower.tail = F) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "O R deu os resultados 40 e 60. No jogo da moeda, isso quer dizer que somente a partir de um resultado de 40 caras e 60 coroas (ou vice-versa) é que se poderia rejeitar a hipótese nula e assumir que um dos jogadores está roubando."
+
+
+- Class: figure
+  Output: "Este último é chamado de um teste BIDIRECIONAL, e o teste anterior (em que você sabe que não está roubando) foi UNIDIRECIONAL. Ambos estão ilustrados na figura em Plots. No teste unidirecional, é mais fácil rejeitar H0: veja que, nesse teste, é possível rejeitar H0 a partir de 58 caras (de 100), enquanto no teste bidirecional só é possível rejeitar H0 a partir de 60 caras (de 100)."
+  Figure: figura-bidirecional.R
+  FigureType: new
+
+
+- Class: text
+  Output: "Quando se aplica um teste uni ou bidirecional? No exemplo da moeda, você tinha o conhecimento prévio de que não estava roubando e, portanto, se alguém estava fazendo isso, só poderia ser eu. No caso de um juiz imparcial, ele não pode saber se qualquer dos jogadores está roubando, e precisa ficar atento a ambas as possibilidades. A lição aqui é o fato de que conhecimento prévio compensa. Se você tem boas evidências - a partir da literatura sobre o assunto, por exemplo - de que determinado fenômeno ocorre de certa maneira, você pode rejeitar de antemão certos cenários."
+
+- Class: text
+  Output: "Vamos pensar num exemplo linguístico. Para as vogais médias pretônicas /e/ e /o/ (em palavras como 'relógio' e 'romã') -- ver lições anteriores! --, temos, pela literatura, que paraibanos têm realização mais baixa (= F1 mais alto) do que a dos paulistanos. Neste caso, há boas evidências para que um pesquisador estabeleça, como H1, que os paraibanos residentes em São Paulo terão medidas de F1 mais altas do que para falantes paulistanos. Essa é uma hipótese unidirecional, que já estabelece de antemão a direção da diferença, se houver."
+
+- Class: text
+  Output: "O que torna possível aplicar os mesmos cálculos no exemplo da moeda e em vogais pretônicas? É a distribuição normal! Você se lembra da forma da distribuição das medidas de F1 da vogal /e/ pretônica para paraibanos (Lição 7)? As mesmas propriedades aqui discutidas são válidas para diversos outros fenômenos variáveis no mundo."
+
+- Class: video
+  Output: Antes de prosseguir, vejamos um quadrinho do xkcd. Você quer visitar esta página agora? 
+  VideoLink: https://xkcd.com/882/
+  
+- Class: text
+  Output: "O quadrinho bem exemplifica o conceito de significância, assim como um problema para as análises estatísticas que decorrem do próprio conceito. Vimos que significância é a probabilidade de se observar determinada distribuição em caso de a hipótese nula ser verdadeira. Certas distribuições são tão improváveis que rejeitamos a hipótese nula e acatamos a hipótese alternativa."
+
+- Class: text
+  Output: "Contudo, trata-se de uma medida de PROBABILIDADE. Isso significa que sempre há uma chance de que nossas conclusões foram errôneas. Se se estabelece um nível alfa de 5%, existe uma probabilidade de que chegamos a conclusões equivocadas em média 5% das vezes, ou 1 em 20. O número de conclusões equivocadas tende a aumentar quanto mais testes realizamos -- se realizamos 100 testes estatísticos, com nível alfa 5%, as chances são de que 5 dos nossos resultados incorretamente rejeitaram a hipótese nula."
+
+- Class: text
+  Output: "Esse tipo de erro é chamado de ERRO DO TIPO I, que se refere à rejeição incorreta da hipótese nula. Trata-se de um falso positivo: encontramos um efeito que não existe de fato. Um problema é que não há como identificar qual ou quais dos resultados são falsos, uma vez que se trata de probabilidade."
+
+- Class: text
+  Output: "Um problema correlato é fazer o oposto: erroneamente acatar a hipótese nula e não assumir a hipótese alternativa. Isso é chamado de ERRO DO TIPO II, que se refere a um falso negativo: não encontramos um efeito que existe de fato. Novamente, não temos como saber quais dos múltiplos testes aplicados geraram uma conclusão errônea."
+
+- Class: mult_question
+  Output: O que seria um exemplo de Erro do Tipo I?
+  AnswerChoices: num tribunal, condenar um réu inocente;numa sala de aula, não reprovar um aluno que colou na prova;as duas situações descritas
+  CorrectAnswer: num tribunal, condenar um réu inocente
+  AnswerTests: omnitest(correctVal= 'num tribunal, condenar um réu inocente')
+  Hint: O Erro do Tipo I se refere a um falso positivo.
+
+- Class: mult_question
+  Output: O que seria um exemplo de Erro do Tipo II?
+  AnswerChoices: numa fábrica de automóveis, enviar para venda um carro com falha no airbag;num laboratório, identificar como HIV positivo um paciente que não tem o vírus HIV;as duas situações descritas
+  CorrectAnswer: numa fábrica de automóveis, enviar para venda um carro com falha no airbag
+  AnswerTests: omnitest(correctVal= 'numa fábrica de automóveis, enviar para venda um carro com falha no airbag')
+  Hint: O Erro do Tipo II se refere a um falso negativo.
+
+- Class: mult_question
+  Output: "Se realizarmos 1000 testes com alfa = 5%, quantos falsos positivos esperamos obter em média?"
+  AnswerChoices: 50;5;500
+  CorrectAnswer: 50
+  AnswerTests: omnitest(correctVal= '50')
+  Hint: Quanto é 5% de 1000?
+
+- Class: text
+  Output: "Tanto erros do Tipo I quanto do Tipo II podem ser graves. Felizmente, há métodos para contornar esse problema. Um desses métodos é a Correção de Bonferroni, cuja aplicação é bastante simples. Se se deseja realizar 20 testes com alfa = 5%, a correção de Bonferroni sugere que cada hipótese seja testada com alfa 0.05 / 20 = 0.0025. Em outras palavras, o limite para se considerar um resultado significativo deve ser ajustado para que não se aumente a chance de uma conclusão errônea."
+
+- Class: text
+  Output: "Outro método para diminuir a chance de falsos positivos ou falsos negativos é simplesmente não realizar todo e qualquer possível teste estatístico em determinado conjunto de dados. Uma pesquisa bem estruturada tem claras quais são as perguntas e as hipóteses que serão testadas, e não se perde em um sem número de questões."
+
+- Class: figure
+  Output: "Cabe ainda apresentar o conceito de INTERVALO DE CONFIANÇA. Nas últimas duas lições, calculamos as médias de valores de F1 e F2 das vogais pretônicas para plotar os espaços vocálicos de paraibanos e paulistanos. As médias resumem em um único número a estimativa de um parâmetro da população. Mas vimos também, pelos boxplots, que a distribuição real dos valores de formantes não se concentram em um único ponto, e sim são variáveis. A figura em Plots ilustra essa observação."
+  Figure: vogais-bp.R
+  FigureType: new
+  
+- Class: text
+  Output: "Existe a possibilidade, portanto, de que a média calculada esteja incorreta, e que seu verdadeiro valor esteja acima ou abaixo do valor estimado. O intervalo de confiança estabelece um valor mínimo e um valor máximo em que se calcula estar o verdadeiro parâmetro da população. Podemos não ter um valor exato, mas ter um intervalo em que é mais provável estar tal medida."
+
+- Class: text
+  Output: "Quando se estabelece um nível alfa, na prática, também se estabelece um NÍVEL DE CONFIANÇA. Quando alfa = 5%, o nível de confiança é de 95%; quando alfa = 1%, o nível de confiança é 99%. Nos boxplots, quando plotamos a figura com notch = T, o R faz o cálculo do intervalo de confiança e o representa graficamente pelos entalhes."
+
+- Class: text
+  Output: "Por fim, é importante apontar para algumas concepções ERRÔNEAS acerca do conceito de significância. Embora, no uso comum, dizer que algo é 'significativo' implica dizer que é 'importante' ou 'relevante', a significância estatística NADA tem a ver com importância ou relevância. A significância ou valor-p é uma medida de probabilidade de se observar determinar resultado em caso de a hipótese nula ser verdadeira (no exemplo, a probabilidade de ter 90 caras em 100 jogadas se um dos jogadores não estiver roubando). Como tal, a medida não consegue avaliar quão importante é esse fato -- só o pesquisador e a comunidade científica podem dizer."
+
+- Class: text
+  Output: "Segundo, significância NÃO é boa nem ruim. Ela simplesmente é! Um valor-p abaixo de 5% NÃO é intrinsicamente bom! Isso depende da hipótese levantada pelo pesquisador, da teoria, daquilo que se quer testar. Veja que, no estudo sobre vogais médias pretônicas na fala de migrantes, levanta-se a hipótese de que as vogais médias sejam mais baixas para os paraibanos do que para os paulistanos, mas há mais interesse em saber quem são os falantes que, em certa medida, não seguem essa regra -- ou seja, aqueles que não apresentam diferenças significativas em relação aos paulistanos e para quem a hipótese nula não é rejeitada."
+
+- Class: text
+  Output: "Por fim, um valor-p ou de significância abaixo de 5% NÃO prova que sua hipótese estava correta. O que se faz é REJEITAR A HIPÓTESE NULA e aceitar a hipótese alternativa, mas isso é diferente de dizer que H1 estava certa."
+
+- Class: text
+  Output: "Recomendo a leitura de Gigerenzer (2004), 'Mindless Statistics' (<http://library.mpib-berlin.mpg.de/ft/gg/GG_Mindless_2004.pdf>) para entender um pouco mais desses conceitos básicos e evitar a aplicação impensada de testes estatísticos."
+
+- Class: text
+  Output: "Faça agora os exercícios correspondentes da Lição 8."

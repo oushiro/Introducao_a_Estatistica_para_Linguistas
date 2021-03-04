@@ -1,0 +1,341 @@
+- Class: meta
+  Course: Introducao_a_Estatistica_para_Linguistas
+  Lesson: Estatistica_Inferencial_Regressao_Logistica_Parte2
+  Author: Livia Oushiro
+  Type: Standard
+  Organization: UNICAMP
+  Version: 2.4.3
+
+- Class: figure
+  Output: "Nesta lição, vamos continuar trabalhando sobre o conjunto de dados da pronúncia variável de /r/ em coda silábica na fala de paulistanos. "
+  Figure: Licao15-IEL-background.R
+  FigureType: new
+  
+- Class: cmd_question
+  Output: Como você já sabe, é uma boa ideia carregar os pacotes necessários para a sessão. Carregue primeiro o pacote rms.
+  CorrectAnswer: library(rms)
+  AnswerTests: omnitest(correctExpr='library(rms)')
+  Hint: Digite library(rms) e pressione CTRL + ENTER.
+  
+- Class: cmd_question
+  Output: Carregue o pacote effects.
+  CorrectAnswer: library(effects)
+  AnswerTests: omnitest(correctExpr='library(effects)')
+  Hint: Digite library(effects) e pressione CTRL + ENTER.
+  
+- Class: cmd_question
+  Output: Carregue o pacote car.
+  CorrectAnswer: library(car)
+  AnswerTests: omnitest(correctExpr='library(car)')
+  Hint: Digite library(car) e pressione CTRL + ENTER.
+  
+- Class: cmd_question
+  Output: Carregue o pacote lme4.
+  CorrectAnswer: library(lme4)
+  AnswerTests: omnitest(correctExpr='library(lme4)')
+  Hint: Digite library(lme4) e pressione CTRL + ENTER.
+  
+- Class: cmd_question
+  Output: E carregue o pacote lmerTest.
+  CorrectAnswer: library(lmerTest)
+  AnswerTests: omnitest(correctExpr='library(lmerTest)')
+  Hint: Digite library(lmerTest) e pressione CTRL + ENTER.
+  
+- Class: text
+  Output: "Deixei o dataframe `dados` disponível. Nele, o nível de referência de VD já foi redefinido, de modo que TEPE é o primeiro nível e RETROFLEXO é o segundo -- e é aquele segundo o qual os resultados devem ser lidos (ver Lição 14)."
+
+- Class: cmd_question
+  Output: "Imagine que um pesquisador tenha levantado a hipótese de que a pronúncia de /r/ em coda (VD) se correlaciona com as variáveis SEXO.GENERO, FAIXA.ETARIA, REGIAO, INDICE.SOCIO, CONT.FON.PREC, CONT.FON.SEG, TONICIDADE, POSICAO.R e CLASSE.MORFOLOGICA. Aplique a função str() a dados para checar os níveis dessas variáveis previsoras."
+  CorrectAnswer: str(dados)
+  AnswerTests: omnitest(correctExpr='str(dados)')
+  Hint: Digite str(dados) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Algumas dessas variáveis não são totalmente ortogonais entre si e apresentam o risco de multicolinearidade (ver Lição 13). Duas variáveis são ortogonais quando todos os níveis de uma coocorrem com todos os níveis da outra. De modo simples, todas as combinações entre os níveis são possíveis. No entanto, este não é o caso para CONT.FON.SEG e POSICAO.R; essas variáveis não são totalmente ortogonais pois o contexto seguinte 'pausa' só ocorre em final de palavra, nunca no meio. Faça uma tabela de frequências entre essas duas variáveis para visualizar isso. Dessa vez, vamos usar as funções do pacote base, with() e table()."
+  CorrectAnswer: with(dados, table(CONT.FON.SEG, POSICAO.R))
+  AnswerTests: any_of_exprs('with(dados, table(CONT.FON.SEG, POSICAO.R))', 'with(dados, table(POSICAO.R, CONT.FON.SEG))')
+  Hint: Digite with(dados, table(CONT.FON.SEG, POSICAO.R)) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "As variáveis CLASSE.MORFOLOGICA e POSICAO.R também não são ortogonais entre si. Faça uma tabela de frequências entre elas para verificar a combinação que não ocorre."
+  CorrectAnswer: with(dados, table(CLASSE.MORFOLOGICA, POSICAO.R))
+  AnswerTests: any_of_exprs('with(dados, table(CLASSE.MORFOLOGICA, POSICAO.R))', 'with(dados, table(POSICAO.R, CLASSE.MORFOLOGICA))')
+  Hint: Digite with(dados, table(CLASSE.MORFOLOGICA, POSICAO.R)) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Na codificação de CLASSE.MORFOLOGICA, foi feita uma separação entre o /r/ de infinitivo dos verbos (p.ex., \"amar\") e o /r/ que ocorre na raiz da palavra (p.ex., \"ergue\"). O /r/ infinitivo no português só ocorre em final de palavra, nunca no meio. Ao mesmo tempo, o /r/ infinitivo é sempre tônico, de modo que CLASSE.MORFOLOGICA também não é totalmente ortogonal a TONICIDADE. Faça uma tabela de frequências entre CLASSE.MORFOLOGICA e TONICIDADE para visualizar isso."
+  CorrectAnswer: with(dados, table(CLASSE.MORFOLOGICA, TONICIDADE))
+  AnswerTests: any_of_exprs('with(dados, table(CLASSE.MORFOLOGICA, TONICIDADE))', 'with(dados, table(TONICIDADE, CLASSE.MORFOLOGICA))')
+  Hint: Digite with(dados, table(CLASSE.MORFOLOGICA, TONICIDADE)) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "Tabelas de frequências como essas devem ser feitas sempre que se suspeita ou se prevê que duas variáveis não são ortogonais entre si. A presença de células vazias ou com poucos dados é o principal causador de multicolinearidade, o que, como visto na Lição 13, viola os pressupostos de modelos de regressão. Contudo, a depender do grau de colinearidade e do número de dados de que se dispõe, as (poucas) células vazias podem não ser um problema. "
+
+- Class: cmd_question
+  Output: "Faça um modelo de regressão logística `mod` que inclui as variáveis previsoras TONICIDADE, POSICAO.R, CLASSE.MORFOLOGIA e CONT.FON.SEG, em relação a VD."
+  CorrectAnswer: mod <- glm(VD ~ TONICIDADE + POSICAO.R + CLASSE.MORFOLOGICA + CONT.FON.SEG, data = dados, family = binomial)
+  AnswerTests: omnitest(correctExpr='mod <- glm(VD ~ TONICIDADE + POSICAO.R + CLASSE.MORFOLOGICA + CONT.FON.SEG, data = dados, family = binomial)')
+  Hint: Digite mod <- glm(VD ~ TONICIDADE + POSICAO.R + CLASSE.MORFOLOGICA + CONT.FON.SEG, data = dados, family = binomial) e pressione CTRL + ENTER.
+
+- Class: mult_question
+  Output: "Na Lição 13, vimos uma função que permite avaliar se há colinearidade entre variáveis. Qual é ela?"
+  AnswerChoices: vif(), do pacote car;crPlot(), do pacote car;effect(), do pacote effects;lmer(), do pacote lme4;lrm(), do pacote rms
+  CorrectAnswer: vif(), do pacote car
+  AnswerTests: omnitest(correctVal= 'vif(), do pacote car')
+  Hint: Refaça a lição 13, se necessário!
+
+- Class: cmd_question
+  Output: "Aplique então a função vif() a mod. Digite car::vif(mod). (A notação pacote::funcao() é outro modo de disponibilizar uma biblioteca no R.)"
+  CorrectAnswer: car::vif(mod)
+  AnswerTests: omnitest(correctExpr='car::vif(mod)')
+  Hint: Digite car::vif(mod) e pressione CTRL + ENTER.
+
+- Class: mult_question
+  Output: "O que informa o resultado de vif() acima?"
+  AnswerChoices: não há colinearidade entre as variáveis;há colinearidade entre as variáveis
+  CorrectAnswer: não há colinearidade entre as variáveis
+  AnswerTests: omnitest(correctVal= 'não há colinearidade entre as variáveis')
+  Hint: Verifique se os valores GVIF estão acima de 5.
+
+- Class: text
+  Output: "Apesar das células vazias, o conjunto de dados é robusto o suficiente para superar a potencial multicolinearidade entre essas variáveis. Podemos então seguir com a criação de um modelo mais complexo, com a inclusão de todas as variáveis mencionadas acima. "
+
+- Class: text
+  Output: "Na Lição 13, vimos que há duas abordagens principais para decidir a manutenção ou não de variáveis previsoras num modelo: uma \"de baixo para cima\", que começa com um modelo sem variáveis previsoras e tenta adicioná-las uma a uma, e outra \"de cima para baixo\", que começa com um modelo completo e tenta eliminar variáveis uma a uma. Ambas se implementam com a função step(); a primeira com direction = \"forward\", e a segunda com direction = \"backward\"."
+
+- Class: cmd_question
+  Output: "No script temos um primeiro modelo completo com todas as variáveis que queremos testar. Ele já está pronto, mas você deve se atentar à sua estrutura, para reproduzir a aplicação com seus dados. "
+  CorrectAnswer: modelo <- glm(VD ~ SEXO.GENERO + FAIXA.ETARIA * REGIAO + INDICE.SOCIO + CONT.FON.PREC + CONT.FON.SEG + TONICIDADE + POSICAO.R + CLASSE.MORFOLOGICA, data = dados, family = binomial)
+  AnswerTests: omnitest(correctExpr='modelo <- glm(VD ~ SEXO.GENERO + FAIXA.ETARIA * REGIAO + INDICE.SOCIO + CONT.FON.PREC + CONT.FON.SEG + TONICIDADE + POSICAO.R + CLASSE.MORFOLOGICA, data = dados, family = binomial)')
+  Hint: Rode o comando no script com CTRL + ENTER. 
+
+- Class: cmd_question
+  Output: "Veja o resultado com summary()."
+  CorrectAnswer: summary(modelo)
+  AnswerTests: omnitest(correctExpr='summary(modelo)')
+  Hint: Digite summary(modelo) e pressione CTRL + ENTER.
+
+- Class: mult_question
+  Output: "Para interpretar os resultados, é necessário saber o nível de referência de cada variável. Qual é o nível de referência da variável SEXO?"
+  AnswerChoices: feminino;masculino
+  CorrectAnswer: feminino
+  AnswerTests: omnitest(correctVal= 'feminino')
+  Hint: Qual é o valor que não aparece na tabela de coeficientes e que, portanto, está em Intercept?
+
+- Class: mult_question
+  Output: "Qual é o nível de referência da variável FAIXA.ETARIA?"
+  AnswerChoices: 1a;2a;3a
+  CorrectAnswer: 1a
+  AnswerTests: omnitest(correctVal= '1a')
+  Hint: Qual é o valor que não aparece na tabela de coeficientes e que, portanto, está em Intercept?
+
+- Class: mult_question
+  Output: "Qual é o nível de referência da variável REGIAO?"
+  AnswerChoices: central;periferica
+  CorrectAnswer: central
+  AnswerTests: omnitest(correctVal= 'central')
+  Hint: Qual é o valor que não aparece na tabela de coeficientes e que, portanto, está em Intercept?
+
+- Class: mult_question
+  Output: "Qual é o nível de referência da variável INDICE.SOCIO?"
+  AnswerChoices: INDICE.SOCIO = 0;INDICE.SOCIO = 5
+  CorrectAnswer: INDICE.SOCIO = 0
+  AnswerTests: omnitest(correctVal= 'INDICE.SOCIO = 0')
+  Hint: O nível de referência de variáveis numéricas é sempre zero!
+
+- Class: mult_question
+  Output: "Qual é o nível de referência da variável CONT.FON.PREC?"
+  AnswerChoices: i;e;3;a;0;o;u
+  CorrectAnswer: i
+  AnswerTests: omnitest(correctVal= 'i')
+  Hint: Qual é o valor que não aparece na tabela de coeficientes e que, portanto, está em Intercept?
+
+- Class: text
+  Output: "Para a variável CONT.FON.PREC, os níveis já foram reorganizados no conjunto `dados`. Em vez da ordem alfabética, as vogais que precedem /r/ em coda foram ordenadas de [+anterior] para [-anterior], e [+alta] para [-alta]. Lembre-se que os níveis '3' e '0' correspondem às vogais média baixas /\u025B/ e /\u0254/ respectivamente."
+
+- Class: mult_question
+  Output: "Qual é o nível de referência da variável CONT.FON.SEG?"
+  AnswerChoices: pausa;labial;coronal;dorsal
+  CorrectAnswer: pausa
+  AnswerTests: omnitest(correctVal= 'pausa')
+  Hint: Qual é o valor que não aparece na tabela de coeficientes e que, portanto, está em Intercept?
+
+- Class: text
+  Output: "Assim como a variável CONT.FON.PREC, CONT.FON.SEG foi reorganizada previamente, no momento de importação dos dados. A variável foi originalmente codificada de modo detalhado, de acordo com cada segmento consonantal (/b/, /d/, /g/ etc.) ou existência de pausa, mas os segmentos foram recodificados aqui pelo Ponto de C (ver Clements & Hume 1995). A pausa foi mantida e definida como nível de referência."
+
+- Class: mult_question
+  Output: "Qual é o nível de referência da variável TONICIDADE?"
+  AnswerChoices: atona;tonica
+  CorrectAnswer: atona
+  AnswerTests: omnitest(correctVal= 'atona')
+  Hint: Qual é o valor que não aparece na tabela de coeficientes e que, portanto, está em Intercept?
+
+- Class: mult_question
+  Output: "Qual é o nível de referência da variável POSICAO.R?"
+  AnswerChoices: final;medial
+  CorrectAnswer: final
+  AnswerTests: omnitest(correctVal= 'final')
+  Hint: Qual é o valor que não aparece na tabela de coeficientes e que, portanto, está em Intercept?
+
+- Class: mult_question
+  Output: "Qual é o nível de referência da variável CLASSE.MORFOLOGICA?"
+  AnswerChoices: adjetivo;adverbio;conj.prep;morf.inf;substantivo;verbo
+  CorrectAnswer: adjetivo
+  AnswerTests: omnitest(correctVal= 'adjetivo')
+  Hint: Qual é o valor que não aparece na tabela de coeficientes e que, portanto, está em Intercept?
+
+- Class: text
+  Output: "Trata-se de um modelo bastante complexo! O resultado para o coeficiente linear (Intercept), então, refere-se à pronúncia como RETROFLEXO -- lembre-se que os resultados são lidos em relação ao segundo nível da VD, que foi redefinida --, na fala de mulheres de 1a faixa etária residentes da região central e de nível socioeconômico zero, em ocorrências de /r/ em coda precedidas da vogal /i/, seguidas de pausa, em sílabas átonas, em posição final de adjetivos! (respira... respira...) Veja que a leitura e interpretação de resultados fica mais difícil à medida que se incluem novas variáveis previsoras, de modo que deve haver bons motivos para incluí-las no modelo."
+
+- Class: cmd_question
+  Output: "Aplique a função lrm() para obter as demais medidas estatísticas do modelo. Lembre-se que esta função toma como argumentos a fórmula e o conjunto de dados (sem family = binomial). "
+  CorrectAnswer: lrm(VD ~ SEXO.GENERO + FAIXA.ETARIA * REGIAO + INDICE.SOCIO + CONT.FON.PREC + CONT.FON.SEG + TONICIDADE + POSICAO.R + CLASSE.MORFOLOGICA, data = dados)
+  AnswerTests: omnitest(correctExpr='lrm(VD ~ SEXO.GENERO + FAIXA.ETARIA * REGIAO + INDICE.SOCIO + CONT.FON.PREC + CONT.FON.SEG + TONICIDADE + POSICAO.R + CLASSE.MORFOLOGICA, data = dados)')
+  Hint: Releia as instruções com calma!
+
+- Class: text
+  Output: "Lembra que os modelos da lição anterior, com apenas uma ou duas variáveis previsoras, tinham índice C baixos? Nosso modelo agora está num nível aceitável, com C = 0.774. Mas será que todas as variáveis são relevantes?"
+
+- Class: cmd_question
+  Output: "Crie agora um modelo sem qualquer variável previsora, a partir do qual faremos o step forward. Digite m0 <- glm(VD ~ 1, data = dados, family = binomial)."
+  CorrectAnswer: m0 <- glm(VD ~ 1, data = dados, family = binomial)
+  AnswerTests: omnitest(correctExpr='m0 <- glm(VD ~ 1, data = dados, family = binomial)')
+  Hint: Digite m0 <- glm(VD ~ 1, data = dados, family = binomial) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Na Lição 13, vimos que a função step(), na direção 'forward', toma como argumentos: (i) um modelo sem variáveis previsoras -- aqui, m0; (ii) direction = \"forward\"; e scope com ~ (sem a Variável Resposta) e a especificação de variáveis."
+  CorrectAnswer: m.fw <- step(m0, direction = "forward", scope = ~ SEXO.GENERO + FAIXA.ETARIA * REGIAO + INDICE.SOCIO + CONT.FON.PREC + CONT.FON.SEG + TONICIDADE + POSICAO.R + CLASSE.MORFOLOGICA)
+  AnswerTests: omnitest(correctExpr='m.fw <- step(m0, direction = "forward", scope = ~ SEXO.GENERO + FAIXA.ETARIA * REGIAO + INDICE.SOCIO + CONT.FON.PREC + CONT.FON.SEG + TONICIDADE + POSICAO.R + CLASSE.MORFOLOGICA)')
+  Hint: Dê copiar/colar dos argumentos de interesse a partir dos modelos prévios!
+
+- Class: text
+  Output: "O resultado é bem mais longo do que havíamos visto para o modelo de regressão linear porque aqui incluímos mais variáveis previsoras. O resultado de step forward indica que todas as variáveis devem ser mantidas no modelo."
+
+- Class: cmd_question
+  Output: "Visualize também o resultado guardado em m.fw."
+  CorrectAnswer: m.fw
+  AnswerTests: omnitest(correctExpr='m.fw')
+  Hint: Digite m.fw e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "m.fw mostra os coeficientes angulares do modelo final. Façamos agora o modelo \"de trás para frente\", a fim de verificar se as mesmas variáveis previsoras são selecionadas. Digite m.bw <- step(modelo, direction = \"backward\")."
+  CorrectAnswer: m.bw <- step(modelo, direction = "backward")
+  AnswerTests: omnitest(correctExpr='m.bw <- step(modelo, direction = "backward")')
+  Hint: Digite m.bw <- step(modelo, direction = "backward") e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "Assim como fizemos na Lição 13, aqui partimos do modelo completo (`modelo`) e tentamos eliminar variáveis. O resultado final recomenda a manutenção de todas as variáveis previsoras."
+
+- Class: cmd_question
+  Output: "Visualize os coeficientes guardados em m.bw."
+  CorrectAnswer: m.bw
+  AnswerTests: omnitest(correctExpr='m.bw')
+  Hint: Digite m.bw e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "O objetivo aqui é verificar se os coeficientes do modelo \"para frente\" coincidem com aqueles do modelo \"de trás para frente\". Com um pouco de paciência, verificamos que os coeficientes são os mesmos."
+
+- Class: cmd_question
+  Output: "Aplique também a função step() com direction = \"both\". Recorde-se que neste caso a função step() se inicia como a direção \"forward\" mas, a cada variável incluída no modelo, ele tenta excluir alguma que não seja mais relevante. Os argumentos são os mesmos que na direção \"forward\", com a exclusão de direction (já que a opção \"both\" é a default). "
+  CorrectAnswer: m.both <- step(m0, scope = ~ SEXO.GENERO + FAIXA.ETARIA * REGIAO + INDICE.SOCIO + CONT.FON.PREC + CONT.FON.SEG + TONICIDADE + POSICAO.R + CLASSE.MORFOLOGICA)
+  AnswerTests: omnitest(correctExpr='m.both <- step(m0, scope = ~ SEXO.GENERO + FAIXA.ETARIA * REGIAO + INDICE.SOCIO + CONT.FON.PREC + CONT.FON.SEG + TONICIDADE + POSICAO.R + CLASSE.MORFOLOGICA)')
+  Hint: Dê copiar/colar dos argumentos de interesse a partir dos modelos prévios!
+
+- Class: cmd_question
+  Output: "E veja o resultado de m.both."
+  CorrectAnswer: m.both
+  AnswerTests: omnitest(correctExpr='m.both')
+  Hint: Digite m.both e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Todas as variáveis são novamente selecionadas e os coeficientes coincidem. Além da função step(), podemos aplicar a função drop1() também a modelos de regressão logística para verificar a significância de cada variável previsora no modelo e se alguma deve ser descartada. Mas diferentemente do modelo de regressão linear, aqui usaremos test = \"LR\". Digite então drop1(modelo, test = \"LR\")."
+  CorrectAnswer: drop1(modelo, test = "LR")
+  AnswerTests: omnitest(correctExpr='drop1(modelo, test = "LR")')
+  Hint: Digite drop1(modelo, test="LR") e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "O resultado de drop1() também informa que todas as variáveis previsoras do modelo são significativas e devem ser mantidas."
+
+- Class: cmd_question
+  Output: "Ao incluir muitas variáveis previsoras num modelo, vale a pena verificar se não estamos \"inflacionando\" os parâmetros de previsão. Isso é chamado de \"sobreajuste\" (= overfitting), a inclusão de mais variáveis do que necessário, algo que viola o Princípio da Navalha de Occam. Isso pode ser testado por meio da função validate(), do pacote rms (que já carregamos acima). A função validate() precisa de um modelo criado com a função lrm() que, além da fórmula e do conjunto de dados, recebe mais dois argumentos: x = T e y = T. Rode esta linha de comando, que já está pronta."
+  CorrectAnswer: mod.lrm <- lrm (VD ~ SEXO.GENERO + FAIXA.ETARIA * REGIAO + INDICE.SOCIO + CONT.FON.PREC + CONT.FON.SEG + TONICIDADE + POSICAO.R + CLASSE.MORFOLOGICA, data = dados, x = T, y = T)
+  AnswerTests: omnitest(correctExpr='mod.lrm <- lrm (VD ~ SEXO.GENERO + FAIXA.ETARIA * REGIAO + INDICE.SOCIO + CONT.FON.PREC + CONT.FON.SEG + TONICIDADE + POSICAO.R + CLASSE.MORFOLOGICA, data = dados, x = T, y = T)')
+  Hint: Rode a linha de comando deste ponto do script.
+
+- Class: cmd_question
+  Output: "Podemos agora aplicar a função validate() ao modelo criado acima. O primeiro argumento da função é o modelo de regressão logística; o segundo argumento, B, é o número de vezes que o modelo será testado por meio de \"bootstrapping\"; o terceiro argumento é o modo de seleção. Vamos fazer isso 200 vezes, com modo de seleção \"de trás para frente\". Digite então validate(mod.lrm, B = 200, bw = T). (Não se assuste se demorar. Enquanto houver um ícone redondo vermelho na parte superior da janela Console, aguarde!)"
+  CorrectAnswer: validate(mod.lrm, B = 200, bw = T)
+  AnswerTests: omnitest(correctExpr='validate(mod.lrm, B = 200, bw = T)')
+  Hint: Digite validate(mod.lrm, B = 200, bw = T) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "\"Bootstrapping\", em informática, refere-se a um processo autossustentável que se implementa sem ajuda externa. O que a função validate() faz é selecionar randomicamente subamostras a partir do conjunto completo de dados, realizar o mesmo teste estatístico repetidas vezes (acima, fizemos 200), e verificar se os mesmos resultados se mantêm. Se há um número demasiado de variáveis previsoras para aquele número de dados, a função validate() vai acusar \"otimismo\" nos resultados. A coluna que nos interessa aqui é justamente \"optimism\", que mostra a diferença entre o treinamento do modelo e as medidas estatísticas calculadas. Um modelo válido tem valores abaixo de 0.05 na coluna \"optimism\"."
+  
+- Class: text
+  Output: "Em seguida, o resultado mostra as variáveis que foram selecionadas em cada um dos 200 testes, por meio dos asteriscos (às vezes com linhas omitidas). Ao final, o teste informa quantas variáveis foram selecionadas quantas vezes. Neste conjunto de dados, podemos ficar tranquilos que a inclusão de 10 variáveis previsoras não sobreajusta o modelo, pois o número de vezes que as 10 variáveis previsoras foram mantidas é maior do que o número de vezes que alguma foi eliminada. Caso isso não ocorresse, a solução seria buscar mais dados ou diminuir o número de variáveis previsoras do modelo. Aquelas selecionadas por último em step forward são as melhores candidatas à exclusão. Vale mencionar que a função validate() também pode ser aplicada a modelos lineares (ver Levshina 2015: cap.7)."
+
+- Class: cmd_question
+  Output: "Sua análise de regressão logística ainda não terminou! Assim como nos modelos lineares, é importante checar se os pressupostos da regressão logística foram atendidos. Um deles é que a relação entre as estimativas e as variáveis previsoras numéricas é linear. Aqui, temos apenas uma variável previsora numérica, INDICE.SOCIO. Para fazer este teste, vamos aplicar a função crPlot() do pacote car, que toma um modelo e a variável previsora como argumentos. Contudo, infelizmente, a função crPlot() não aceita modelos com interação. Façamos então um novo modelo, chamado `modelo2`, que contém a fórmula que vimos usando, mas sem interação. Aqui vai ser necessário digitar (ou copie e cole o comando a seguir, e apague os caracteres adicionais)! Execute modelo2 <- glm(VD ~ SEXO.GENERO + FAIXA.ETARIA + REGIAO + INDICE.SOCIO + CONT.FON.PREC + CONT.FON.SEG + TONICIDADE + POSICAO.R + CLASSE.MORFOLOGICA, data = dados, family = binomial)."
+  CorrectAnswer: modelo2 <- glm(VD ~ SEXO.GENERO + FAIXA.ETARIA + REGIAO + INDICE.SOCIO + CONT.FON.PREC + CONT.FON.SEG + TONICIDADE + POSICAO.R + CLASSE.MORFOLOGICA, data = dados, family = binomial)
+  AnswerTests: omnitest(correctExpr='modelo2 <- glm(VD ~ SEXO.GENERO + FAIXA.ETARIA + REGIAO + INDICE.SOCIO + CONT.FON.PREC + CONT.FON.SEG + TONICIDADE + POSICAO.R + CLASSE.MORFOLOGICA, data = dados, family = binomial)')
+  Hint: Digite modelo2 <- glm(VD ~ SEXO.GENERO + FAIXA.ETARIA + REGIAO + INDICE.SOCIO + CONT.FON.PREC + CONT.FON.SEG + TONICIDADE + POSICAO.R + CLASSE.MORFOLOGICA, data = dados, family = binomial) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Aplique agora a função crPlot() a modelo2, com o segundo argumento var = \"INDICE.SOCIO\"."
+  CorrectAnswer: crPlot(modelo2, var = "INDICE.SOCIO")
+  AnswerTests: omnitest(correctExpr='crPlot(modelo2, var = "INDICE.SOCIO")')
+  Hint: Digite crPlot(modelo2, var = "INDICE.SOCIO") e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "Vemos que a linha pontilhada, de valores previstos, e a linha contínua, de valores observados, são praticamente coincidentes. Se não fossem, deveríamos considerar a possibilidade de retirar valores atípicos da distribuição (ver Lição 13)."
+
+- Class: cmd_question
+  Output: "Outro pressuposto de modelos de regressão logística é a inexistência de multicolinearidade, que pode ser testada pela função vif(). Digite então car::vif(modelo). (Aqui, usamos a notação pacote::funcao pois a função vif() também existe no pacote rms, mas queremos usar a da pacote car.)"
+  CorrectAnswer: car::vif(modelo)
+  AnswerTests: omnitest(correctExpr='car::vif(modelo)')
+  Hint: Digite car::vif(modelo) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "Vemos aí que a maior parte dos valores estão bem abaixo de 5, o que indicia não colinearidade entre as variáveis do modelo. Os valores mais altos são de FAIXA.ETARIA e a interação FAIXA.ETARIA:REGIAO; aqui, é esperado que haja falta de colinearidade, já que a interação envolve a variável. A terceira coluna, de GVIF-ajustado, leva isso em conta e corrige a medida." 
+  
+- Class: text
+  Output: "Por fim, deve-se checar se as observações do conjunto de dados são independentes umas das outras. Como já se notou na Lição 13, isso raramente é o caso de análises linguísticas, de modo que é sempre recomendável realizar ANÁLISES DE EFEITOS MISTOS, com a inclusão de variáveis aleatórias. Nos dados de /r/ em coda, as variáveis PARTICIPANTE e ITEM.LEXICAL representam efeitos aleatórios."
+
+- Class: cmd_question
+  Output: "Vimos que modelos de efeitos mistos de regressão linear são criados por meio da função lmer(), por oposição à função lm(). Em modelos de efeitos mistos de regressão logística, a função é... glmer()! Lembre-se que efeitos aleatórios entram na fórmula com a notação (1|varaleatoria). Digite então mod.glmer <- glmer(VD ~ SEXO.GENERO + FAIXA.ETARIA * REGIAO + INDICE.SOCIO + CONT.FON.PREC + CONT.FON.SEG + TONICIDADE + POSICAO.R + CLASSE.MORFOLOGICA + (1|PARTICIPANTE) + (1|ITEM.LEXICAL), data = dados, family = binomial). Uma nota: não estranhe se esse modelo demorar 3-4 minutos para rodar!"
+  CorrectAnswer: mod.glmer <- glmer(VD ~ SEXO.GENERO + FAIXA.ETARIA * REGIAO + INDICE.SOCIO + CONT.FON.PREC + CONT.FON.SEG + TONICIDADE + POSICAO.R + CLASSE.MORFOLOGICA + (1|PARTICIPANTE) + (1|ITEM.LEXICAL), data = dados, family = binomial)
+  AnswerTests: omnitest(correctExpr='mod.glmer <- glmer(VD ~ SEXO.GENERO + FAIXA.ETARIA * REGIAO + INDICE.SOCIO + CONT.FON.PREC + CONT.FON.SEG + TONICIDADE + POSICAO.R + CLASSE.MORFOLOGICA + (1|PARTICIPANTE) + (1|ITEM.LEXICAL), data = dados, family = binomial)')
+  Hint: Aqui vai ser necessário digitar toda a fórmula, ou copiar e colar a linha de comando (mas certifique-se de apagar os caracteres irrelevantes).
+
+- Class: cmd_question
+  Output: "Visualize agora o resultado com summary(mod.glmer)."
+  CorrectAnswer: summary(mod.glmer)
+  AnswerTests: omnitest(correctExpr='summary(mod.glmer)')
+  Hint: Digite summary(mod.glmer) e pressione CTRL + ENTER.
+
+- Class: mult_question
+  Output: "No modelo de efeitos mistos, quais variáveis deixam de ser significativamente correlacionadas com VD?"
+  AnswerChoices: FAIXA.ETARIA e a interação com REGIAO;CONT.FON.PREC e CONT.FON.SEG;TONICIDADE e POSICAO.R;CLASSE.MORFOLOGICA e CONT.FON.PREC
+  CorrectAnswer: FAIXA.ETARIA e a interação com REGIAO
+  AnswerTests: omnitest(correctVal= 'FAIXA.ETARIA e a interação com REGIAO')
+  Hint: Verifique os valores de significância da tabela de coeficientes.
+
+- Class: cmd_question
+  Output: "Como já argumentado várias vezes neste curso, a interpretação de resultados numéricos é sempre mais fácil por meio de gráficos. Faça um gráfico de efeitos com plot(allEffects(mod.glmer), type = \"response\")."
+  CorrectAnswer: plot(allEffects(mod.glmer), type = "response")
+  AnswerTests: omnitest(correctExpr='plot(allEffects(mod.glmer), type = "response")')
+  Hint: Digite plot(allEffects(mod.glmer), type = "response") e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Também se pode adicionar o argumento ask = T para selecionar manualmente quais efeitos você quer visualizar. A partir da linha de comando acima, adicione o novo argumento. Clique sobre a variável ou variáveis de interesse e clique sobre \"cancelar\" quando não quiser incluir mais nenhuma."
+  CorrectAnswer: plot(allEffects(mod.glmer), type = "response", ask = T)
+  AnswerTests: omnitest(correctExpr='plot(allEffects(mod.glmer), type = "response", ask = T)')
+  Hint: Digite plot(allEffects(mod.glmer), type = "response", ask = T) e pressione CTRL + ENTER.
+
+- Class: figure
+  Output: "Em Source, abri uma sugestão de roteiro de análise para variáveis nominais binárias, tomando o conjunto de dados da realização do /r/ em coda como exemplo. Assim como no roteiro da Lição 13, a ideia é sistematizar os passos de uma análise que ficaram espalhados por várias lições deste curso."
+  Figure: Licao15-IEL-roteiro.R
+  FigureType: new
+  
+- Class: text
+  Output: "E isso conclui a Lição 15 e este curso! Para saber mais sobre regressão logística e outros modelos aplicáveis a variáveis nominais, veja Levshina (2015:cap12-13) e Gries (2012:cap5). Faça a lista de exercícios para fixar conteúdos. E veja também a Lição 16 para mais referências úteis em seus estudos de estatística. Há muito mais a se aprender! Espero que este curso tenha sido apenas o ponto de partida!"

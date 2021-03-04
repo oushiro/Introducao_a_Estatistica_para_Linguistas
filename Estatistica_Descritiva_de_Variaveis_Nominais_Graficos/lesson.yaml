@@ -1,0 +1,224 @@
+- Class: meta
+  Course: Introducao_a_Estatistica_para_Linguistas
+  Lesson: Estatistica Descritiva de Variaveis Nominais Graficos
+  Author: Livia Oushiro
+  Type: Standard
+  Organization: UNICAMP
+  Version: 2.4.2
+
+- Class: figure
+  Output: Na última lição, computamos frequências e proporções a partir dos dados de Labov em seu estudo nas lojas de departamento em Nova Iorque. O dataframe que fizemos para a distribuição de frequências e proporções de store por r (com o pacote tidyverse) foi aqui refeito e guardado como objeto do R. Dê uma olhada na aba Environment.  
+  Figure: Licao05-background.R
+  FigureType: new
+  
+- Class: cmd_question
+  Output: No tidyverse, gráficos são feitos com o pacote ggplot2. Carregue então o pacote tidyverse para deixá-lo disponível nesta seção.
+  CorrectAnswer: library(tidyverse)
+  AnswerTests: any_of_exprs('library(tidyverse)', 'library(ggplot2)')
+  Hint: Carregue o pacote tidyverse.
+  
+- Class: cmd_question
+  Output: Carregue também o pacote RColorBrewer, que oferece várias paletas de cores.
+  CorrectAnswer: library(RColorBrewer)
+  AnswerTests: omnitest(correctExpr='library(RColorBrewer)')
+  Hint: Carregue o pacote RColorBrewer.
+
+- Class: text
+  Output: "O ggplot2 é um pacote dedicado à visualização de dados, elaborado por Hadley Wickham. Trata-se de uma implementação da Gramática de Gráficos  (daí os dois 'g' do nome do pacote) de Leland Wilkinson, uma abordagem da visualização de dados que a entende como uma gramática, com estruturas e regras. Um gráfico normalmente é composto de atributos estéticos (cores, formas, tamanhos) de objetos geométricos (linhas, pontos barras etc.) em um sistema de coordenadas. Uma gramática de gráficos nos auxilia a dispor esses elementos de modo significativo."
+  
+- Class: text
+  Output: "Todos os gráficos com ggplot2 são compostos de um conjunto de dados, dispostos em um dataframe, e de um mapeamento, que descreve como as variáveis do dataframe são mapeados a atributos estetéticos."
+  
+- Class: cmd_question
+  Output: Nesta lição, vamos trabalhar sobre o dataframe df.store. Inspecione-o agora. (A linha de comando está abaixo dos passos para criar esse dataframe.) 
+  CorrectAnswer: df.store
+  AnswerTests: omnitest(correctExpr='df.store')
+  Hint: Digite df.store e pressione ENTER.
+
+- Class: cmd_question
+  Output: "Um tipo de gráfico básico e apropriado para mostrar distribuições de variáveis NOMINAIS -- como é o caso da VD /r/ pós-vocálico -- é o gráfico de barras. No script, temos a estrutura de gráfico de barras. No momento, há apenas três linhas sem #, que serão lidas pelo R ao rodar esse comando -- aquelas com # serão ignoradas. Rode-a agora, para ver o resultado, que será comentado na sequência. Se, a qualquer momento, aparecer a mensagem de erro 'Error in plot.new() : figure margins too large', aumente a janela para Plots."
+  CorrectAnswer: ggplot(df.store, aes(x = store, y = prop, fill = r)) + geom_bar(stat = "identity", color = "black") + theme_bw()
+  AnswerTests: omnitest(correctExpr='ggplot(df.store, aes(x = store, y = prop, fill = r)) + geom_bar(stat = "identity", color = "black") + theme_bw()')
+  Hint: Rode a linha de comando no script e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "A linha de comando definiu o conjunto de dados (df.store) e os parâmetros estéticos (aes) com a função ggplot(), declarou que o gráfico é de barras com geom_bar(), e estabeleceu um tema com theme_bw(). Os dois primeiros são o mínimo necessário para plotar um gráfico no ggplot2. Vejamos os argumentos com mais detalhes."
+  
+- Class: text
+  Output: "Na função ggplot(), o primeiro argumento é o conjunto de dados, que sempre deve ter o formato de um dataframe. O segundo argumento, aes(), define a estética do gráfico. Aqui, especificamos que a variável store deve ocupar o eixo x, que a variável prop deve ocupar o eixo y, e que as barras (definidas na segunda linha) devem ser preenchidas separando-se as variantes da variável r."
+  
+- Class: text
+  Output: "No final da primeira linha há um sinal de mais +. Na Gramática de Gráficos, a visualização de dados é construída camada a camada, de modo semelhante a um pintor que trabalha sobre uma tela. Sempre que quiser acrescentar uma nova camada, adicione um + antes da próxima função. "
+  
+- Class: text
+  Output: "A segunda linha declara qual forma gráfica os dados mapeados em aes() devem tomar. Para barras, usamos geom_bar(). Outras formas são geom_line(), geom_histogram(), geom_point(), geom_area(), geom_polygon() etc. Pode ter certeza de que, não importa qual gráfico você queira fazer, há uma geometria correspondente!"
+  
+- Class: text
+  Output: "Dentro de geom_bar(), especificamos dois argumentos, stat e color. Para o primeiro, o default é \"bin\", que se refere à contagem de ocorrências da variável no dataframe. Neste caso, já temos a medida estatística que queremos plotar, que são as proporções (definidas em y na linha anterior), de modo que a opção \"identity\" informa que não é necessário fazer qualquer transformação nos valores do dataframe. "
+  
+- Class: text
+  Output: "A cor especificada, \"black\", é a cor das bordas das barras. Depois, faça outros testes, colocando outras cores. Você pode estar se perguntando por que a cor não foi especificada dentro de aes(), por ser um parâmetro estético. Entretanto, note que esta é uma propriedade das barras, e por isso foi colocada dentro da função geom_bar(). Alternativamente, a função aes(), com todos os argumentos que especificamos, poderia ter sido colocada como argumento de geom_bar() também (ver comando no script)."
+  
+- Class: video
+  Output: "A função theme_bw() define o fundo como preto e branco. Ao começar a digitar them..., o RStudio mostra outras opções para você. O default é um fundo cinza (theme_gray()). Para visualizar outros temas, digite Y para visitar a página de referência do ggplot2."
+  VideoLink: https://ggplot2.tidyverse.org/reference/ggtheme.html
+
+- Class: cmd_question
+  Output: "O R produziu um gráfico de barras empilhadas, mas digamos que quisesse as barras lado a lado. Para isso, é necessário adicionar um argumento em geom_bar(): position = \"dodge\". Faça isso para ver o resultado."
+  CorrectAnswer: ggplot(df.store, aes(x = store, y = prop, fill = r)) + geom_bar(stat = "identity", color = "black", position = "dodge") + theme_bw()
+  AnswerTests: omnitest(correctExpr='ggplot(df.store, aes(x = store, y = prop, fill = r)) + geom_bar(stat = "identity", color = "black", position = "dodge") + theme_bw()')
+  Hint: Adicione o argumento position = "dodge" em geom_bar().
+  
+- Class: text
+  Output: "Neste caso, apresentar as barras lado a lado é redundante. É evidente que, onde houve muito apagamento de r, também houve pouca realização. O gráfico que fizemos anteriormente é mais elegante, pois fornece a mesma informação sem que o leitor tenha que parar para entender quais barras somam 100%. Procure incorporar essa máxima na feitura de gráficos: menos é mais! Apague o argumento position que acabamos de incluir no comando (mas, caso você precise dele, já sabe como fazer!)."
+  
+- Class: text
+  Output: Você também pode querer que as proporções sejam apresentadas numa escala de 0 a 100, em vez de 0 a 1. Tem um jeito fácil de fazer isso sem ter que refazer o dataframe. Você consegue pensar numa maneira?
+  
+- Class: cmd_question
+  Output: "Se multiplicarmos os valores de prop por 100, as proporções serão apresentadas nessa escala! Volte então à linha de comando e, onde se lê y = prop, coloque y = prop * 100. "
+  CorrectAnswer: ggplot(df.store, aes(x = store, y = prop * 100, fill = r)) + geom_bar(stat = "identity", color = "black") + theme_bw()
+  AnswerTests: omnitest(correctExpr='ggplot(df.store, aes(x = store, y = prop * 100, fill = r)) + geom_bar(stat = "identity", color = "black") + theme_bw()')
+  Hint: Releia as instruções com calma!
+  
+- Class: cmd_question
+  Output: "Vamos ver agora os demais itens comentados com # na linha de comando, plotando-os um a um para ver o que fazem. A função ggtitle() permite inserir um título (e, se quiser, um subtítulo) na figura. Primeiro, apague o símbolo # no início dessa linha. Digite então, dentro das aspas, o seguinte título para este gráfico: \"Proporção das variantes de /r/ pós-vocálico em três lojas de departamento em Nova Iorque (N = 730)\". Atente-se à digitação!  "
+  CorrectAnswer: ggplot(df.store, aes(x = store, y = prop * 100, fill = r)) + geom_bar(stat = "identity", color = "black") + ggtitle("Proporção das variantes de /r/ pós-vocálico em três lojas de departamento em Nova Iorque (N = 730)") + theme_bw()
+  AnswerTests: omnitest(correctExpr='ggplot(df.store, aes(x = store, y = prop * 100, fill = r)) + geom_bar(stat = "identity", color = "black") + ggtitle("Proporção das variantes de /r/ pós-vocálico em três lojas de departamento em Nova Iorque (N = 730)") + theme_bw()')
+  Hint: Digite o título com calma e cheque tudo antes de rodar!
+  
+- Class: cmd_question
+  Output: "Hmm... o título não ficou bom! Inclua no título o símbolo de quebra de linha \\n logo antes de \"em Nova Iorque\" e veja se melhora! "
+  CorrectAnswer: ggplot(df.store, aes(x = store, y = prop * 100, fill = r)) + geom_bar(stat = "identity", color = "black") + ggtitle("Proporção das variantes de /r/ pós-vocálico em três lojas de departamento \nem Nova Iorque (N = 730)") + theme_bw()
+  AnswerTests: omnitest(correctExpr='ggplot(df.store, aes(x = store, y = prop * 100, fill = r)) + geom_bar(stat = "identity", color = "black") + ggtitle("Proporção das variantes de /r/ pós-vocálico em três lojas de departamento \nem Nova Iorque (N = 730)") + theme_bw()')
+  Hint: Digite o título com calma e cheque tudo antes de rodar!
+    
+- Class: text
+  Output: "Vale aqui mencionar que títulos de gráficos -- bem como os demais elementos -- devem ser maximamente informativos, de modo que a figura faça sentido mesmo que o leitor não leia o texto. Se o título de um gráfico ficar demasiadamente longo, você pode optar por deixá-lo de lado e colocá-lo no próprio texto do artigo ou dos slides."
+
+- Class: cmd_question
+  Output: "Que tal agora mudar o nome dos eixos x e y, que, no momento, tomam os nomes das variáveis do dataframe, store e prop? Além disso, podemos mudar o nome da variável na legenda, r. Isso pode ser feito com a função labs() (lab representa 'label' = etiqueta). Apague o # da próxima linha de comando e nomeie o eixo x como \"Lojas\", o eixo y como \"Proporção\", e o argumento fill como \"Variantes de /r/\". "
+  CorrectAnswer: ggplot(df.store, aes(x = store, y = prop * 100, fill = r)) + geom_bar(stat = "identity", color = "black") + ggtitle("Proporção das variantes de /r/ pós-vocálico em três lojas de departamento \nem Nova Iorque (N = 730)") + labs(x = "Lojas", y = "Proporção", fill = "Variantes de /r/") + theme_bw()
+  AnswerTests: omnitest(correctExpr='ggplot(df.store, aes(x = store, y = prop * 100, fill = r)) + geom_bar(stat = "identity", color = "black") + ggtitle("Proporção das variantes de /r/ pós-vocálico em três lojas de departamento \nem Nova Iorque (N = 730)") + labs(x = "Lojas", y = "Proporção", fill = "Variantes de /r/") + theme_bw()')
+  Hint: É só digitar com calma!
+
+- Class: mult_question
+  Output: "Está ficando bem legal! Vamos mexer mais: embora o nome das lojas na planilha seja 'Saks', 'Macys' e 'Klein', seus nomes são, na verdade, 'Saks', 'Macy's' (com apóstrofe) e , 'S. Klein' (com S.). Lógico que isso é detalhe, mas vamos ver como customizar o nome das variantes? Primeiro, queremos juntar os nomes corretos num vetor. Qual função usamos para isso?"
+  AnswerChoices: c();setwd();length();str();head()
+  CorrectAnswer: c()
+  AnswerTests: omnitest(correctVal= 'c()')
+  Hint: É a função para 'c'ombinar ou 'c'oncatenar coisas.
+
+- Class: cmd_question
+  Output: "Vamos usar a função c() para juntar esses nomes, que vão entrar numa nova função chamada scale_x_discrete(). Apague o # da linha com essa função e inclua o argumento labels, que será a junção de \"Saks\", \"Macy's\" e \"S. Klein\". Atenção às aspas e às vírgulas! (N.B.: Se der erro, inclua \\ antes do apóstrofe de Macy's.)"
+  CorrectAnswer: ggplot(df.store, aes(x = store, y = prop * 100, fill = r)) + geom_bar(stat = "identity", color = "black") + ggtitle("Proporção das variantes de /r/ pós-vocálico em três lojas de departamento \nem Nova Iorque (N = 730)") + labs(x = "Lojas", y = "Proporção", fill = "Variantes de /r/") + scale_x_discrete(labels = c("Saks", "Macy\'s", "S. Klein")) + theme_bw()
+  AnswerTests: omnitest(correctExpr='ggplot(df.store, aes(x = store, y = prop * 100, fill = r)) + geom_bar(stat = "identity", color = "black") + ggtitle("Proporção das variantes de /r/ pós-vocálico em três lojas de departamento \nem Nova Iorque (N = 730)") + labs(x = "Lojas", y = "Proporção", fill = "Variantes de /r/") + scale_x_discrete(labels = c("Saks", "Macy\'s", "S. Klein")) + theme_bw()')
+  Hint: É só digitar com calma! 
+
+- Class: text
+  Output: E vamos finalmente mudar as cores dessa figura! A escolha de cores depende, entre outras coisas, de se um veículo aceita figuras coloridas (para um artigo, por exemplo) e, claro, de seu gosto pessoal. Entretanto, dada a chance de usá-las, é preferível usar figuras coloridas a figuras com tons de cinza -- seus leitores interpretarão a informação mais rapidamente. Se precisar de mais de 6 cores numa figura, contudo, daí as informações começam a ficar confusas novamente. 
+
+- Class: video
+  Output: "Para mais dicas de como usar cores em suas figuras, uma boa referência é a página Introduction to Data Visualization. Se quiser visitá-la agora, selecione Y."
+  VideoLink: http://guides.library.duke.edu/topten
+
+- Class: video
+  Output: O R dispõe de centenas de opções de cores. Selecione Y abaixo para visitar uma página na Internet com um catálogo de cores e seus respectivos nomes.
+  VideoLink: http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf
+
+- Class: cmd_question
+  Output: O ggplot2 oferece algumas paletas de cores pré-definidas. É recomendável utilizá-las, sobretudo em seus primeiros gráficos. Para ver um conjunto de paletas do RColorBrewer, digite display.brewer.all().
+  CorrectAnswer: display.brewer.all()
+  AnswerTests: omnitest(correctExpr='display.brewer.all()')
+  Hint: Digite display.brewer.all() e pressione CTRL + ENTER.
+  
+- Class: cmd_question
+  Output: "Aqui, vamos usar a opção \"Purples\". Além disso, na função scale_fill_brewer(), também é possível definir outros rótulos para as variantes da variável de fill. Inclua também o argumento , labels = c(\"realização\", \"apagamento\"), para mudar as variantes de r para nomes mais inteligíveis."
+  CorrectAnswer: ggplot(df.store, aes(x = store, y = prop * 100, fill = r)) + geom_bar(stat = "identity", color = "black") + ggtitle("Proporção das variantes de /r/ pós-vocálico em três lojas de departamento \nem Nova Iorque (N = 730)") + labs(x = "Lojas", y = "Proporção", fill = "Variantes de /r/") + scale_x_discrete(labels = c("Saks", "Macy\'s", "S. Klein")) + scale_fill_brewer(palette = "Purples", labels = c("realização", "apagamento")) + theme_bw()
+  AnswerTests: omnitest(correctExpr='ggplot(df.store, aes(x = store, y = prop * 100, fill = r)) + geom_bar(stat = "identity", color = "black") + ggtitle("Proporção das variantes de /r/ pós-vocálico em três lojas de departamento \nem Nova Iorque (N = 730)") + labs(x = "Lojas", y = "Proporção", fill = "Variantes de /r/") + scale_x_discrete(labels = c("Saks", "Macy\'s", "S. Klein")) + scale_fill_brewer(palette = "Purples", labels = c("realização", "apagamento")) + theme_bw()')
+  Hint: Releia as instruções e faça passo a passo, com calma.
+  
+- Class: text
+  Output: "Maravilha! Você pode comparar as figuras que produziu clicando sobre a flecha para a esquerda, no topo esquerdo da aba Plots. Resta agora saber como exportar essa figura para inseri-la em pôsteres, artigos, na tese. No script, há duas linhas de comando comentadas: png() e dev.off(). A primeira define o nome da figura a ser exportada -- algo que, evidentemente, merece um nome mais claro do que \"figura.png\", junto à sua extensão .png. Essa função abre o dispositivo gráfico do R. Depois você deve plotar a figura e, em seguida, rodar o comando dev.off(), que fecha o dispositivo gráfico."
+  
+- Class: cmd_question
+  Output: Troque o nome da figura e rode a linha de comando.
+  CorrectAnswer: png("figura.png")
+  AnswerTests: expr_uses_func('png')
+  Hint: Reveja a digitação, sobretudo se não apagou a extensão .png.
+  
+- Class: cmd_question
+  Output: Rode novamente o comando que gera o gráfico.
+  CorrectAnswer: ggplot(df.store, aes(x = store, y = prop * 100, fill = r)) + geom_bar(stat = "identity", color = "black") + ggtitle("Proporção das variantes de /r/ pós-vocálico em três lojas de departamento \nem Nova Iorque (N = 730)") + labs(x = "Lojas", y = "Proporção", fill = "Variantes de /r/") + scale_x_discrete(labels = c("Saks", "Macy\'s", "S. Klein")) + scale_fill_brewer(palette = "Purples", labels = c("realização", "apagamento")) + theme_bw()
+  AnswerTests: omnitest(correctExpr='ggplot(df.store, aes(x = store, y = prop * 100, fill = r)) + geom_bar(stat = "identity", color = "black") + ggtitle("Proporção das variantes de /r/ pós-vocálico em três lojas de departamento \nem Nova Iorque (N = 730)") + labs(x = "Lojas", y = "Proporção", fill = "Variantes de /r/") + scale_x_discrete(labels = c("Saks", "Macy\'s", "S. Klein")) + scale_fill_brewer(palette = "Purples", labels = c("realização", "apagamento")) + theme_bw()')
+  Hint: Rode a linha de comando indicada.
+
+- Class: cmd_question
+  Output: E rode a linha de comando dev.off().
+  CorrectAnswer: dev.off()
+  AnswerTests: omnitest(correctExpr='dev.off()')
+  Hint: Rode a linha de comando dev.off() e pressione CTRL + ENTER.
+  
+- Class: mult_question
+  Output: A figura em formato .png foi exportada para o seu computador. Onde ela está?
+  AnswerChoices: no diretório de trabalho atual;na pasta Meus Documentos;numa pasta aleatória
+  CorrectAnswer: no diretório de trabalho atual
+  AnswerTests: omnitest(correctVal= 'no diretório de trabalho atual')
+  Hint: Essa é bem óbvia, hein?
+  
+- Class: text
+  Output: "Outra figura que podemos fazer a partir da mesma tabela é um gráfico de linhas. Antes de ver como fazê-lo, é preciso dar um alerta importante: gráficos de linha só são adequados a variáveis nominais se elas também forem ordinais, ou seja, se puderem ser colocadas numa ordem de acordo com algum critério. Imagine tentar colocar numa ordem os fatores 'feminino' e 'masculino'. Não faria sentido, pois nenhum deles é 'mais' ou 'menos' do que outro seja qual for o critério!"
+
+- Class: text
+  Output: "No caso das lojas de departamento, Labov as escolheu por serem três lojas com diferentes públicos de consumidores. Saks é a loja de maior prestígio e com preços mais elevados; Macy's é uma loja mais voltada à classe média; e S. Klein era uma loja 'popular', com preços mais baratos. (Tão baratos, talvez, que fechou as portas na década de 1970). Desse modo, é possível ordená-las num ranking de maior para menor prestígio (ou vice-versa)."
+
+- Class: text
+  Output: A estrutura da linha de comando para plotar o gráfico de linhas está no script. Note que os parâmetros para plotar esse gráfico são muito semelhantes ao do gráfico de barras. Em ggplot(), especificamos df.store como o dataframe e, dentro dos parâmetros estéticos, especificamos x = store e y = prop * 100. Neste caso, não estamos usando o argumento fill, pois não há o que preencher. No entanto, estamos usando o argumento group com a variável r, para que sejam plotadas duas linhas distintas, uma para r1 e outra para r0. (Depois, teste retirar esse argumento para ver o resultado!)
+  
+- Class: video
+  Output: "A geometria para gráficos de linhas é geom_line(). Seus argumentos especificam o tipo de linha, o tamanho da linha e sua cor. Aqui, estamos usando a linha \"dotted\". Para ver outros tipos de linhas, digite Y para visitar a página de referência do ggplot2."
+  VideoLink: https://ggplot2.tidyverse.org/articles/ggplot2-specs.html
+  
+- Class: text
+  Output: Você já conhece as funções ggtitle(), labs() e scale_x_discrete(), que usamos no gráfico de barras.
+  
+- Class: cmd_question
+  Output: Rode então a linha de comando.
+  CorrectAnswer: ggplot(df.store, aes(x = store, y = prop * 100, group = r)) + geom_line(linetype = "dotted", size = 1, color = "blue") + ggtitle("Proporção das variantes de /r/ pós-vocálico em três lojas de departamento \nem Nova Iorque (N = 730)") + labs(x = "Lojas", y = "Proporção", fill = "Variantes de /r/") + scale_x_discrete(labels = c("Saks", "Macy\'s", "S. Klein")) + theme_bw()
+  AnswerTests: omnitest(correctExpr='ggplot(df.store, aes(x = store, y = prop * 100, group = r)) + geom_line(linetype = "dotted", size = 1, color = "blue") + ggtitle("Proporção das variantes de /r/ pós-vocálico em três lojas de departamento \nem Nova Iorque (N = 730)") + labs(x = "Lojas", y = "Proporção", fill = "Variantes de /r/") + scale_x_discrete(labels = c("Saks", "Macy\'s", "S. Klein")) + theme_bw()')
+  Hint: Rode a linha de comando neste ponto do script.
+  
+- Class: cmd_question
+  Output: "No ggplot2, é possível adicionar mais de uma geometria ao mesmo gráfico, somando-se novas camadas com outras funções geom_X(). No script, isso é exemplificado pela adição de geom_point() ao mesmo gráfico de linhas. Volte à página da Internet em que visualizou os tipos de linhas; mais abaixo, há uma lista de opções para o argumento shape e um guia para os tamanhos (em Colour e Fill). Aqui, vamos usar o formato 18, o tamanho 3 e a cor \"black\". Não se esqueça de apagar o # dessa linha."
+  CorrectAnswer: ggplot(df.store, aes(x = store, y = prop * 100, group = r)) + geom_line(linetype = "dotted", size = 1, color = "blue") + geom_point(shape = 18, size = 3, fill = "black") + ggtitle("Proporção das variantes de /r/ pós-vocálico em três lojas de departamento \nem Nova Iorque (N = 730)") + labs(x = "Lojas", y = "Proporção", fill = "Variantes de /r/") + scale_x_discrete(labels = c("Saks", "Macy\'s", "S. Klein")) + theme_bw()
+  AnswerTests: omnitest(correctExpr='ggplot(df.store, aes(x = store, y = prop * 100, group = r)) + geom_line(linetype = "dotted", size = 1, color = "blue") + geom_point(shape = 18, size = 3, fill = "black") + ggtitle("Proporção das variantes de /r/ pós-vocálico em três lojas de departamento \nem Nova Iorque (N = 730)") + labs(x = "Lojas", y = "Proporção", fill = "Variantes de /r/") + scale_x_discrete(labels = c("Saks", "Macy\'s", "S. Klein")) + theme_bw()')
+  Hint: Releia as instruções com calma.
+  
+- Class: cmd_question
+  Output: "Vejamos a função ylim(), que permite definir os limites do eixo y (em outros gráficos, pode ser pertinente mudar o eixo x: xlim()). No momento, o ggplot2 está plotando o gráfico de acordo com os valores mínimo e máximo do gráfico, mas você querer especificar outros limites. Aqui, vamos colocar de 0 a 100. Para tanto, inclua na função ylim o argumentos 0 e 100."
+  CorrectAnswer: ggplot(df.store, aes(x = store, y = prop * 100, group = r)) + geom_line(linetype = "dotted", size = 1, color = "blue") + geom_point(shape = 18, size = 3, fill = "black") + ggtitle("Proporção das variantes de /r/ pós-vocálico em três lojas de departamento \nem Nova Iorque (N = 730)") + labs(x = "Lojas", y = "Proporção", fill = "Variantes de /r/") + scale_x_discrete(labels = c("Saks", "Macy\'s", "S. Klein")) + ylim(0, 100) + theme_bw()
+  AnswerTests: omnitest(correctExpr='ggplot(df.store, aes(x = store, y = prop * 100, group = r)) + geom_line(linetype = "dotted", size = 1, color = "blue") + geom_point(shape = 18, size = 3, fill = "black") + ggtitle("Proporção das variantes de /r/ pós-vocálico em três lojas de departamento \nem Nova Iorque (N = 730)") + labs(x = "Lojas", y = "Proporção", fill = "Variantes de /r/") + scale_x_discrete(labels = c("Saks", "Macy\'s", "S. Klein")) + ylim(0, 100) + theme_bw()')
+  Hint: Digite 0 e 100 como argumentos da função ylim().
+  
+- Class: text
+  Output: "Por fim, vamos fazer mais um ajuste. No gráfico, as duas linhas são redundantes pois, como já observado, todo /r/ que não foi realizado foi apagado. Só uma das linhas basta para comunicar a informação sobre a diferença entre as lojas quanto à pronúncia do /r/. Há mais de uma maneira para fazer esse ajuste. Aqui, vamos fazer uso do pipe, que você aprendeu na aula passada. A partir de df.store, use o pipe e, em seguida, a função filter() para determinar que quer apenas os dados de r0. Use novamente o pipe e copie e cole o código para o gráfico que acabamos de plotar. No entanto, vai ser necessário mudar o argumento que especifica o dataframe, pois agora ele não é mais df.store, mas a modificação que fizemos nele. Quando ggplot() aparece na sequência de um pipe, usamos o ponto final para indicar que o dataframe é o resultado das operações anteriores."
+  
+- Class: cmd_question
+  Output: "Revise a linha de comando. Por fim, mude o título do gráfico para \"Proporção de apagamento de /r/ pós-vocálico em três lojas de departamento \nem Nova Iorque (N = 730)\" e rode-a para plotar o gráfico apenas com dados de r0."
+  CorrectAnswer: df.store %>% filter(r == "r0") %>% ggplot(., aes(x = store, y = prop * 100, group = r)) + geom_line(linetype = "dotted", size = 1, color = "blue") + geom_point(shape = 18, size = 3, fill = "black") + ggtitle("Proporção de apagamento de /r/ pós-vocálico em três lojas de departamento \nem Nova Iorque (N = 730)") + labs(x = "Lojas", y = "Proporção", fill = "Variantes de /r/") + scale_x_discrete(labels = c("Saks", "Macy\'s", "S. Klein")) + ylim(0, 100) + theme_bw()
+  AnswerTests: omnitest(correctExpr='df.store %>% filter(r == "r0") %>% ggplot(., aes(x = store, y = prop * 100, group = r)) + geom_line(linetype = "dotted", size = 1, color = "blue") + geom_point(shape = 18, size = 3, fill = "black") + ggtitle("Proporção de apagamento de /r/ pós-vocálico em três lojas de departamento \nem Nova Iorque (N = 730)") + labs(x = "Lojas", y = "Proporção", fill = "Variantes de /r/") + scale_x_discrete(labels = c("Saks", "Macy\'s", "S. Klein")) + ylim(0, 100) + theme_bw()')
+  Hint: São vários passos aqui. Releia as instruções com calma!
+  
+- Class: text
+  Output: "Você pode estar pensando: legal, sei que posso fazer um gráfico customizado, do jeitinho que eu quero. Mas eu nunca vou lembrar de todos essas funções na 
+hora em que eu for fazer meu próprio gráfico! Calma, amig@! Primeiro, lembre-se que a Ajuda do R está sempre lá, na ponta dos dedos, para você consultar o momento que 
+quiser!"
+
+- Class: text
+  Output: Segundo, dificilmente se tem que digitar códigos diversas vezes. Você pode reutilizar o código usado uma vez quantas vezes quiser, fazendo apenas as adaptações nos trechos necessários. O mais importante é você saber lê-lo, entendê-lo, e saber o que precisa ser modificado.
+
+- Class: text
+  Output: "Além disso, tenha em mente que o grau de detalhes de sua figura depende do propósito. Há gráficos exploratórios -- para sua própria compreensão de seus dados -- e gráficos explanatórios -- cujo objetivo é o de comunicar a outros as suas descobertas. Se se trata de uma exploração sua dos dados, nos primeiros passos da análise, não é necessário usar todos os recursos que usamos aqui. Você pode guardar esse preciosismo para quando estiver preparando uma apresentação."
+
+- Class: text
+  Output:  Ao concluir esta aula, dedique um tempo para revisar as linhas de comando desta lição. E faça os exercícios! Ao final do script, deixei mais algumas informações sobre como definir exatamente as dimensões da figura que você quer exportar.

@@ -1,0 +1,288 @@
+- Class: meta
+  Course: Introducao_a_Estatistica_para_Linguistas
+  Lesson: Fundamentos
+  Author: Livia Oushiro
+  Type: Standard
+  Organization: UNICAMP
+  Version: 2.4.2
+
+- Class: text
+  Output: Bem vind@ ao curso de Introdução à Estatística para Linguistas! 
+
+- Class: figure
+  Output: "Abri o script desta lição na janela Source: o arquivo Licao01-IEL.R. Leia as instruções aqui na janela Console. Você precisará digitar a maioria dos comandos no script; após digitá-los, tendo o cursor na linha de comando, rode-a com CTRL + ENTER. Para este arquivo e os demais, das próximas lições, você pode salvá-lo em outra pasta de seu computador, para que possa reutilizá-lo futuramente. "
+  Figure: Licao01-background.R
+  FigureType: new
+  
+- Class: cmd_question
+  Output: Primeiro, vamos explorar alguns fundamentos da linguagem. O R pode funcionar como uma calculadora. Digite 4 + 9 no script e pressione CTRL + ENTER para ver o resultado.
+  CorrectAnswer: 4 + 9
+  AnswerTests: any_of_exprs('4 + 9', '9 + 4')
+  Hint: Digite 4 + 9 no arquivo Licao01-IEL2.0 e pressione CTRL + ENTER. 
+
+- Class: text
+  Output: O R apresenta o resultado 13. Mas usar o R para fazer esse tipo de cálculo, em vez de usar uma simples calculadora, pode parecer desnecessário. 
+
+- Class: text
+  Output: Na maior parte das vezes, usamos o R para automatizar algum processo ou evitar repetição. Podemos querer usar o resultado de 4 + 9 em outros cálculos. Para isso, em vez de redigitar 4 + 9 várias vezes, podemos guardar o resultado em uma variável. 
+
+- Class: text
+  Output: Para atribuir um valor a uma variável, use o operador de atribuição `<-`, que é o símbolo de menor seguido do símbolo de menos.  
+  
+- Class: text
+  Output: O operador de atribuição representa iconicamente uma flecha, que atribui o valor à direita a uma variável à esquerda. 
+
+- Class: cmd_question
+  Output: Para atribuir o resultado de 4 + 9 a uma nova variável chamada x, digite x <- 4 + 9 no script em Source e rode essa linha de comando com CTRL + ENTER.
+  CorrectAnswer: x <- 4 + 9
+  AnswerTests: any_of_exprs('x <- 4 + 9', 'x <- 9 + 4')
+  Hint: Digite x <- 4 + 9 e pressione CTRL + ENTER. 
+  
+- Class: text
+  Output: Você deve ter percebido que o R não exibiu o resultado 13 desta vez. Quando se usa o operador de atribuição, o R assume que você não precisa do resultado imediatamente, mas sim para algum uso futuro. 
+
+- Class: cmd_question
+  Output: Para ver o conteúdo da variável x, digite x e pressione CTRL + ENTER. 
+  CorrectAnswer: x
+  AnswerTests: omnitest(correctExpr='x')
+  Hint: Digite x e pressione CTRL + ENTER. O R vai exibir o valor de x. 
+
+- Class: mult_question
+  Output: Como uma variável, `x` agora pode entrar em outros cálculos. Qual seria o resultado de x + 10? Escolha uma das opções abaixo pelo número e pressione ENTER. 
+  AnswerChoices: 23;25;21
+  CorrectAnswer: 23
+  AnswerTests: omnitest(correctVal= '23')
+  Hint: O valor de x é 13. Se se somar mais 10...
+
+- Class: cmd_question
+  Output: Vamos testar o resultado da expressão (pra qual já sabemos o resultado). Digite x + 10 no script e pressione CTRL + ENTER. 
+  CorrectAnswer: x + 10
+  AnswerTests: omnitest(correctExpr='x + 10')
+  Hint: Digite x + 10 e pressione CTRL + ENTER. 
+
+- Class: cmd_question
+  Output: O uso de atribuição de variáveis é recursivo. Podemos atribuir o valor de x + 10 a uma nova variável y. Tente fazer isso agora. 
+  CorrectAnswer: y <- x + 10
+  AnswerTests: omnitest(correctExpr='y <- x + 10')
+  Hint: Digite y <- x + 10 e pressione ENTER. 
+
+- Class: cmd_question
+  Output: Agora visualize o valor de y.
+  CorrectAnswer: y
+  AnswerTests: omnitest(correctExpr='y')
+  Hint: Digite y e pressione ENTER. 
+
+- Class: text
+  Output: Acho que deu pra pegar o jeitão da coisa, né? A variável x terá o valor de 13 até que se atribua novo valor a ela ou até que se encerre a sessão do R sem salvar o espaço de trabalho. 
+  
+- Class: text
+  Output: Procure no RStudio a janela com as abas Environment e History. Em Environment, o R lista os objetos criados e seus respectivos valores. Na aba History, o R mostra o histórico de comandos.  
+
+- Class: text
+  Output: Para nós, linguistas, o interesse em usar o R é não apenas em sua capacidade de lidar bem com números, mas também com caracteres e elementos textuais. Criamos uma variável com uma sequência de caracteres usando as aspas. 
+
+- Class: cmd_question
+  Output: Digite z <- "gato" para criar a variável z. 
+  CorrectAnswer: z <- "gato"
+  AnswerTests: omnitest(correctExpr='z <- "gato"')
+  Hint: Digite z <- "gato" e pressione CTRL + ENTER. 
+
+- Class: cmd_question
+  Output: Agora visualize o conteúdo de z. 
+  CorrectAnswer: z 
+  AnswerTests: omnitest(correctExpr='z')
+  Hint: Digite z e pressione CTRL + ENTER. 
+
+
+- Class: mult_question
+  Output: Note as aspas em volta do termo `gato`, que indica que a variável contém uma sequência de caracteres. O que você acha que vai acontecer se tentarmos somar a variável z com o número 1?
+  AnswerChoices: O R retornará um erro seguido de uma explicação;O R retornará o plural de `gato`;O resultado é imprevisível;O R retornará "gato" + 1;Aparecerá uma mensagem de que seu computador se autodestruirá em 5 segundos
+  CorrectAnswer: O R retornará um erro seguido de uma explicação
+  AnswerTests: omnitest(correctVal= 'O R retornará um erro seguido de uma explicação')
+  Hint: Será que é possível somar um número a caracteres?
+
+- Class: text
+  Output: Toda vez que o R não consegue executar uma linha de comando, ele dá uma mensagem de erro e indica o que está errado. Ao tentar computar z + 1, ele indicará que um dos argumentos não é numérico e que, portanto, não consegue fazer a soma. 
+
+- Class: text
+  Output: Ao ocorrer uma mensagem de erro, não se desespere! Basta ler a mensagem e tentar descobrir onde estava o erro.
+  
+- Class: cmd_question
+  Output: Para testar, digite play() no Console para sair temporariamente do ambiente do swirl. Depois, digite z + 1 para ver o resultado. Para voltar ao curso, digite nxt() e, em seguida, digite x para prosseguir. 
+  CorrectAnswer: x
+  AnswerTests: omnitest(correctExpr='x')
+  Hint: Digite play() para sair temporariamente do swirl. Para prosseguir, digite x.
+
+- Class: cmd_question
+  Output: 'Aqui vale a pena mencionar um recurso que o R e diversas outras linguagens de programação têm: pode-se voltar a uma linha de comando anterior pressionando a flecha para cima, estando com o cursor no Console. Faça isso até voltar ao comando x + 10, que executamos acima.' 
+  CorrectAnswer: x + 10
+  AnswerTests: omnitest(correctExpr='x + 10')
+  Hint: Se tiver problemas, apenas digite x + 10 para prosseguir. 
+
+- Class: text
+  Output: Até agora, inserimos apenas um elemento nas variáveis x, y e z. E se quisermos juntar mais elementos? 
+  
+- Class: text
+  Output: Para juntar mais de um elemento, usamos a função c(), em que c significa `combinar`. 
+  
+- Class: cmd_question
+  Output: Suponhamos então que você queira juntar os números 1, 5 e 7. Digite c(1, 5, 7) no script. Note que não há espaço entre o nome da função e a abertura de parênteses, e que a letra c é minúscula.
+  CorrectAnswer: c(1, 5, 7)
+  AnswerTests: omnitest(correctExpr='c(1, 5, 7)')
+  Hint: Digite c(1, 5, 7) e pressione ENTER.
+  
+- Class: cmd_question
+  Output: Também é possível juntar outros objetos previamente criados. Vamos juntar as variáveis x, y, criadas anteriormente, e o número 230. Além disso, vamos guardar esses elementos dentro de um objeto, que chamaremos de `aleatorio`. Digite aleatorio <- c(x, y, 230) no script.
+  CorrectAnswer: aleatorio <- c(x, y, 230)
+  AnswerTests: omnitest(correctExpr='aleatorio <- c(x, y, 230)')
+  Hint: Digite aleatorio <- c(x, y, 230) e pressione ENTER.
+
+- Class: cmd_question
+  Output: Agora veja o conteúdo do objeto `aleatorio`.
+  CorrectAnswer: aleatorio
+  AnswerTests: omnitest(correctExpr='aleatorio')
+  Hint: Digite aleatorio e pressione ENTER. 
+
+- Class: text
+  Output: 'O objeto `aleatorio`, assim como x, y e z, é um VETOR. Vetores são sequências de dados de um mesmo tipo (numérico, de caracteres, ou lógico). Este último, que ainda não vimos, conteria apenas valores TRUE (= "verdadeiro") ou FALSE (= "falso"). Mas fiquemos, por ora, apenas nos vetores numéricos ou de caracteres.' 
+
+- Class: text
+  Output: Vetores podem ter qualquer número de elementos -- e muitas vezes vamos trabalhar com vetores de centenas ou milhares de dados. 
+
+- Class: cmd_question
+  Output: Sempre que tiver dúvidas sobre uma função específica, você pode chamar o Help do R por meio do comando `?` seguido do nome da função, sem os parênteses. Por exemplo, digite ?c para visualizar mais informações sobre essa função na aba `Help`.
+  CorrectAnswer: ?c
+  AnswerTests: any_of_exprs('?c', 'help(c)')
+  Hint: Digite ?c, pressione ENTER e visualize a ajuda da função na aba Help.
+
+- Class: text
+  Output: Veja na aba `Help` da janela Files, Plots, Packages... que o R abriu a ajuda sobre essa função. Fique à vontade para explorá-la e pressione ENTER no Console quando estiver pronto para prosseguir.
+
+- Class: cmd_question
+  Output: Outro operador útil no R é `:`, que representa um intervalo. Crie um vetor chamado `numeros` que contém os números de 20 a 39. Digite numeros <- c(20:39) no script.
+  CorrectAnswer: numeros <- c(20:39)
+  AnswerTests: any_of_exprs('numeros <- c(20:39)', 'numeros <- 20:39')
+  Hint: Digite numeros <- c(20:39) e pressione CTRL + ENTER. 
+
+- Class: cmd_question
+  Output: Veja agora o conteúdo do vetor recém criado. 
+  CorrectAnswer: numeros
+  AnswerTests: omnitest(correctExpr='numeros')
+  Hint: Digite numeros e pressione ENTER.
+
+- Class: text
+  Output: Esse é um jeito muito mais fácil de criar um vetor numérico do que digitar c(20, 21, 22, 23...). 
+
+- Class: text
+  Output: Você notou que os vetores que criamos não contêm caracteres especiais, como diacríticos (p.ex. ´^), espaços e outros como - & $...? Ao nomear objetos no R, evite esses caracteres!
+
+- Class: text
+  Output: Vejamos agora outras funções úteis no R. Algo importante a se fazer a cada nova sessão do R é gerenciar o espaço de trabalho. Para isso, usamos as funções getwd() ou setwd(). `wd` nessas funções significa `working directory`, ou diretório de trabalho, que é a pasta em seu sistema que o R está usando como referência para interagir com arquivos fora do R (p.ex., seu arquivo de dados linguísticos!).
+
+- Class: cmd_question
+  Output: Vamos descobrir qual é o diretório de trabalho atual. Digite getwd() no script.
+  CorrectAnswer: getwd()
+  AnswerTests: omnitest(correctExpr='getwd()')
+  Hint: Digite getwd() e pressione CTRL + ENTER.
+
+- Class: text
+  Output: Observe o formato com que o R retorna o atual diretório de trabalho. Trata-se do caminho completo para a pasta, entre aspas, e com barras para a direita `/`.
+
+- Class: text
+  Output: 'Para mudar o diretório de trabalho, usamos a função setwd(). Dentro dos parênteses dessa função, digitamos o caminho completo do novo diretório no mesmo formato -- entre aspas e com barras para a direita. P.ex.: setwd("C:/Users/IntroaEstatistica").'
+
+- Class: text
+  Output: Mas há um jeito relativamente mais fácil de fazer isso no RStudio. Procure a janela que contém as abas Files, Plots, Packages... e clique sobre a aba Files.
+
+- Class: text
+  Output: Dentro dessa aba, no canto superior direito, clique sobre as reticências `...`. Abrirá uma janela que permite navegar até a pasta desejada. Selecione a pasta que deseja transformar em novo diretório de trabalho. (Recomendo que você crie uma nova pasta em seu computador só para isso!)
+  
+- Class: cmd_question
+  Output: Você verá seu conteúdo na aba Files. Em seguida, clique sobre `More` e em `Set As Working Directory`. Faça isso agora. 
+  CorrectAnswer: setwd("~/Dropbox/_R/swirl/testes")
+  AnswerTests: expr_uses_func('setwd')
+  Hint: Releia com calma as instruções da pergunta anterior. 
+
+- Class: text
+  Output: O R executou a linha de comando no Console e estabeleceu um novo diretório de trabalho. Nesse caso, utilizamos a interface do RStudio para executar um comando sem ter que digitar uma linha. 
+  
+- Class: text
+  Output: Embora isso seja mais fácil quando executado uma única vez, essa ação pode ser mais trabalhosa se se tornar repetitiva. Por exemplo, se quisermos estabelecer o mesmo diretório de trabalho a cada vez que se inicia uma sessão no R, aí já não vale mais a pena estabelecer o diretório de trabalho desse modo. 
+
+- Class: text
+  Output: Uma boa ideia é selecionar e copiar (CTRL/Command + C) essa linha de comando do Console e colá-la no seu script. Faça isso agora.
+  
+- Class: text
+  Output: Note que, ao fazer uma alteração no arquivo do script, aparece um asterisco vermelho ao lado do nome do arquivo. Isso indica que há modificações não salvas. Salve com CTRL/Command + S. Aliás, é uma boa ideia fazer isso periodicamente, para não perder seu trabalho!
+
+- Class: text
+  Output: Os arquivos de scripts funcionam como qualquer outro arquivo comum. Pode-se abri-los, fechá-los, salvá-los com outro nome com Salvar como... Se em seus scripts você for usar sequências de caracteres em português, uma dica é usar a opção `Save with encoding` e escolher a opção UTF-8, que lê corretamente caracteres especiais como diacríticos (´ ` ^). (Mas lembre-se que é bom evitá-los ao criar ou nomear objetos no R!)
+
+- Class: text
+  Output: Por fim, vamos ver mais uma função que será usada extensivamente em suas análises -- read_csv(). Na maior parte dos casos para as análises estatísticas, queremos analisar uma planilha de dados preparada previamente em um programa como o Excel ou o Calc. 
+  
+- Class: text
+  Output: A função read_csv() faz parte dos pacotes `readr` e `tidyverse` -- este último, um conjunto de pacotes para manipulação de dados. Os pacotes (também chamados de `bibliotecas`) são conjuntos de funções criadas por usuários do R e disponibilizadas aos demais usuários, e que não fazem parte da instalação base do R. Sempre que quiser instalar um novo pacote, você deve usar a função install.packages(), um comando que você usou para instalar os pacotes swirl e vários outros para este curso!
+
+- Class: cmd_question
+  Output: Para usar funções que não fazem parte da instalação base do R, é necessário acessar, a cada nova sessão, o pacote/biblioteca por meio da função library(). Aplique-a ao pacote tidyverse. 
+  CorrectAnswer: library(tidyverse)
+  AnswerTests: omnitest(correctExpr='library(tidyverse)')
+  Hint: Digite library(tidyverse) e pressione ENTER.
+
+- Class: figure
+  Output: Acabei de fazer uma cópia de um arquivo de dados, chamado DadosRT.csv, para o atual diretório de trabalho. Dê uma olhada nessa pasta.
+  Figure: copiarDadosRT.R
+  FigureType: new
+
+- Class: text
+  Output: A planilha DadosRT tem o formato .csv (= comma separated values). Para ler esse tipo de arquivo no R, podemos usar a função read_csv(), do pacote tidyverse. 
+
+- Class: cmd_question
+  Output: Rode a linha de comando com a função read_csv() -- já pronta! --, para que o R leia os dados da planilha e os insira dentro de um objeto chamado `dados.` Basta colocar o cursor em qualquer ponto da linha de comando e pressionar CTRL + ENTER. É possível que demore um tempinho para rodá-la; enquanto o R executa esse comando, note que aparece um círculo vermelho no topo direito da janela Console (STOP), que indica que o R está executando determinado comando e que você esperar antes de dar novos comandos.
+  CorrectAnswer: dados <- read_csv("DadosRT.csv", col_types = cols(.default = col_factor(), cont.precedente = col_character(), ocorrencia = col_character(), cont.seguinte = col_character(), IDADE = col_integer(), INDICE.SOCIO = col_double(), FREQUENCIA = col_double()))
+  AnswerTests: omnitest('dados <- read_csv("DadosRT.csv", col_types = cols(.default = col_factor(), cont.precedente = col_character(), ocorrencia = col_character(), cont.seguinte = col_character(), IDADE = col_integer(), INDICE.SOCIO = col_double(), FREQUENCIA = col_double()))')
+  Hint: Rode as linhas de comando indicadas como 82% do script.
+
+- Class: text
+  Output: "Essa linha de comando é mais complexa do que as anteriores, de modo que vale a pena analisar sua estrutura. Primeiro, note que, mesmo que o comando ocupe mais de uma linha, trata-se de uma única linha de comando. Ao ler \"dados <- read_csv(\"DadosRT.csv\",\", o R reconhece que esta é uma linha de comando incompleta, e isso é sinalizado com o símbolo \"+\" no Console. Ela está incompleta porque, nessa primeira linha, um parênteses foi aberto (, mas não foi fechado. Essa é uma regra sagrada na programação: tudo que abre tem que fechar! Há, ademais, uma vírgula, que indica que haverá mais argumentos na função." 
+
+- Class: text
+  Output: Usamos a função read_csv() com dois argumentos, file e col_types. Todas as funções têm parênteses e, dentro deles, podem ser inseridos zero, um ou mais argumentos -- como nas funções getwd(), library() e c(), respectivamente.
+
+- Class: cmd_question
+  Output: Acesse a Ajuda da função read_csv.
+  CorrectAnswer: ?read_csv
+  AnswerTests: any_of_exprs('?read_csv', 'help(read_csv)')
+  Hint: Digite ?read_csv no script e pressione CTRL + ENTER.
+  
+- Class: text
+  Output: O primeiro argumento, file, foi preenchido com "DadosRT.csv". Porque colocamos esse argumento em sua posição default, não foi necessário digitar file = "DadosRT.csv" para especificar qual argumento é esse. 
+  
+- Class: text
+  Output: "O segundo argumento usado foi col_types. Esse argumento tomou ele mesmo outra função, chamada cols(), para definir o tipo das colunas nesse dataframe. Note aí a recursividade! Na função cols(), especificamos que o tipo default de cada coluna é `factor`, exceto pelas colunas cont.precedente, ocorrencia e cont.seguinte, que devem ser lidas como \"character\", e as colunas IDADE, INDICE.SOCIO e FREQUENCIA, que devem ser lidas como \"integer\" e \"double\" (tipos de número). Na Lição 3, vamos ver essa tipologia de dados com mais detalhes."  
+  
+- Class: text
+  Output: Note, além disso, que col_factor(), col_character(), col_integer() e col_double() são também funções -- algo que sabemos pelos parênteses. É possível criar outras especificações dentro dessas funções como, por exemplo, mudar a ordem dos níveis de uma variável. Também veremos isso na Lição 3. Por ora, interessa chamar a atenção para essa estrutura mais geral de funções, que sempre têm parênteses, e cujos argumentos, dentro dos parênteses, são separados por vírgulas. Os diferentes argumentos das funções read_csv() e cols() foram colocados em linhas distintas no script justamente para mais bem visualizar a estrutura da função read_csv() e as demais funções nela encaixadas. 
+  
+- Class: text
+  Output: Por fim, você também deve ter notado, na Ajuda da função read_csv(), que existem vários outros argumentos nas funções da família read_delim. Alguns argumentos podem ter um valor default; quando o usuário não especifica nada para determinado argumento, o R assume que seu valor é o default, pré-especificado pel@ autor@ da função. Por exemplo, para read_csv(), o argumento col_names é pré-especificado como TRUE, de modo que, se nada for especificado quanto aos nomes das colunas, o R assume que a primeira linha contém o nome das colunas do dataframe. 
+  
+- Class: cmd_question
+  Output: Vamos inspecionar, então, o conteúdo do objeto recém-criado `dados`. Digite dados.
+  CorrectAnswer: dados
+  AnswerTests: omnitest(correctExpr='dados')
+  Hint: Digite dados e pressione ENTER.
+
+- Class: text
+  Output: "Dentro do universo tidyverse, o R retorna um tibble -- um resumo de um dataframe. O arquivo DadosRT, agora disponível em `dados`, é uma planilha com dados da pronúncia variável de /r/ em coda, em palavras como \"porta\" e \"mulher\", na fala de paulistanos. Encontraremos esse arquivo novamente em lições futuras." 
+
+- Class: text
+  Output: Nesta lição, você aprendeu alguns comandos fundamentais no R, que serão bastante utilizados nas próximas lições -- como criar vetores, como acessar a Ajuda, como usar as funções c(), getwd(), setwd(), library(), read_csv(). Além disso, vimos as quatro janelas que compõem o ambiente do RStudio. 
+
+- Class: text
+  Output: Embora possa parecer complicado digitar linhas de comando em vez de clicar em botões, normalmente só se tem que digitar os comandos uma ou poucas vezes. Na maior parte do tempo, trabalha-se com scripts, como o arquivo que está aberto em Source, que é um conjunto de linhas de comando que são guardadas em arquivos de extensão .R. 
+
+- Class: text
+  Output: Para praticar os conteúdos dessa lição, faça os exercícios correspondentes no curso `Introdução à Estatística para Linguística - Exercícios`.
+

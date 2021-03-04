@@ -1,0 +1,354 @@
+- Class: meta
+  Course: Introducao_a_Estatistica_para_Linguistas
+  Lesson: Estatistica_Inferencial_Regressao_Logistica_Parte1
+  Author: Livia Oushiro
+  Type: Standard
+  Organization: UNICAMP
+  Version: 2.4.3
+
+- Class: figure
+  Output: "Esta e a próxima lição são dedicadas a análises de regressão logística, que se aplicam a variáveis dependentes/resposta binárias. A regressão logística permite a inclusão de mútiplas variáveis previsoras, assim como a análise de regressão linear. Cabe lembrar que, antes de chegar à análise multivariada de regressão logística, @ pesquisador@ idealmente já terá feito gráficos e análises exploratórias (como o qui-quadrado) a fim de saber como se distribuem seus dados. O interesse nas análises de regressão logística é verificar o efeito simultâneo de múltiplas variáveis previsoras, a fim de chegar a um modelo para descrever, explicar e prever o comportamento da variável resposta."
+  Figure: Licao14-background1.R
+  FigureType: new
+
+- Class: text
+  Output: "A regressão logística também gera um coeficiente linear (Intercept) e coeficientes angulares para cada variável/termo previsor do modelo, e avalia se a estimativa difere significativamente de zero. Contudo, enquanto a regressão linear gera coeficientes na mesma unidade que da variável resposta -- nos exemplos das Lições 12 e 13, medidas de F1.NORM em Hz --, a regressão logística gera coeficientes em logodds (também chamado de log-odds-ratio), sobre o qual falaremos mais adiante. Os valores de logodds entram na função y = a + bx1, cx2, dx3... para permitir a estimativa de ocorrência dos níveis da variável resposta."
+  
+- Class: cmd_question
+  Output: Carregue inicialmente os pacotes necessários para esta lição, a começar pelo pacote tidyverse.
+  CorrectAnswer: library(tidyverse)
+  AnswerTests: omnitest(correctExpr='library(tidyverse)')
+  Hint: Digite library(tidyverse) e pressione CTRL + ENTER.
+  
+- Class: cmd_question
+  Output: Carregue o pacote car.
+  CorrectAnswer: library(car)
+  AnswerTests: omnitest(correctExpr='library(car)')
+  Hint: Digite library(car) e pressione CTRL + ENTER.
+  
+- Class: cmd_question
+  Output: Carregue o pacote effects.
+  CorrectAnswer: library(effects)
+  AnswerTests: omnitest(correctExpr='library(effects)')
+  Hint: Digite library(effects) e pressione CTRL + ENTER.
+  
+- Class: cmd_question
+  Output: E carregue o pacote rms.
+  CorrectAnswer: library(rms)
+  AnswerTests: omnitest(correctExpr='library(rms)')
+  Hint: Digite library(rms) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Deixei disponível para você o conjunto de dados da pronúncia do /r/ em coda silábica como tepe ou como retroflexo na fala de paulistanos, num dataframe chamado `dados`. Aplique a função str() para se (re)familiarizar com ele."
+  CorrectAnswer: str(dados)
+  AnswerTests: omnitest(correctExpr='str(dados)')
+  Hint: Digite str(dados) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Aplique também a função View() para visualizar a planilha. Em especial, veja as variáveis SEXO.GENERO, FAIXA.ETARIA, INDICE.SOCIO e REGIAO, com que trabalharemos nesta lição."
+  CorrectAnswer: View(dados)
+  AnswerTests: omnitest(correctExpr='View(dados)')
+  Hint: Digite View(dados) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "A variável SEXO.GENERO indica se o dado veio de um falante do sexo feminino ou masculino. FAIXA.ETARIA está dividida em três níveis -- 1a: de 20 a 34 anos; 2a: de 35 a 59 anos; e 3a: 60 anos ou mais. REGIAO indica a região de residência atual do falante, central ou periférica. Por fim, INDICE.SOCIO é um índice contínuo que vai de 1 a 5, que leva em conta a escolaridade, ocupação e renda do falante, bem como escolaridade e ocupação de seus pais (ver Oushiro 2015:cap3 para detalhes); quanto maior o índice, maior foi a pontuação média do falante para os critérios acima."
+
+- Class: text
+  Output: "De modo semelhante ao que fizemos na análise de regressão linear, vamos começar com modelos simples, com o intuito de treinar a leitura dos resultados. Na próxima lição, veremos como criar e avaliar modelos mais complexos. "
+
+- Class: cmd_question
+  Output: "A função para criar um modelo de regressão logística é glm() -- do inglês, 'generalized linear model'. Trata-se efetivamente de uma generalização do modelo de regressão linear para variáveis não numéricas. Você verá que muito da implementação da regressão logística é paralela à regressão linear. Mas é importante já mencionar uma diferença importante: as estimativas da regressão logística são fornecidas em relação ao SEGUNDO nível da variável dependente. Aplique a função levels() ao vetor dados$VD para ver os níveis da variável dependente."
+  CorrectAnswer: levels(dados$VD)
+  AnswerTests: omnitest(correctExpr='levels(dados$VD)')
+  Hint: Digite levels(dados$VD) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "O R organizou os níveis na ordem tepe e retroflexo a partir da especificação de levels no momento da importação dos dados (ver script). Isso significa que os resultados dos modelos deverão ser lidos em termos do que aumenta ou diminui a probabilidade de ocorrência do RETROFLEXO. Essa variante foi escolhida para leitura do resultados pois temos mais interesse em vê-los da perspectiva da variante não prototípica da comunidade paulistana. Será mais interessante descobrir quais fatores mais favorecem o emprego de retroflexo do que do tepe. "
+
+- Class: cmd_question
+  Output: "Podemos então seguir para a regressão logística. Assim como a função lm(), o primeiro argumento de glm() é uma fórmula no formato VR ~ VP..., e o segundo argumento é o conjunto de dados. Aqui, entretanto, há mais um argumento: family = binomial, que indica que a variável resposta é binária. Crie então um primeiro modelo chamado mod1, que testa se há correlação entre a variação na pronúncia de /r/ em coda (VD) e o SEXO.GENERO do falante. Digite mod1 <- glm(VD ~ SEXO.GENERO, data = dados, family = binomial)."
+  CorrectAnswer: mod1 <- glm(VD ~ SEXO.GENERO, data = dados, family = binomial)
+  AnswerTests: omnitest(correctExpr='mod1 <- glm(VD ~ SEXO.GENERO, data = dados, family = binomial)')
+  Hint: Digite mod1 <- glm(VD ~ SEXO.GENERO, data = dados, family = binomial) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Veja o resultado com a aplicação de summary() a mod1."
+  CorrectAnswer: summary(mod1)
+  AnswerTests: omnitest(correctExpr='summary(mod1)')
+  Hint: Digite summary(mod1) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "Você já está bem familiarizado com o `output` de um teste estatístico no R. Primeiro, ele informa a fórmula empregada e os resíduos. Em seguida, mostra a tabela de coeficientes, com o erro padrão e um valor de significância para cada um. Por fim, dá informações gerais sobre o modelo como um todo. Mas há aqui algumas pequenas diferenças."
+
+- Class: text
+  Output: "A principal delas está nas estimativas dos coeficientes, que são dadas em logodds. Quando fizemos um modelo de regressão linear, era fácil interpretar as estimativas, pois elas eram dadas na mesma unidade que a variável resposta. Mas, aqui, o que significam -1.16304 logodds para o coeficiente linear e 0.44111 logodds para o coeficiente angular? Na sequência, vamos ver como esse valor é calculado para você mais bem entendê-lo."
+
+- Class: cmd_question
+  Output: "Faça visualize as frequências dos dados de SEXO.GENERO pela VD, substituindo no script os termos necessários."
+  CorrectAnswer: dados %>% count(SEXO.GENERO, VD) %>% print()
+  AnswerTests: omnitest(correctExpr='dados %>% count(SEXO.GENERO, VD) %>% print()')
+  Hint: Substitua df por dados e as duas ocorrências de VAR por SEXO.GENERO e VD, respectivamente.
+
+- Class: cmd_question
+  Output: "As chances (= odds) de algo ocorrer se dão pela divisão simples entre o número de resultados favoráveis e o número de resultados desfavoráveis. Embora relacionadas com a probabilidade, as chances são algo diferente. As chances normalmente são expressas por uma razão, do tipo 3:1. Assim, as chances de ocorrer TEPE na fala de mulheres são 3478 / 1087, de acordo com a tabela acima. Guarde esse resultado num objeto chamado odds_F. "
+  CorrectAnswer: odds_F <- 3478 / 1087
+  AnswerTests: omnitest(correctExpr='odds_F <- 3478 / 1087')
+  Hint: Digite odds_F <- 3478 / 1087 e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Faça o mesmo cálculo para os homens, e guarde-o num objeto chamado odds_M."
+  CorrectAnswer: odds_M <- 3137 / 1524
+  AnswerTests: omnitest(correctExpr='odds_M <- 3137 / 1524')
+  Hint: Digite odds_M <- 3137 / 1524 e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Faça agora o cálculo do odds-ratio, a razão (= divisão) entre as chances de ocorrer tepe na fala das mulheres (odds_F) e na fala dos homens (odds_M). Guarde-o num objeto chamado odds_ratio."
+  CorrectAnswer: odds_ratio <- odds_F / odds_M
+  AnswerTests: omnitest(correctExpr='odds_ratio <- odds_F / odds_M')
+  Hint: Digite odds_ratio <- odds_F / odds_M e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Agora aplique a função log() a odds_ratio."
+  CorrectAnswer: log(odds_ratio)
+  AnswerTests: omnitest(correctExpr='log(odds_ratio)')
+  Hint: Digite log(odds_ratio) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "Veja que o resultado do log de odds-ratio é justamente a estimativa calculada para os homens na tabela de coeficientes de nosso modelo. Por que usar o log do odds-ratio, e não simplesmente as chances (= odds) ou a probabilidade (= proporção de ocorrências da variante de interesse em relação ao total)?"
+
+- Class: figure
+  Output: "A figura que se abriu em Plots (Gries 2013:300) mostra a relação entre essas três medidas de probabilidade. Odds é uma escala de vai de zero até +infinito. Isso não é difícil de entender. As chances de algo ocorrer (=resultado favorável -- Fav) são maiores, menores ou iguais às chances de não ocorrer (=resultado desfavorável -- Des). Se o resultado favorável é mais frequente do que o resultado desfavorável, a divisão Fav/Des dará um número maior do que 1, e não tem limite máximo. Se o resultado favorável é menos frequente do que o resultado desfavorável, a divisão Fav/Des dará um número menor do que 1, mas nunca negativo. O ponto neutro da escala é 1, pois ele equivale ao cenário em que Fav = Des, portanto Fav/Des = 1."
+  Figure: mostrarGries-odds-log-prob.R
+  FigureType: new
+
+- Class: text
+  Output: "Por outro lado, a probabilidade é uma medida mais conhecida. Ela é uma escala de 0 a 1, em que 0 representa uma chance nula de algo ocorrer (0%) e 1 representa certeza de que vai ocorrer (100%). De modo simples, ela é calculada pelo número de resultados favoráveis pelo total de observações (Fav/T). O ponto neutro aí é 50%; um número abaixo disso indica maior probabilidade de que o evento não vai ocorrer e um número acima disso indica maior probabilidade de que o evento vai ocorrer."
+
+- Class: text
+  Output: "Por fim, a escala de logodds vai de menos infinito a mais infinito, com ponto neutro em zero. Em relação a odds, ela tem a vantagem de ser uma escala simétrica, com um mesmo intervalo entre o ponto neutro e suas extremidades. A operação log tem justamente o papel de transformar valores entre 0 e 1 em um valor negativo (experimente depois no Console do R!). Desse modo, a interpretação de valores é muito mais intuitiva do que numa escala assimétrica, pois os intervalos em que há favorecimento ou desfavorecimento de um evento são diretamente comparáveis." 
+
+- Class: text
+  Output: "Em relação à escala de probabilidade, ter o ponto neutro em zero -- em vez de 0.5 -- também traz vantagens. Vimos, no modelo de regressão linear, que o resultado em termos de DIFERENÇA em relação ao intercept permite avaliar mais prontamente se ela é zero ou não. Um logodds de zero (ou próximo a ele) indica prontamente se há diferenças significativas; valores positivos indicam tendência a favorecimento (em relação a outro nível da mesma variável previsora); e valores negativos indicam tendência a desfavorecimento (em relação a outro nível da mesma variável previsora). No resultado de nosso primeiro modelo, portanto, um logodds de 0.44 para homens indica que, EM RELAÇÃO ÀS MULHERES, os homens favorecem o retroflexo."
+
+- Class: cmd_question
+  Output: "Coloquei a comparação entre homens e mulheres acima em caixa alta porque uma estimativa de logodds positiva não significa que os homens usam o retroflexo mais frequentemente do que o tepe. Essa é uma diferença relativa. Lembre-se que para chegar à estimativa, é necessário somar o valor do intercept ao valor do coeficiente angular. Os homens paulistanos, portanto, têm -1.16304 + 0.44111 = -0.72193 logodds de emprego de retroflexo. A figura em Plots mostra qual operação se aplica para transformar uma medida em outra -- exp, log, logit ou ilogit. Aplique a função ilogit() a -0.72193 para transformar a medida de logodds em probabilidade."
+  CorrectAnswer: ilogit(-0.7219327)
+  AnswerTests: omnitest(correctExpr='ilogit(-0.7219327)')
+  Hint: Digite ilogit(-0.7219327) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "O cálculo acima indica que a probabilidade de os homens empregarem retroflexo é 32.7%. Aplique também a função ilogit() ao valor de -1.16304, a estimativa em logodds para as mulheres."
+  CorrectAnswer: ilogit(-1.16304)
+  AnswerTests: omnitest(correctExpr='ilogit(-1.16304)')
+  Hint: Digite ilogit(-1.16304) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "O cálculo para as mulheres indica uma probabilidade de 23.8% de elas empregarem o retroflexo. Para comparar, faça agora uma tabela de proporções, substituindo os termos df e VAR na estrutura pré-montada do script -- reveja a Lição 4, se necessário."
+  CorrectAnswer: dados %>% count(SEXO.GENERO, VD) %>% group_by(SEXO.GENERO) %>% mutate(prop = prop.table(n)) %>% print()
+  AnswerTests: omnitest(correctExpr='dados %>% count(SEXO.GENERO, VD) %>% group_by(SEXO.GENERO) %>% mutate(prop = prop.table(n)) %>% print()')
+  Hint: Faça as substituições com calma!
+
+- Class: text
+  Output: "O cálculo de probabilidade, nesse modelo univariado, corresponde exatamente ao valor de logodds, pois não há outras variáveis previsoras que possam ajustar a estimativa de logodds. Legal, não?"
+
+- Class: text
+  Output: "Não é necessário memorizar toda essa demonstração, nem realizá-la todas as vezes que criar um modelo de regressão logística. Ela serve aqui para que você perceba que as medidas de logodds se relacionam diretamente a outras medidas estatísticas mais conhecidas (chances e probabilidades), mas têm a vantagem de ser uma escala centrada em zero, o que facilita a interpretação dos resultados."
+
+- Class: figure
+  Output: "As medidas em logodds podem ser estranhas no começo, pela falta de contato que se tem com elas. No entanto, aos poucos você vai se acostumar a ver uma medida em logodds e saber se se trata de um efeito forte ou fraco. A tabela na figura em Plots (de Levshina (2015:265)) mostra as equivalências entre probabilidades, chances e logodds."
+  Figure: mostrarLevshina-p265.R
+  FigureType: new
+
+- Class: cmd_question
+  Output: "A essa altura, o resultado de mod1 ficou lá atrás, mas ainda falta comentar as demais medidas estatísticas geradas no modelo. Digite então summary(mod1) no Console."
+  CorrectAnswer: summary(mod1)
+  AnswerTests: omnitest(correctExpr='summary(mod1)')
+  Hint: Digite summary(mod1) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "De modo semelhante ao modelo linear, a regressão logística apresenta o erro padrão junto à estimativa. Se se faz a divisão entre Estimativa / Erro Padrão, chega-se ao valor da terceira coluna. Aqui, em vez de um valor-t, temos um valor-z, que é consultado numa tabela de distribuição normal padrão (como fizemos na tabela de qui-quadrado, na Lição 9). Dessa tabela se obtém o valor de significância."
+
+- Class: text
+  Output: "Ao pé da tabela, diferentemente do modelo linear, o R não reporta diretamente medidas que permitem avaliar o poder explanatório do modelo, como R^2 e a estatística-F. No entanto, os valores de desvio nulo e desvio residual permitem fazer esse cálculo. O desvio nulo se refere a quanto há de variabilidade total nos dados, sem a inclusão de qualquer variável previsora. O desvio residual se refere a quanto há de variabilidade nos dados depois da inclusão da(s) variável(is) previsora(s). Portanto, a diferença entre o desvio residual e o desvio nulo é o quanto o nosso modelo é capaz de prever da variabililidade dos dados."
+
+- Class: figure
+  Output: "Em Source, abri um script que permite fazer o cálculo de significância do modelo como um todo \"à mão\", de posse dos dados de desvio nulo, desvio residual e graus de liberdade. Depois dessa lição, dedique um tempo para entendê-lo. Ele não será explicado aqui porque há uma maneira mais simples de se obter essa medida estatística, que veremos logo adiante."
+  Figure: Licao14-background2.R
+  FigureType: new
+
+- Class: text
+  Output: "O AIC (Akaike Information Criterion), como vimos na Lição 13, é uma medida que permite comparar modelos e é usada na função step() para selecionar ou excluir variáveis. E a última medida estatística reportada para o modelo logístico é o Fisher Scoring iterations. Ela se refere ao número de iterações do modelo até que os resultados convergiram. Aqui, o modelo convergiu após 4 tentativas. Quando este número é grande (digamos, acima de 20), é sinal de que foram incluídas mais variáveis previsoras do que é possível explicar com a quantidade de dados de que se dispõe. A solução, neste caso, é diminuir o número de variáveis incluídas no modelo."
+
+- Class: text
+  Output: "De modo semelhante ao modelo linear, podemos plotar um gráfico de efeitos para melhor visualizar os resultados numéricos. Para isso, vamos usar uma função do pacote effects, já carregado acima."
+
+- Class: cmd_question
+  Output: "Para modelos logísticos, usamos a função allEffects() -- mesmo se o modelo contém apenas uma variável previsora -- e o argumento type = \"response\". Faça o gráfico de efeitos com plot(allEffects(mod1), type = \"response\")."
+  CorrectAnswer: plot(allEffects(mod1), type = "response")
+  AnswerTests: omnitest(correctExpr='plot(allEffects(mod1), type = "response")')
+  Hint: Digite plot(allEffects(mod1), type = "response") e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "O gráfico de efeitos mostra os resultados com as medidas de probabilidade. Vemos que a estimativa de emprego de retroflexo é cerca de 23% para as mulheres e 32% para os homens, e que os intervalos de confiança não se sobrepõem, o que permite inferir a diferença significativa entre os níveis."
+
+- Class: cmd_question
+  Output: "Há outra função que faz regressões logísticas, chamada lrm() -- \"logistic regression model\". Esta função pertence ao pacote rms, também carregado no início desta lição. A função lrm() toma como argumentos apenas a fórmula (VD ~ SEXO.GENERO) e o conjunto de dados (data = dados). Aplique-a então com lrm(VD ~ SEXO.GENERO, data = dados)."
+  CorrectAnswer: lrm(VD ~ SEXO.GENERO, data = dados)
+  AnswerTests: omnitest(correctExpr='lrm(VD ~ SEXO.GENERO, data = dados)')
+  Hint: Digite lrm(VD ~ SEXO.GENERO, data = dados) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "Trata-se de outro método para o mesmo fim. Veja que os coeficientes gerados correspondem exatamente àqueles do modelo prévio com a função glm(). Mas, além de não ser necessário usar a função summary() para visualizar o resultado, a função lrm() apresenta algumas medidas estatísticas relevantes no topo do output. A primeira coluna fornece o total de observações e de cada variante da variável resposta."
+
+- Class: text
+  Output: "A segunda coluna, Model Likelihood Ratio Test, informa se o modelo como um todo é significativo. O teste de Razão de Verossimilhança compara dois modelos (com e sem variáveis previsoras) e com isso gera um valor-p para o modelo -- como é feito no script -calculoSignificanciaModelo.R aberto em Source. As duas colunas à direita mostram várias medidas estatísticas de qualidade do ajuste, ou seja, de quão bem o modelo é capaz de explicar a variação encontrada nos dados (como o R^2). Para modelos de regressão logística, a estatística mais reportada é o índice de Concordância 'C', a primeira medida da quarta coluna. De Hosmer & Lemeshow 2000 (apud Levshina 2015:259), temos C = 0.5: pouco poder de discriminação de resultado; 0.7 < C < 0.8: poder aceitável de discriminação de resultado; 0.8 < C < 0.9: poder excelente de discriminação de resultado; e C > 0.9: poder notório de discriminação de resultado. Em nosso modelo, C = 0.55 é um sinal de que ele ainda pode ser melhorado."
+
+- Class: cmd_question
+  Output: "Vamos seguir agora para um modelo com uma variável previsora nominal com mais de dois níveis. Com a função glm(), crie o modelo mod2 que testa se há correlação entre VD e a FAIXA.ETARIA do falante. Não se esqueça de incluir o conjunto de dados e family = binomial."
+  CorrectAnswer: mod2 <- glm(VD ~ FAIXA.ETARIA, data = dados, family = binomial)
+  AnswerTests: omnitest(correctExpr='mod2 <- glm(VD ~ FAIXA.ETARIA, data = dados, family = binomial)')
+  Hint: Digite mod2 <- glm(VD ~ FAIXA.ETARIA, data = dados, family = binomial) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "E veja o resultado com summary()."
+  CorrectAnswer: summary(mod2)
+  AnswerTests: omnitest(correctExpr='summary(mod2)')
+  Hint: Digite summary(mod2) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "Vamos direto aos coeficientes. O resultado mostra que, em relação à primeira faixa etária (nível de referência), os falantes tanto de segunda quanto de terceira faixa etária tendem a DESfavorecer o retroflexo -- que se infere pelas estimativas negativas em logodds. Em outras palavras, os falantes mais jovens tendem a empregar mais retroflexos do que os mais velhos, o que pode ser indício de uma mudança em progresso na comunidade paulistana."
+
+- Class: cmd_question
+  Output: "A partir da última linha de comando em que você usou plot() e allEffects(), mude o nome do modelo para mod2."
+  CorrectAnswer: plot(allEffects(mod2), type = "response")
+  AnswerTests: omnitest(correctExpr='plot(allEffects(mod2), type = "response")')
+  Hint: Digite plot(allEffects(mod2), type = "response") e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "O gráfico de efeitos mostra claramente que, quanto mais velho o falante, menor a tendência a empregar retroflexo. Pela figura, também parece haver uma diferença significativa entre falantes de 2a e 3a faixas etárias."
+
+- Class: cmd_question
+  Output: "Aplique a função lrm() ao mesmo modelo para obter outras medidas estatísticas relevantes."
+  CorrectAnswer: lrm(VD ~ FAIXA.ETARIA, data=dados)
+  AnswerTests: omnitest(correctExpr='lrm(VD ~ FAIXA.ETARIA, data=dados)')
+  Hint: Digite lrm(VD ~ FAIXA.ETARIA, data=dados) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Façamos agora um modelo com uma variável previsora numérica, INDICE.SOCIO. Guarde o resultado num objeto chamado mod3."
+  CorrectAnswer: mod3 <- glm(VD ~ INDICE.SOCIO, data = dados, family = binomial)
+  AnswerTests: omnitest(correctExpr='mod3 <- glm(VD ~ INDICE.SOCIO, data = dados, family = binomial)')
+  Hint: Digite mod3 <- glm(VD ~ INDICE.SOCIO, data = dados, family = binomial) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Veja o resultado de mod3 com summary()."
+  CorrectAnswer: summary(mod3)
+  AnswerTests: omnitest(correctExpr='summary(mod3)')
+  Hint: Digite summary(mod3) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "Como se trata de uma variável numérica contínua, a estimativa em logodds representa em quanto aumenta ou diminui a probabilidade de emprego de retroflexo a cada unidade de INDICE.SOCIO (ou seja, quanto mais alto o nível socioeconômico do falante). O coeficiente negativo -0.81609 indica que quanto mais alto o índice socioeconômico, menor a probabilidade de que @ falante empregue o retroflexo."
+
+- Class: cmd_question
+  Output: "Visualize esse resultado por meio de um gráfico de efeitos. A partir da última linha de comando em que se usou plot() e allEffects(), mude o nome do modelo para mod3."
+  CorrectAnswer: plot(allEffects(mod3), type = "response")
+  AnswerTests: omnitest(correctExpr='plot(allEffects(mod3), type = "response")')
+  Hint: Digite plot(allEffects(mod3), type = "response") e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "Como já visto nos modelos lineares, a variável previsora numérica é representada pela linha de regressão. Vemos aí a drástica queda em probabilidade de emprego de retroflexo, de 50% para 10%, quanto mais alto o nível socioeconômico do falante."
+
+- Class: exact_question
+  Output: "Calcule a probabilidade, em logodds, de um falante com índice socioeconômico 4.2 empregar o retroflexo. Para isso, empregue os coeficientes gerados pelo modelo dentro da função y = 1.53407 + (-0.81609 * INDICE.SOCIO)."
+  CorrectAnswer: -1.893508
+  AnswerTests: omnitest(correctVal=-1.893508)
+  Hint: Faça a conta 1.53407 + (-0.81609 * 4.2).
+
+- Class: exact_question
+  Output: "Transforme o valor em logodds em probabilidade. Para isso, aplique a função ilogit() à estimativa gerada acima."
+  CorrectAnswer: ilogit(-1.893508)
+  AnswerTests: omnitest(correctVal=0.130845)
+  Hint: Digite ilogit(-1.893508) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Confira no gráfico de efeitos que a probabilidade calculada acima corresponde à medida do eixo y (VD) quando x = 4.2. Agora obtenha as demais medidas estatísticas com uso da função lrm()."
+  CorrectAnswer: lrm(VD ~ INDICE.SOCIO, data=dados)
+  AnswerTests: omnitest(correctExpr='lrm(VD ~ INDICE.SOCIO, data=dados)')
+  Hint: Digite lrm(VD ~ INDICE.SOCIO, data=dados) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Vamos fazer agora um modelo com mais de uma variável previsora: VD ~ FAIXA.ETARIA + REGIAO. Chame esse modelo de mod4."
+  CorrectAnswer: mod4 <- glm(VD ~ FAIXA.ETARIA + REGIAO, data = dados, family = binomial)
+  AnswerTests: omnitest(correctExpr='mod4 <- glm(VD ~ FAIXA.ETARIA + REGIAO, data = dados, family = binomial)')
+  Hint: Digite mod4 <- glm(VD ~ FAIXA.ETARIA + REGIAO, data = dados, family = binomial) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Visualize o resultado de mod4 com summary()."
+  CorrectAnswer: summary(mod4)
+  AnswerTests: omnitest(correctExpr='summary(mod4)')
+  Hint: Digite summary(mod4) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "Vemos na tabela de coeficientes o mesmo resultado que havíamos visto para FAIXA.ETARIA (quanto mais velho, menor a tendência a usar retroflexo) e a correlação significativa com REGIAO (maior tendência ao retroflexo para os habitantes de bairros periféricos). Esse resultado não é surpreendente se levarmos em conta o resultado anterior para INDICE.SOCIO, uma vez que região de residência em São Paulo (e em muitas cidades) é um indicativo da classe social do falante."
+
+- Class: cmd_question
+  Output: "Visualize os resultados com um gráfico de efeitos."
+  CorrectAnswer: plot(allEffects(mod4), type = "response")
+  AnswerTests: omnitest(correctExpr='plot(allEffects(mod4), type = "response")')
+  Hint: Digite plot(allEffects(mod4), type = "response") e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "E obtenha as demais estatísticas com a função lrm()."
+  CorrectAnswer: lrm(VD ~ FAIXA.ETARIA + REGIAO, data=dados)
+  AnswerTests: omnitest(correctExpr='lrm(VD ~ FAIXA.ETARIA + REGIAO, data=dados)')
+  Hint: Digite lrm(VD ~ FAIXA.ETARIA + REGIAO, data=dados) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "Perdoe-me a repetição, mas é justamente isso que vai torná-lo proficiente em R! Façamos um último modelo simples, agora com interação."
+
+- Class: cmd_question
+  Output: "A partir do último modelo criado com glm() com as variáveis FAIXA.ETARIA e REGIAO, mude o operador de soma para a multiplicação para testar se essas variáveis interagem entre si. Guarde o resultado num objeto chamado mod5."
+  CorrectAnswer: mod5 <- glm(VD ~ FAIXA.ETARIA * REGIAO, data = dados, family = binomial)
+  AnswerTests: omnitest(correctExpr='mod5 <- glm(VD ~ FAIXA.ETARIA * REGIAO, data = dados, family = binomial)')
+  Hint: Digite mod5 <- glm(VD ~ FAIXA.ETARIA * REGIAO, data = dados, family = binomial) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Visualize o resultado de mod5."
+  CorrectAnswer: summary(mod5)
+  AnswerTests: omnitest(correctExpr='summary(mod5)')
+  Hint: Digite summary(mod5) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "Nesse modelo com interação, a diferença entre a 1a e a 2a faixas etárias deixou de ser significativa (mas mantém-se a diferença entre a 1a e a 3a). A região periférica tem um coeficiente ainda mais alto do que em mod4, em favorecimento do retroflexo. Além disso, a interação entre periferia e as duas faixas etárias mais velhas é significativa; tais interações indicam que é necessário diminuir a estimativa para falantes de 2a e 3a faixas etárias da periferia para corrigi-lo em relação a um modelo sem interação."
+
+- Class: exact_question
+  Output: "Calcule a estimativa de emprego de retroflexo para um paulistano de 1a faixa etária que mora na periferia."
+  CorrectAnswer: -1.31754 + 1.33476
+  AnswerTests: omnitest(correctVal=0.01722)
+  Hint: Some o coeficiente linear (Intercept) ao coeficiente angular para periferia.
+
+- Class: exact_question
+  Output: "Calcule a estimativa de emprego de retroflexo de um paulistano da 2a faixa etária que mora na região periférica. Note que, além das estimativas desses níveis, é necessário somar a estimativa do termo de interação. "
+  CorrectAnswer: -1.31754 -0.10887 + 1.33476 -0.69440
+  AnswerTests: omnitest(correctVal=-0.78605)
+  Hint: Some o coeficiente linear (Intercept) aos coeficientes angulares da 2a faixa etária, da periferia, e da interação 2a:periferia.
+
+- Class: cmd_question
+  Output: "Com uma interação, fica ainda mais difícil interpretar os resultados numéricos, não? O melhor é VER o resultado. Faça um gráfico de efeitos de mod5 para visualizar essas estimativas."
+  CorrectAnswer: plot(allEffects(mod5), type = "response")
+  AnswerTests: omnitest(correctExpr='plot(allEffects(mod5), type = "response")')
+  Hint: Digite plot(allEffects(mod5), type = "response") e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "O gráfico de efeitos da interação mostra mais claramente que uma mudança na direção do retroflexo está ocorrendo na região periférica de São Paulo. Os falantes da região central, diferentemente, apresentam uma relativa estabilidade, com uma tendência bem mais tímida na direção do retroflexo. São os jovens de periferia que têm liderado essa possível mudança na comunidade. O fato de que os jovens da região central e da região periférica se comportam diferentemente é justamente o que caracteriza a interação: não é possível afirmar que há uma mudança na direção do retroflexo simplesmente: isso depende da região de residência d@ falante. Em outras palavras: FAIXA.ETARIA e REGIAO não são independentes, mas interagem entre si."
+
+- Class: cmd_question
+  Output: "Aplique por fim a função lrm() ao modelo com interação para obter outras medidas estatísticas."
+  CorrectAnswer: lrm(VD ~ FAIXA.ETARIA * REGIAO, data=dados)
+  AnswerTests: omnitest(correctExpr='lrm(VD ~ FAIXA.ETARIA * REGIAO, data=dados)')
+  Hint: Digite lrm(VD ~ FAIXA.ETARIA * REGIAO, data=dados) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "Ao final do script, deixei os comandos para criar gráficos de efeitos de nossos modelos com funções do ggplot2, assim como as funções logit() e ilogit() que usamos para converter entre as medidas de probabilidade em diferentes escalas."
+  
+- Class: text
+  Output: "Na próxima lição, veremos modelos de regressão logística mais complexos e a aplicação de modelos de efeitos mistos a variáveis nominais binárias. Estude o script desta lição para fazer a lista de exercícios 14."

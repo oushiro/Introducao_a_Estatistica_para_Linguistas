@@ -1,0 +1,403 @@
+- Class: meta
+  Course: Introducao_a_Estatistica_para_Linguistas
+  Lesson: Estatistica Inferencial Correlacao e Regressao
+  Author: Livia Oushiro
+  Type: Standard
+  Organization: UNICAMP
+  Version: 2.4.3
+
+- Class: figure
+  Output: "Na Lição 9, vimos testes estatísticos que se aplicam a variáveis nominais; na Lição 10, vimos testes que se aplicam a variáveis numéricas, quando queremos comparar dois grupos ou comparar uma média com outra média conhecida. Nesta lição, veremos outros testes estatísticos que se aplicam a variáveis numéricas, em relação a outra variável também numérica."
+  Figure: Licao11-background2.R
+  FigureType: new
+
+- Class: cmd_question
+  Output: "Você já sabe o que fazer no início da sessão: carregar pacotes necessários! Carregue o pacote tidyverse."
+  CorrectAnswer: library(tidyverse)
+  AnswerTests: omnitest(correctExpr='library(tidyverse)')
+  Hint: Digite library(tidyverse) e pressione CTRL + ENTER.
+  
+- Class: cmd_question
+  Output: E, nesta sessão, também vamos usar outro pacote! Carregue o pacote chamado 'GGally'.
+  CorrectAnswer: library(GGally)
+  AnswerTests: omnitest(correctExpr='library(GGally)')
+  Hint: Digite library(GGally) e pressione CTRL + ENTER.
+  
+- Class: mult_question
+  Output: "Comecemos com um exemplo não linguístico. Existe correlação entre a idade e a altura de crianças?"
+  AnswerChoices: sim;não;não sei
+  CorrectAnswer: sim
+  AnswerTests: omnitest(correctVal= 'sim')
+  Hint: Tente de novo!
+
+- Class: cmd_question
+  Output: "Sabemos, por simples observação cotidiana, que sim! Vamos analisar este caso com alguns dados. Deixei disponíveis para você dois vetores numéricos. Inspecione o dataframe `criancas`."
+  CorrectAnswer: criancas
+  AnswerTests: omnitest(correctExpr='criancas')
+  Hint: Digite criancas e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Esse dataframe contém as idades (em anos) e as alturas (em centímetros) de 15 crianças. Vamos agora fazer um gráfico de dispersão que relaciona idade e altura, por meio da função geom_point(), que já havíamos visto na Lição 7. Para as coordenadas, use `idade` para o eixo x e `altura` para o eixo y."
+  CorrectAnswer: ggplot(criancas, aes(x = idade, y = altura)) + geom_point() 
+  AnswerTests: omnitest(correctExpr='ggplot(criancas, aes(x = idade, y = altura)) + geom_point()')
+  Hint: Digite ggplot(criancas, aes(x = idade, y = altura)) + geom_point() e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "A figura plotada mostra claramente a correlação entre idade e altura das crianças: quanto mais velha a criança, maior sua altura. A disposição dos pontos lembra uma reta inclinada, e é justamente a inclinação da reta que nos faz concluir que existe uma correlação entre essas duas variáveis."
+
+- Class: cmd_question
+  Output: "A inspeção gráfica é sempre um excelente ponto de partida, mas os testes estatísticos nos permitem chegar a estimativas mais precisas sobre se há correlação ou não entre duas variáveis. Quando temos duas variáveis numéricas, o teste indicado é o teste de correlação, que no R é feito por meio da função cor.test(). Esta função toma como argumentos dois vetores numéricos de igual extensão. Aplique-a então aos vetores idade e altura do dataframe `criancas`." 
+  CorrectAnswer: cor.test(criancas$idade, criancas$altura)
+  AnswerTests: any_of_exprs('cor.test(criancas$idade, criancas$altura)', 'cor.test(criancas$altura, criancas$idade)')
+  Hint: Digite cor.test(criancas$idade, criancas$altura) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Faz diferença se trocarmos a ordem dos vetores? Vamos testar. Aplique a função cor.test() com os vetores na ordem inversa daquela que você usou na linha anterior."
+  CorrectAnswer: cor.test(criancas$altura, criancas$idade)
+  AnswerTests: any_of_exprs('cor.test(criancas$altura, criancas$idade)', 'cor.test(criancas$idade, criancas$altura)')
+  Hint: Digite cor.test(criancas$altura, criancas$idade) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "Vemos que o resultado é idêntico. Essa é uma primeira propriedade do teste de correlação de Pearson: ele não pressupõe uma direção da correlação; apenas avalia se duas variáveis x e y se correlacionam. Vejamos então o resultado de um teste de Pearson, cuja estrutura, a esta altura, já deve ser familiar a você."
+
+- Class: text
+  Output: "As duas primeiras linhas indicam o teste realizado e o conjunto de dados a que se aplicou o teste. Em seguida, o R informa o valor-t, os graus de liberdade e o valor de significância, de modo muito semelhante ao resultado do teste-t. Numa correlação de Pearson, os graus de liberdade são o número de pares (x, y) -- aqui, 15 --, menos 2: n - 2 = 13. As linhas seguintes enunciam a hipótese alternativa, o intervalo de confiança e um valor de correlação."
+
+- Class: figure
+  Output: "O valor de correlação gerado pelo teste de correlação de Pearson é chamado de r. Ele é calculado a partir da fórmula que aparece na linha 26 do script que se abriu em Source, e leva em conta o número de observações n, a soma simples e dos quadrados de x, a soma simples e dos quadrados de y, e o produto x * y. Após esta lição, separe um momento para estudá-la."
+  Figure: Licao11-background1.R
+  FigureType: new
+  
+- Class: text
+  Output: "Para nossos propósitos práticos, o resultado da fórmula de r é sempre um número que vai de -1 a +1, que indica não só se há correlação entre x e y, mas também a força da correlação. Um valor de -1, ou próximo dele, indica uma forte correlação negativa: quanto mais x, menos y. Um valor de +1, ou próximo dele, indica uma forte correlação positiva: quanto mais x, mais y. Um valor próximo zero indica ausência de correlação."
+
+- Class: text
+  Output: "O nosso teste de correlação entre idade e altura das crianças dá um valor de r de Pearson igual a 0.97, o que indica forte correlação entre as duas variáveis. O intervalo de confiança de 95% estima que o r de Pearson poderia ter sido entre 0.91 e 0.99, um intervalo que não inclui zero, daí o valor de significância ser bem abaixo de 0.05."
+
+- Class: cmd_question
+  Output: "Assim como o teste-t, o teste de correlação tem uma versão paramétrica e uma não paramétrica, a depender de se as distribuições seguem ou não a distribuição normal. Aplique o teste de Shapiro ao vetor `idade` para verificar sua normalidade."
+  CorrectAnswer: shapiro.test(criancas$idade)
+  AnswerTests: omnitest(correctExpr='shapiro.test(criancas$idade)')
+  Hint: Digite shapiro.test(criancas$idade) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Como p > 0.05, podemos assumir que a distribuição dos valores de `idade` segue a distribuição normal. Aplique agora o teste de Shapiro ao vetor `altura`."
+  CorrectAnswer: shapiro.test(criancas$altura)
+  AnswerTests: omnitest(correctExpr='shapiro.test(criancas$altura)')
+  Hint: Digite shapiro.test(criancas$altura) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Ambas as variáveis seguem a distribuição normal, de modo que o teste de correlação de Pearson foi apropriado. Se este não tivesse sido o caso, a solução seria aplicar uma variante do teste de correlação, adicionando novo argumento a cor.test(): method = \"spearman\", para aplicar o teste de correlação de Spearman. Apenas como prática, aplique o teste de correlação com o método de Spearman às variáveis `idade` e `altura` para ver o resultado."
+  CorrectAnswer: cor.test(criancas$idade, criancas$altura, method = "spearman")
+  AnswerTests: any_of_exprs('cor.test(criancas$idade, criancas$altura, method = "spearman")', 'cor.test(criancas$altura, criancas$idade, method = "spearman")')
+  Hint: Digite cor.test(criancas$idade, criancas$altura, method = "spearman") e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "Começamos esta lição com a pergunta: \"Existe correlação entre a idade e a altura das crianças?\", e vimos, pelo teste de correlação, que existe uma forte correlação entre elas. Mas o que significa \"haver correlação\" entre duas variáveis? Um dos interesses em encontrar correlações reside no fato de que, se duas variáveis se correlacionam, podemos estimar o valor de uma se temos o valor da outra. Por exemplo, quando vemos uma criança, já temos uma ideia de qual é a sua idade. De modo semelhante, também podemos estimar qual é a altura de uma criança se sabemos quantos anos ela tem."
+
+- Class: text
+  Output: "Quando sabemos que há correlação entre duas variáveis, podemos formalizar tal conhecimento dentro de um MODELO ESTATÍSTICO, que nos ajuda a chegar a estimativas mais precisas."
+
+- Class: mult_question
+  Output: "Façamos isso com nossos dados de idade e altura das crianças. Quando duas variáveis têm uma relação linear, como é o caso dessas duas variáveis, podemos criar um MODELO LINEAR por meio da função lm() -- linear model. Essa função toma como primeiro argumento uma fórmula no formato y ~ x, que já usamos na função t.test(). Nesta fórmula, y é uma variável DEPENDENTE, x é uma variável INDEPENDENTE e ~ pode ser glosado como `explicado por`; em outras palavras, estamos testando se y pode ser explicado por ou depende de ou tem correlação com x. Entre altura e idade, qual é a variável DEPENDENTE?"
+  AnswerChoices: altura, pois a altura depende da idade;idade, pois a idade depende da altura
+  CorrectAnswer: altura, pois a altura depende da idade
+  AnswerTests: omnitest(correctVal= 'altura, pois a altura depende da idade')
+  Hint: Se não acertou de primeira, tente a outra opção!
+
+- Class: cmd_question
+  Output: "Sim, é a altura que depende da idade! Na função cor.test(), não precisamos definir a direção da correlação, mas na função lm() isso é necessário. Aplique então a função lm() à fórmula altura ~ idade. Como segundo argumento, informe o conjunto de dados com data = criancas. Guarde o resultado em um objeto chamado `modelo`."
+  CorrectAnswer: modelo <- lm(altura ~ idade, data = criancas)
+  AnswerTests: omnitest(correctExpr='modelo <- lm(altura ~ idade, data = criancas)')
+  Hint: Digite modelo <- lm(altura ~ idade, data = criancas) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Vejamos o resultado da função. Digite `modelo` no Console."
+  CorrectAnswer: modelo
+  AnswerTests: omnitest(correctExpr='modelo')
+  Hint: Digite modelo e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "O resultado de um modelo linear gera dois coeficientes: um valor de interceptação (também chamado de coeficiente linear) e um coeficiente angular. Em nosso modelo, o coeficiente linear é 62.5 e o coeficiente angular é 7.5. O que são esses números?"
+
+- Class: mult_question
+  Output: "Para bem entendê-los, vamos dar um passeio em suas memórias das aulas de Matemática... Vai aqui uma questão fácil: y + 3 = 5. Qual é o valor de y? (Desculpe-me se estou ofendendo sua inteligência... prometo que isso vai chegar a um lugar!)"
+  AnswerChoices: 2;3;4;depende!
+  CorrectAnswer: 2
+  AnswerTests: omnitest(correctVal= '2')
+  Hint: Quanto é 5 - 3?
+
+- Class: mult_question
+  Output: "E em y - 10 = 15, qual é o valor de y?"
+  AnswerChoices: 25;30;35;depende!
+  CorrectAnswer: 25
+  AnswerTests: omnitest(correctVal= '25')
+  Hint: Quanto é 15 + 10?
+
+- Class: mult_question
+  Output: "E em x + y = 30, qual é o valor de y?"
+  AnswerChoices: depende!;40;20;2
+  CorrectAnswer: depende!
+  AnswerTests: omnitest(correctVal= 'depende!')
+  Hint: Pense um pouco!
+
+- Class: text
+  Output: "Quando temos duas variáveis, x e y, o valor de y depende do valor de x. A relação entre duas variáveis é chamada de função, que pode ser denotada genericamente pela expressão y = f(x)."
+
+- Class: text
+  Output: "Uma reta no plano cartesiano segue uma função de primeiro grau no formato y = a + bx. Há aí dois novos termos, a e b. O primeiro, 'a', é o valor de y quando x é igual a zero (experimente colocar x = 0 na expressão y = a + bx). 'a', portanto, é o ponto em que a reta intersecciona o eixo y."
+
+- Class: text
+  Output: "O termo 'b' denota em quanto aumenta ou diminui o valor de y a cada unidade de x. Se b = 0, o valor de y é uma constante (ou seja, não é uma variável); se b > 0, a reta é ascendente; se b < 0, a reta é descendente."
+
+- Class: cmd_question
+  Output: "Os dois valores gerados em nosso modelo linear denotam justamente os valores de 'a' e 'b', respectivamente o coeficiente linear e o coeficiente angular. Nosso modelo então segue a função y = 62.5 + 7.5x. Vamos visualizar isso no gráfico. A linha de comando neste ponto do script é a mesma que rodamos anteriormente para plotar o gráfico, com a adição da função geom_smooth(), que usa justamente um modelo linear `lm` para plotar a linha. Rode-a agora."
+  CorrectAnswer: ggplot(criancas, aes(x = idade, y = altura)) + geom_point() + geom_smooth(method = "lm", se = FALSE, color = "lightgrey")
+  AnswerTests: omnitest(correctExpr='ggplot(criancas, aes(x = idade, y = altura)) + geom_point() + geom_smooth(method = "lm", se = FALSE, color = "lightgrey")')
+  Hint: Rode a linha de comando do script com pressione CTRL + ENTER.
+
+- Class: text
+  Output: "A linha plotada no gráfico é uma linha de regressão. Ela representa os pontos pelos quais deve passar a reta de modo que a soma das distâncias entre as observações (os círculos abertos) e a linha seja a menor possível. Ela cruza o eixo y, altura, em 62.5cm e aumenta 7.5cm a cada unidade de x. Isso significa que nosso modelo prevê que as crianças nascem com cerca de 62.5 cm e que crescem cerca de 7.5 cm por ano."
+
+- Class: text
+  Output: "Você pode ter achado a altura de 62.5 cm muito grande para um recém-nascido. Mas veja que isso é um modelo, não a realidade! Em parte, nosso modelo é menos preciso do que poderia ser porque estamos levando em conta apenas uma variável - a idade - para prever a altura. Certamente há outras que influenciam a altura das crianças: a altura dos pais, a alimentação etc. Adiante, no curso, veremos como incluir mais variáveis num modelo estatístico, o que faz com que os parâmetros sejam ajustados. Mas mesmo com a inclusão de outras tantas variáveis, o modelo nunca vai se equiparar com a realidade."
+
+- Class: text
+  Output: "Um pequeno conto de Jorge Luis Borges, chamado Del Rigor en la Ciencia, ilustra bem este ponto: \"En aquel Imperio, el Arte de la Cartografía logró tal Perfección que el mapa de una sola Provincia ocupaba toda una Ciudad, y el mapa del Imperio, toda una Provincia. Con el tiempo, estos Mapas Desmesurados no satisficieron y los Colegios de Cartógrafos levantaron un Mapa del Imperio, que tenía el tamaño del Imperio y coincidía puntualmente con él. Menos Adictas al Estudio de la Cartografía, las Generaciones Siguientes entendieron que ese dilatado Mapa era Inútil y no sin Impiedad lo entregaron a las Inclemencias del Sol y los Inviernos. En los desiertos del Oeste perduran despedazadas Ruinas del Mapa, habitadas por Animales y por Mendigos; en todo el País no hay otra reliquia de las Disciplinas Geográficas. Suárez Miranda, Viajes de Varones Prudentes, Libro Cuarto, Cap. XLV, Lérida, 1658.\""
+
+- Class: text
+  Output: "Um modelo é necessariamente uma representação simplificada da realidade -- caso contrário, corre-se o risco de ter um modelo inútil, tal como o mapa que ocupa todo o Império. Ainda que o modelo se distancie da realidade, ele é útil para apreender o todo: para descrevê-lo, explicá-lo e fazer previsões."
+
+- Class: cmd_question
+  Output: "Vejamos então o que mais o modelo nos fornece. No R, o resultado da função lm() é, minimamente, os dois coeficientes necessários para plotar a linha de regressão, mas o R também gera outros valores dentro do modelo. Aplique a função str() a `modelo` para ver essas outras informações."
+  CorrectAnswer: str(modelo)
+  AnswerTests: omnitest(correctExpr='str(modelo)')
+  Hint: Digite str(modelo) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Assim como na função de qui-quadrado (Lição 9), o resultado da função lm() é uma lista com diversas medidas estatísticas, que podem ser acessadas pelo operador `$`. Digite modelo$fitted.values e guarde o resultado em um objeto chamado `previsao`."
+  CorrectAnswer: previsao <- modelo$fitted.values
+  AnswerTests: omnitest(correctExpr='previsao <- modelo$fitted.values')
+  Hint: Digite previsao <- modelo$fitted.values e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: Visualize o vetor `previsao`.
+  CorrectAnswer: previsao
+  AnswerTests: omnitest(correctExpr='previsao')
+  Hint: Digite previsao e pressione CTRL + ENTER.
+  
+- Class: cmd_question
+  Output: "No modelo linear, os valores previstos são aqueles que coincidiriam com a linha de regressão. Na figura, vemos que a maior parte das observações não coincide exatamente com a linha. A diferença entre os valores observados e os valores previstos é o resíduo. Acesse os valores de resíduos com modelo$residuals e guarde-os em um objeto chamado `residuos`."
+  CorrectAnswer: residuos <- modelo$residuals
+  AnswerTests: omnitest(correctExpr='residuos <- modelo$residuals')
+  Hint: Digite residuos <- modelo$residuals e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: Visualize o vetor `residuos`.
+  CorrectAnswer: residuos
+  AnswerTests: omnitest(correctExpr='residuos')
+  Hint: Digite residuos e pressione CTRL + ENTER.
+  
+- Class: cmd_question
+  Output: "Veja que os resíduos são exatamente a diferença entre o valor observado -- a altura -- e os valores previstos no modelo. Digite criancas$altura - modelo$fitted.values para obter o mesmo resultado acima."
+  CorrectAnswer: criancas$altura - modelo$fitted.values
+  AnswerTests: omnitest(correctExpr='criancas$altura - modelo$fitted.values')
+  Hint: Digite criancas$altura - modelo$fitted.values e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Os primeiros dois valores são negativos porque os valores observados estão abaixo dos valores previstos. O terceiro e o quarto valores, por sua vez, são positivos, e assim por diante. Rode a próxima linha de comando, já pronta, que plota segmentos que indicam as diferenças entre valores observados e previstos."
+  CorrectAnswer: ggplot(criancas, aes(x = idade, y = altura)) + geom_point() + geom_smooth(method = "lm", se = FALSE, color = "lightgrey") +  geom_segment(aes(xend = idade, y = altura, yend = previsao), alpha = .2)
+  AnswerTests: omnitest(correctExpr='ggplot(criancas, aes(x = idade, y = altura)) + geom_point() + geom_smooth(method = "lm", se = FALSE, color = "lightgrey") +  geom_segment(aes(xend = idade, y = altura, yend = previsao), alpha = .2)')
+  Hint: Rode a linha de comando com pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Vamos ver os demais resultados da função linear por meio de summary(), para obter o resumo. Aplique essa função a `modelo`."
+  CorrectAnswer: summary(modelo)
+  AnswerTests: omnitest(correctExpr='summary(modelo)')
+  Hint: Digite summary(modelo) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "O resumo do modelo traz, em primeiro lugar, a fórmula que usamos na função lm() -- altura ~ idade. Em seguida, traz uma visão geral dos resíduos: o valor mínimo, o primeiro quartil (1Q), a mediana, o terceiro quartil (3Q) e o valor máximo. Vimos esses termos da Lição 7, quando falamos de boxplots. Ao inspecionar os resíduos, verifique se o valor da mediana está próximo de zero e se os valores min-max e 1Q-3Q são razoavelmente simétricos. Em nosso `modelo`, estamos dentro dessa expectativa, pois a mediana (-0.05) está bem próxima de zero, os valores mínimo (-12.6) e máximo (11.8) são semelhantes em valores absolutos, assim como os valores 1Q (-3.14) e 3Q (4.22)."
+
+- Class: text
+  Output: "Por que esperamos simetria em torno de zero para os resíduos? Os resíduos são a diferença entre os valores observados e os valores previstos pelo modelo, certo? Visto de outro modo, os resíduos são os valores que nosso modelo não foi capaz de prever perfeitamente -- o que já é esperado, pois, como visto, modelos não são a realidade. Contudo, se nosso modelo \"erra\", é bom que ele \"erre\" tanto para mais quanto para menos, pois daí podemos ter certa segurança de que nossas estimativas não estão muito longe do que se poderia observar. Veja que, em nossos dados, não temos nenhuma observação para uma criança com 10 anos; no entanto, esperamos que a estimativa do modelo -- i.e., y = 62.5 + (7.5 * 10) = 137.5 cm -- não esteja tão longe da realidade."
+
+- Class: text
+  Output: "Em seguida, o resumo mostra os coeficientes em uma tabela. As estimativas, na primeira coluna, já são suas conhecidas. O valor 'Intercept' é o coeficiente linear, ou seja, o valor de y quando x é zero. O valor na segunda linha é a estimativa para a idade, o coeficiente angular, que é quanto muda o valor do eixo y a cada unidade de x."
+
+- Class: text
+  Output: "A segunda coluna se refere ao erro padrão da estimativa (ver Lições 6 e 10). Esta é uma medida da precisão das previsões: quanto menor esse valor, maior é o grau de precisão do modelo."
+
+- Class: exact_question
+  Output: "O valor-t, na terceira coluna, é computado pela divisão Estimate / Std.Error. Faça essa conta: divida o valor da estimativa do coeficiente linear, 62.5040, por seu erro padrão, 3.7691."
+  CorrectAnswer: 62.504 / 3.7691
+  AnswerTests: omnitest(correctVal=62.504 / 3.7691)
+  Hint: Digite 62.504 / 3.7691 e pressione CTRL + ENTER.
+
+- Class: exact_question
+  Output: "Exatamente o valor-t calculado, certo? E faça a divisão do valor da estimativa do coeficiente angular, 7.5453, por seu erro padrão, 0.5135."
+  CorrectAnswer: 7.5453 / 0.5135
+  AnswerTests: omnitest(correctVal=7.5453 / 0.5135)
+  Hint: Digite 7.5453 / 0.5135 e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "Como vimos na Lição 10, sobre teste-t, o valor-t pode ser consultado numa tabela de distribuição t para determinar a significância. Em nosso modelo, ambas as estimativas têm valor de significância bem abaixo de p < 0.05. Mas, para poder interpretar esse valor de significância, precisamos saber qual era a hipótese alternativa e a hipótese nula sob teste!"
+
+- Class: text
+  Output: "O modelo linear testa a hipótese nula de que a estimativa tem valor zero. Em nosso modelo, 62.5 cm é bastante diferente zero e, levando em conta o erro padrão, o valor-p reflete isso. Mas peraí! 62.5 cm é a estimativa do tamanho das crianças quando elas nascem. Você esperaria que um bebê nascesse com 0 centímetros? Claro que não! Você nunca levantaria essa hipótese! Isso significa que esse valor de significância, para nós, não quer dizer NA-DA!"
+
+- Class: text
+  Output: "É importante reforçar este ponto: quem faz os testes e os interpreta é o pesquisador. O R simplesmente gera os valores que está programado para gerar. No modelo linear, ele vai gerar valores de significância para avaliar o quanto cada estimativa difere de zero. Mas cabe a você saber o que é verdadeiramente relevante ou não!"
+
+- Class: text
+  Output: "Vamos para a próxima estimativa e sua significância. Aqui, o R avaliou a hipótese nula de que o coeficiente angular -- 7.5 cm -- difere de zero. Pare um pouco para pensar o que significaria um coeficiente zero neste modelo: isso implicaria que as crianças não crescem, pois a cada ano teriam a mesma altura; isso também implicaria que altura e idade não se correlacionam, pois a altura seria a mesma não importa a idade da criança, e não seria possível estimar o valor de uma variável a partir de outra. O valor de significância, aqui, mostra que há uma correlação significativa entre idade e altura. Esta sim é uma medida relevante para nós."
+
+- Class: text
+  Output: "Logo abaixo da tabela de coeficientes, o R mostra o significado dos asteriscos, segundo os níveis alfa mais comuns: 0.001, 0.01 e 0.05. Três asteriscos indicam p < 0.001, dois asteriscos indicam p entre 0.001 e 0.01, e um asterisco indica p entre 0.01 e 0.05. O ponto final indica um valor pouco acima de 0.05. Como já vimos na Lição 9, os valores de significância são sensíveis ao tamanho da amostra. Um valor pouco acima de 0.05 pode indicar, por exemplo, que o resultado do teste pode mudar se o pesquisador obtiver mais dados ou, ainda, se o pesquisador \"limpar\" os dados de valores atípicos, que podem estar causando ruído na distribuição."
+
+- Class: text
+  Output: "Ao pé do resultado, o R mostra o valor do erro padrão dos resíduos de acordo com os graus de liberdade (cf. sqrt(sum(modelo$residuals^2)/13)); um valor de zero aqui significaria que o modelo prevê as observações perfeitamente (o que quase nunca é o caso)."
+
+- Class: cmd_question
+  Output: "O R também fornece dois valores chamados R^2 'R ao quadrado', o segundo dos quais 'ajustado'. Sua interpretação é o quanto de variabilidade na variável dependente é explicada pelas variáveis incluídas no modelo; aqui, temos que a idade explica cerca de 94% da variação em altura. Este valor nada mais é do que o valor de r de Pearson elevado ao quadrado. Você se lembra do r de Pearson calculado acima, para a mesma correlação entre idade e altura? Ele também pode ser acessado por meio de cor.test(criancas$idade, criancas$altura)$estimate. Faça isso agora."
+  CorrectAnswer: cor.test(criancas$idade, criancas$altura)$estimate
+  AnswerTests: omnitest(correctExpr='cor.test(criancas$idade, criancas$altura)$estimate')
+  Hint: Digite cor.test(criancas$idade, criancas$altura)$estimate e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Agora calcule o quadrado da expressão acima. Copie o último comando e adicione ^ 2 à expressão acima para calcular o R^2."
+  CorrectAnswer: cor.test(criancas$idade, criancas$altura)$estimate ^ 2
+  AnswerTests: omnitest(correctExpr='cor.test(criancas$idade, criancas$altura)$estimate ^ 2')
+  Hint: Digite cor.test(criancas$idade, criancas$altura)$estimate ^ 2 e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "Este é o valor de R^2 do modelo. O valor de R^2 ajustado é um ajuste de R^2 a depender do número de variáveis independentes incluídas no modelo (aqui, apenas uma) e o tamanho da amostra (aqui, 15). A fórmula de R^2 ajustado está no script Licao11-demonstracoes em Source, na linha 45."
+
+- Class: text
+  Output: "A estatística-F, por fim, é uma medida útil quando se tem interesse em comparar diferentes modelos estatísticos, a fim de determinar qual deles mais bem explica a variação na variável dependente. Ela é usada para calcular um valor de significância do modelo como um todo, para além da significância de variáveis independentes específicas."
+
+- Class: cmd_question
+  Output: "Que tal agora aplicar esse conhecimento a fenômenos linguísticos? Deixei disponível para você um conjunto de dados num dataframe chamado `cov`. Veja a estrutura desse dataframe."
+  CorrectAnswer: str(cov)
+  AnswerTests: omnitest(correctExpr='str(cov)')
+  Hint: Digite str(cov) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Veja também a planilha de dados por meio da função View()."
+  CorrectAnswer: View(cov)
+  AnswerTests: omnitest(correctExpr='View(cov)')
+  Hint: Digite View(cov) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "cov contém dados de 118 falantes paulistanos, com suas respectivas características sociais e proporções de emprego de variantes de seis variáveis sociolinguísticas: (i) ditongação de /e/ nasal [~ej], como em 'fazenda' (por oposição à variante monotongada [~e]; (ii) realização de /r/ em coda, como em 'mulher', como retroflexo (por oposição ao tepe); (iii) apagamento de /r/ em coda (por oposição à sua realização como tepe ou retroflexo); (iv) concordância nominal não padrão, como em 'os menino' (por oposição à variante padrão); (v) concordância de 3PP não padrão, como 'eles foi' (por oposição à variante padrão); e (vi) concordância de 1PP não padrão, como 'nós vai' (por oposição à variante padrão). Embora sejam todas variáveis nominais, elas estão aqui representadas pelas proporções de uso de uma das variantes, de modo que se tornaram numéricas."
+
+- Class: cmd_question
+  Output: "Esses dados foram assim organizados para investigar se certas variáveis sociolinguísticas \"andam juntas\", ou seja, se falantes que tendem a empregar a variante x de uma variável A também tendem a empregar a variante y de uma variável B. Por exemplo: falantes que tendem a não fazer a concordância nominal padrão também tendem a fazer a concordância não padrão de 3PP? Visualize a distribuição desses dados no gráfico de dispersão, colocando cov em df, CV3PP em x e CN em y."
+  CorrectAnswer: ggplot(cov, aes(x = CV3PP, y = CN)) + geom_point() + geom_smooth(method = "lm", se = FALSE, color = "lightgrey")
+  AnswerTests: omnitest(correctExpr='ggplot(cov, aes(x = CV3PP, y = CN)) + geom_point() + geom_smooth(method = "lm", se = FALSE, color = "lightgrey")')
+  Hint: Digite ggplot(cov, aes(x = CV3PP, y = CN)) + geom_point() + geom_smooth(method = "lm", se = FALSE, color = "lightgrey") e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Faça um teste de Shapiro para testar se a distribuição de dados de cov$CV3PP segue a distribuição normal."
+  CorrectAnswer: shapiro.test(cov$CV3PP)
+  AnswerTests: omnitest(correctExpr='shapiro.test(cov$CV3PP)')
+  Hint: Digite shapiro.test(cov$CV3PP) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Faça um teste de Shapiro para testar se a distribuição de dados de cov$CN segue a distribuição normal."
+  CorrectAnswer: shapiro.test(cov$CN)
+  AnswerTests: omnitest(correctExpr='shapiro.test(cov$CN)')
+  Hint: Digite shapiro.test(cov$CN) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Como a distribuição de ambos não é normal, faça um teste de correlação com a adição do argumento method = \"spearman\"."
+  CorrectAnswer: cor.test(cov$CV3PP, cov$CN, method = "spearman")
+  AnswerTests: omnitest(correctExpr='cor.test(cov$CV3PP, cov$CN, method = "spearman")')
+  Hint: Digite cor.test(cov$CV3PP, cov$CN, method = "spearman") e pressione CTRL + ENTER.
+
+- Class: mult_question
+  Output: "A que conclusão o pesquisador pode chegar a partir do teste acima?"
+  AnswerChoices: existe correlação entre o uso de CN e CV3PP;não existe correlação entre o uso de CN e CV3PP
+  CorrectAnswer: existe correlação entre o uso de CN e CV3PP
+  AnswerTests: omnitest(correctVal= 'existe correlação entre o uso de CN e CV3PP')
+  Hint: Veja o resultado do teste acima.
+
+- Class: cmd_question
+  Output: "Crie um modelo linear, chamado modelo1, com a fórmula CN ~ CV3PP como primeiro argumento, e data = cov como segundo argumento."
+  CorrectAnswer: modelo1 <- lm(CN ~ CV3PP, data = cov)
+  AnswerTests: omnitest(correctExpr='modelo1 <- lm(CN ~ CV3PP, data = cov)')
+  Hint: Digite modelo1 <- lm(CN ~ CV3PP, data = cov) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "Acima, colocamos CN ~ CV3PP, o que assume que a proporção de emprego de CN não padrão depende da proporção de emprego de CV3PP não padrão. No entanto, isso não necessariamente é verdade. Fizemos isso por exigência do formato de fórmula para o primeiro argumento de lm()."
+
+- Class: cmd_question
+  Output: "Visualize o resultado de modelo1 por meio de summary()."
+  CorrectAnswer: summary(modelo1)
+  AnswerTests: omnitest(correctExpr='summary(modelo1)')
+  Hint: Digite summary(modelo1) e pressione CTRL + ENTER.
+
+- Class: mult_question
+  Output: "A que conclusão o pesquisador pode chegar a partir do teste acima?"
+  AnswerChoices: existe correlação entre o uso de CN e CV3PP;não existe correlação entre o uso de CN e CV3PP
+  CorrectAnswer: existe correlação entre o uso de CN e CV3PP
+  AnswerTests: omnitest(correctVal= 'existe correlação entre o uso de CN e CV3PP')
+  Hint: Veja o resultado de modelo1.
+
+- Class: text
+  Output: "O modelo1 prevê que, quando a proporção de emprego de CV3PP não padrão é zero, a proporção de CN não padrão é 1.8%, e que a cada 1% de aumento da proporção de emprego de CV3PP não padrão, a proporção de CN não padrão também aumenta em cerca de 1% (os valores das estimativas). Também vemos que os resíduos não se distribuem de modo muito simétrico; compare, por exemplo, o valor mínimo (-29) ao valor máximo (49). Isso pode ser visto no gráfico: diferentemente do caso da correlação entre idade e altura das crianças, aqui os pontos se dispersam bem mais e alguns deles se distanciam mais da linha de regressão -- sobretudo para cima. O valor máximo de 49 é a maior distância entre o valor observado e o valor previsto pelo modelo."
+
+- Class: text
+  Output: "Podemos repetir o teste acima para cada par de variáveis, o que daria um total de 15 testes (EN-RT, EN-R0, EN-CN etc.). Uma função muito útil para calcular uma série de correlações entre pares de variáveis é ggpairs(), do pacote GGally, que carregamos no início da lição."
+
+- Class: cmd_question
+  Output: "A função ggpairs() toma como argumento o dataframe. É possível também definir um subconjunto de colunas, o que, em nosso caso, vai ser necessário, pois nem todas as variáveis do dataframe `cov` são numéricas. As proporções de uso das variantes /~e/ ditongado, /r/ retroflexo, apagamento de /r/, CN não padrão, CV3PP não padrão e CV1PP não padrão se encontram nas colunas 10 a 15. Complete a linha de comando e veja o resultado."
+  CorrectAnswer: ggpairs(cov, columns = 10:15)
+  AnswerTests: omnitest(correctExpr='ggpairs(cov, columns = 10:15)')
+  Hint: Digite ggpairs(cov, columns = 10:15) e pressione CTRL + ENTER. 
+
+- Class: text
+  Output: "A figura mostra, na linha diagonal, o gráfico de densidade das proporções das variantes acima indicadas. Vemos aí claramente que a maioria das variáveis não tem uma distribuição normal. Na parte superior, a função calculou o r de Pearson, com os respectivos valores de significância, para cada par de variáveis -- valores que se encontram no cruzamento das respectivas linhas. Na parte inferior, visualizam-se os gráficos de dispersão com as linhas de regressão. "
+
+- Class: mult_question
+  Output: "Da figura, qual par de variáveis apresenta a correlação mais forte?"
+  AnswerChoices: CN e CV3PP;RT e R0;CV3PP e CV1PP;EN e CN
+  CorrectAnswer: CN e CV3PP
+  AnswerTests: omnitest(correctVal= 'CN e CV3PP')
+  Hint: Veja os valores de r de Pearson e a significância.
+
+- Class: mult_question
+  Output: "Da figura, qual dos pares abaixo não apresenta uma correlação significativa?"
+  AnswerChoices: EN e R0;R0 e CN;CV3PP e CV1PP;R0 e CV3PP
+  CorrectAnswer: EN e R0
+  AnswerTests: omnitest(correctVal= 'EN e R0')
+  Hint: Veja os valores de r de Pearson e a significância.
+
+- Class: mult_question
+  Output: "Da figura, a distribuição de qual das variáveis mais se aproxima da distribuição normal?"
+  AnswerChoices: R0;EN;CN;CV1PP
+  CorrectAnswer: R0
+  AnswerTests: omnitest(correctVal= 'R0')
+  Hint: Veja os histogramas na linha diagonal.
+  
+- Class: cmd_question
+  Output: Com a função ggpairs(), também é possível adicionar uma variável fatorial para visualizar a distribuição para diferentes grupos. De modo semelhante à última linha de comando, preencha os termos faltantes e acrescente `REGIAO` para definir as cores do gráfico.
+  CorrectAnswer: ggpairs(cov, columns = 10:15, ggplot2::aes(color = REGIAO))
+  AnswerTests: omnitest(correctExpr='ggpairs(cov, columns = 10:15, ggplot2::aes(color = REGIAO))')
+  Hint: Digite ggpairs(cov, columns = 10:15, ggplot2::aes(color = REGIAO)) e pressione CTRL + ENTER.
+  
+- Class: text
+  Output: "A função plotou agora os gráficos de dispersão, de densidade e os valores de r de Pearson para central e periferica, o que permite comparar o comportamento desses dois grupos de falantes. Dica: clique em Zoom para ter uma melhor visualização dos dados."
+
+- Class: text
+  Output: "Ao reportar testes de correlação, informe o valor de r de Pearson ou de Spearman, os graus de liberdade e o valor-p. Em modelos lineares, as medidas estatísticas do summary() são relevantes. Na próxima lição, veremos com mais detalhes como reportar esses dados."
+
+- Class: video
+  Output: "Após tantos testes de correlação e modelos lineares, cabe ressaltar um mantra da Estatística: CORRELAÇÃO NÃO É SINÔNIMO DE MOTIVAÇÃO! Ainda que você tenha encontrado uma correlação significativa, seja por meio do teste de correlação, seja por meio de um modelo linear, isso não significa que y é motivado por x. A relação (ou não) entre duas variáveis só pode ser explicada pelo pesquisador, que deve ser maximamente crítico quanto aos resultados. Um site que bem ilustra a afirmação acima é o Spurious Correlations, que traz uma série de correlações absurdas. Você quer visitar esse site agora?"
+  VideoLink: http://tylervigen.com/old-version.html
+
+- Class: text
+  Output: "Os resultados de testes estatísticos não provam nada. Eles são apenas uma ferramenta auxiliar do pesquisador para explicar os fenômenos sob análise, mas todo o processo -- desde o levantamento de hipóteses até seu teste e interpretação -- deve ser guiado pelo bom senso."
+  
+- Class: text
+  Output: "Recomendo a leitura de Dalgaard (2008: cap6), Levshina (2015: cap6) e Gries (2013:230-237) para fixar o conteúdo visto aqui. No script, deixei um código para fazer gráficos de pares por meio do pacote languageR (Baayen 2013). Faça agora os exercícios da Lição 11!"

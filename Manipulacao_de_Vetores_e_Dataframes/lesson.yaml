@@ -1,0 +1,263 @@
+- Class: meta
+  Course: Introducao_a_Estatistica_para_Linguistas
+  Lesson: Manipulacao de Vetores e Dataframes
+  Author: Livia Oushiro
+  Type: Standard
+  Organization: UNICAMP
+  Version: 2.4.2
+
+- Class: text
+  Output: Nesta lição, vamos ver dois tipos de estruturas de dados que serão usados mais frequentemente nas próximas tarefas -- vetores e dataframes. Além disso, vamos aprender a usar algumas funções úteis para inspecionar esses tipos de objeto. 
+
+- Class: text
+  Output: Para outros tipos de estruturas de dados, você pode consultar a excelente página de Hadley Wickham (http://adv-r.had.co.nz/Data-structures.html).
+
+- Class: text
+  Output: "Vetores são a estrutura de dados mais básica do R. São estruturas unidimensionais de dados do mesmo tipo (numéricos, caracteres etc.). Na Lição 1 -- Fundamentos, criamos alguns vetores: x, y, z, aleatorio, numeros. Eles foram recriados para esta seção (veja a aba Environment)."
+
+- Class: figure
+  Output: "O script desta lição, o arquivo  Licao02-IEL2.0.R, foi aberto na janela Source. Leia as instruções aqui na janela Console e digite os comandos no script; após digitá-los, tendo o cursor na linha de comando, rode-a com CTRL + ENTER."
+  Figure: Licao02-background.R
+  FigureType: new
+
+- Class: cmd_question
+  Output: Para esta lição, vamos precisar mais adiante das funções do pacote tidyverse. Carregue-o para deixá-lo disponível nesta sessão.
+  CorrectAnswer: library(tidyverse)
+  AnswerTests: omnitest(correctExpr='library(tidyverse)')
+  Hint: Digite library(tidyverse) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: Para acessar elementos específicos dentro de um vetor, usamos o operador de indexação [ ] com um número dentro dos colchetes. Veja o que dá a linha de comando aleatorio[3].
+  CorrectAnswer: aleatorio[3]
+  AnswerTests: omnitest(correctExpr='aleatorio[3]')
+  Hint: Digite aleatorio[3] e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: O R dá como resultado o terceiro elemento do vetor `aleatorio`. Peça ao R agora que mostre qual é o 15o. elemento do vetor `numeros`.
+  CorrectAnswer: numeros[15]
+  AnswerTests: omnitest(correctExpr='numeros[15]')
+  Hint: Digite numeros[15] e pressione CTRL + ENTER.
+
+- Class: mult_question
+  Output: Você se lembra qual era o valor de x? Olhe a aba Environment se necessário. Qual será o resultado de numeros[x]?
+  AnswerChoices: O R mostrará o 13o. elemento do vetor numeros;Vai ocorrer um erro, porque x não é um número;O resultado é imprevisível
+  CorrectAnswer: O R mostrará o 13o. elemento do vetor numeros
+  AnswerTests: omnitest(correctVal= 'O R mostrará o 13o. elemento do vetor numeros')
+  Hint: Se x equivale a 13, numeros[x] é igual a numeros[13].
+
+- Class: cmd_question
+  Output: Vamos checar o resultado de numeros[x]. Digite esse comando no script.
+  CorrectAnswer: numeros[x]
+  AnswerTests: omnitest(correctExpr='numeros[x]')
+  Hint: Digite numeros[x] e pressione CTRL + ENTER.
+
+- Class: mult_question
+  Output: E se quisermos pedir ao R que mostre o 1o. e o 3o. elementos do vetor `aleatorio`? Uma função vista na Lição 1 vai ser útil aqui. Qual é ela?
+  AnswerChoices: c();read_csv();getwd();setwd();library()
+  CorrectAnswer: c()
+  AnswerTests: omnitest(correctVal= 'c()')
+  Hint: "É um função que serve para *c*oncatenar ou *c*ombinar elementos."
+
+- Class: cmd_question
+  Output: Vamos testar! Peça ao R que mostre o 1o. e 3o. elementos do vetor `aleatorio` com aleatorio[c(1, 3)].
+  CorrectAnswer: aleatorio[c(1, 3)]
+  AnswerTests: omnitest(correctExpr='aleatorio[c(1, 3)]')
+  Hint: Digite aleatorio[c(1, 3)] e pressione CTRL + ENTER. 
+
+- Class: cmd_question
+  Output: Também é possível exibir todos os elementos de um vetor EXCETO um ou alguns, com o operador de subtração `-`. Tente numeros[-2].
+  CorrectAnswer: numeros[-2]
+  AnswerTests: omnitest(correctExpr='numeros[-2]')
+  Hint: Digite numeros[-2] e pressione CTRL + ENTER.
+
+- Class: text
+  Output: O R retorna todos os elementos do vetor `numeros`, exceto o segundo elemento.
+
+- Class: text
+  Output: Na lição anterior, também vimos outro tipo de estrutura de dados, um dataframe. Diferentemente de um vetor, o dataframe é um conjunto bidimensional de dados, com linhas e colunas. Outro modo de entender o dataframe é como um conjunto de vetores de mesma extensão (mesmo número de colunas ou mesmo número de linhas).
+
+- Class: cmd_question
+  Output: Na Lição 1, havíamos carregado uma planilha dentro de um objeto chamado `dados`. Ele está disponível novamente para esta sessão do R. Digite `dados` para visualizar o tibble desse dataframe. 
+  CorrectAnswer: dados
+  AnswerTests: omnitest(correctExpr='dados')
+  Hint: Digite dados e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: Veja que o R exibiu apenas as primeiras linhas de `dados` e omitiu as restantes. Se queremos visualizar o conjunto completo de dados, é melhor fazê-lo em outra aba. Aplique a função View() a dados e veja o resultado.
+  CorrectAnswer: View(dados)
+  AnswerTests: omnitest(correctExpr='View(dados)')
+  Hint: Digite View(dados) e pressione CTRL + ENTER. Note que `View` é com V maiúsculo!
+
+- Class: text
+  Output: O R abre uma nova aba em Source e permite visualizar a planilha como no Excel ou no Calc. Bastante útil, não? 
+
+- Class: cmd_question
+  Output: O R também permite saber certas propriedades deste dataframe. O número de colunas pode ser visto com a função ncol(), que toma o dataframe como argumento. Digite ncol(dados).
+  CorrectAnswer: ncol(dados)
+  AnswerTests: omnitest(correctExpr='ncol(dados)')
+  Hint: Digite ncol(dados) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: Veja agora o número de linhas aplicando a função nrow() a `dados`.
+  CorrectAnswer: nrow(dados)
+  AnswerTests: omnitest(correctExpr='nrow(dados)')
+  Hint: Digite nrow(dados) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: A função str() (=structure) fornece uma visão global sobre o conjunto de dados. Aplique-a a `dados` para ver o resultado. 
+  CorrectAnswer: str(dados)
+  AnswerTests: omnitest(correctExpr='str(dados)')
+  Hint: Digite str(dados) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: O resultado de str() informa que `dados` é um dataframe com 9.226 linhas (observações) e 20 colunas (variáveis). Em seguida, indica, para cada variável, seu nome (que segue o símbolo `$`), seu tipo (num, Factor with N levels etc.) e seus primeiros dados. Veja que a função str() faz as vezes de ncol(), nrow() e do tibble, de modo que vamos usá-la frequentemente nas próximas lições. Sempre que carregar um dataframe com read_csv(), vale a pena checar se o dataframe foi carregado corretamente com str().
+
+- Class: cmd_question
+  Output: Também vale conhecer a função summary(). Aplique-a a `dados` para ver o resultado. 
+  CorrectAnswer: summary(dados)
+  AnswerTests: omnitest(correctExpr='summary(dados)')
+  Hint: Digite summary(dados) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: summary() também fornece uma visão global de um conjunto de dados, com medidas estatísticas apropriadas para cada tipo de variável. Para variáveis fatoriais, como VD (que significa "variável dependente" e representa as variantes de /r/ em coda), é apresentado o número de ocorrências de cada variante. Para variáveis numéricas, como IDADE, são apresentadas medidas como valor mínimo, 1o. quartil, média etc. Tudo isso vai ser objeto das Lições 3 a 7.
+  
+- Class: text
+  Output: Note, no entanto, que o R computou as frequências das variáveis fatoriais e certas medidas estatísticas para as variáveis numéricas porque, ao importar os dados com read_csv(), essas variáveis foram definidas com essas características por meio de col_factor(), col_integer() etc. As últimas três colunas, cont.precedente, ocorrencia e cont.seguinte, que foram definidas como col_character() -- por não serem variáveis de fato --, não apresentam essas medidas estatísticas! Perceba, então, que as medidas geradas por summary() dependem da natureza de cada coluna/variável!
+
+- Class: text
+  Output: "Mas e se quisermos acessar elementos específicos de um dataframe, do modo como fizemos para os vetores anteriormente? Para isso, também usamos os colchetes [ ]. Entretanto, como dataframes são estruturas bidimensionais, precisamos de dois índices para localizar um elemento -- um para a linha, e outro para a coluna. Memorize essa ordem: [L, C]!"
+
+- Class: cmd_question
+  Output: Por exemplo, para acessar o elemento da 5a. linha da 6a. coluna do conjunto `dados`, a linha de comando é dados[5, 6]. Note que não há espaço entre o nome do objeto e o colchete aberto, e que os índices de linha e de coluna são separados por vírgula. Rode essa linha de comando agora.
+  CorrectAnswer: dados[5, 6]
+  AnswerTests: omnitest(correctExpr='dados[5, 6]')
+  Hint: Digite dados[5, 6] e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: Acesse o elemento da 11a. linha da 4a. coluna do conjunto dados. 
+  CorrectAnswer: dados[11, 4]
+  AnswerTests: omnitest(correctExpr='dados[11, 4]')
+  Hint: Digite dados[11, 4] e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: Acesse agora os elementos da 1a. até a 10a. linha da 9a. coluna de `dados`.
+  CorrectAnswer: dados[1:10, 9]
+  AnswerTests: omnitest(correctExpr='dados[1:10, 9]')
+  Hint: dados[1:10, 9]
+
+- Class: cmd_question
+  Output: Para acessar os dados de uma linha, basta deixar o espaço para o índice de coluna vazio. Digite dados[3, ] para ver o resultado. Note que ainda assim é necessário usar a vírgula!
+  CorrectAnswer: dados[3, ]
+  AnswerTests: omnitest(correctExpr='dados[3, ]')
+  Hint: Digite dados[3, ] e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: De modo semelhante, se deixarmos o espaço para o índice de linha vazio e preenchermos apenas a coluna, o resultado será todos os elementos da coluna respectiva. Digite dados[, 10] para ver os elementos da 10a. coluna do dataframe. 
+  CorrectAnswer: dados[, 10]
+  AnswerTests: omnitest(correctExpr='dados[, 10]')
+  Hint: Digite dados[, 10] e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: No R, sempre há diversas maneiras para se chegar a um mesmo resultado. Outro modo de acessar os elementos de uma coluna de um dataframe é por meio do símbolo `$`, que já vimos acima. Digite dados$CONT.FON.PREC para ver os elementos da coluna CONT.FON.PREC.
+  CorrectAnswer: dados$CONT.FON.PREC
+  AnswerTests: omnitest(correctExpr='dados$CONT.FON.PREC')
+  Hint: Digite dados$CONT.FON.PREC e pressione CTRL + ENTER.
+
+- Class: text
+  Output: A principal diferença entre [ ] e `$` é que, no último caso, usamos o NOME da variável para acessar seus elementos. Isso pode ser útil quando se sabe o nome da variável mas não se lembra em que coluna ela está (o que provavelmente vai ser o caso com seus dados).
+
+- Class: text
+  Output: Muitas vezes temos o interesse em acessar elementos específicos de um dataframe para criar subconjuntos de dados. O pacote dplyr, que faz parte do conjunto de pacotes do tidyverse -- que carregamos mais acima --, permite criar novos dataframes de um subconjunto de linhas ou colunas, a partir de certos critérios. Digamos que você queira criar um subconjunto apenas com os dados de /r/ em coda que ocorrem em sílabas tônicas. Na coluna TONICIDADE de `dados`, esses dados estão identificados por "tonica". 
+
+- Class: cmd_question
+  Output: "A função filter() toma como primeiro argumento o conjunto de dados, e outro argumento que especifica a condição a ser preenchida. Digite dados_tonicas <- filter(dados, TONICIDADE == \"tonica\"). (Note que o sinal de igual, em R, é duplo: ==)."
+  CorrectAnswer: dados_tonicas <- filter(dados, TONICIDADE == "tonica")
+  AnswerTests: any_of_exprs('dados_tonicas <- filter(dados, TONICIDADE == "tonica")', 'dados_tonicas <- dados %>% filter(TONICIDADE == "tonica")')
+  Hint: Digite dados_tonicas <- filter(dados, TONICIDADE == "tonica") e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: Crie agora o subconjunto `dados_atonas`, que contém os dados de /r/ em coda que ocorrem em sílabas átonas (identificados por "atona").
+  CorrectAnswer: dados_atonas <- filter(dados, TONICIDADE == "atona")
+  AnswerTests: any_of_exprs('dados_atonas <- filter(dados, TONICIDADE == "atona")', 'dados_atonas <- dados %>% filter(TONICIDADE ==  "atona")')
+  Hint: Digite dados_atonas <- filter(dados, TONICIDADE == "atona") e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Em outros casos, pode ser que você queira especificar quais variantes não devem entrar no conjunto de dados. Imagine que, na análise, você decida retirar os dados de /r/ que ocorrem em verbos do infinitivo, como em \"andar\", \"comer\", uma vez que, nesse contexto, o /r/ é quase sempre apagado. A variável de interesse aqui é CLASSE.MORFOLOGICA e o código para verbos do infinitivo é morf.inf. Vamos guardar o resultado em um novo dataframe chamado dados_semInf. E a informação mais importante de que você precisa para realizar essa operação: o símbolo para \"não é igual a\", no R, é `!=`."
+  CorrectAnswer: dados_semInf <- filter(dados, CLASSE.MORFOLOGICA !=  "morf.inf")
+  AnswerTests: any_of_exprs('dados_semInf <- filter(dados, CLASSE.MORFOLOGICA !=  "morf.inf")', 'dados_semInf <- dados %>% filter(CLASSE.MORFOLOGICA !=  "morf.inf")')
+  Hint: Digite dados_semInf <- filter(dados, CLASSE.MORFOLOGICA !=  "morf.inf") e pressione CTRL + ENTER.
+  
+- Class: cmd_question
+  Output: "Crie um novo subconjunto de dados que contém apenas os dados advindos de leituras (depoimento, jornal, palavras), ou seja, sem os dados \"conversacao\". A variável se chama ESTILO. Guarde o resultado em um  novo dataframe chamado dados_leitura."
+  CorrectAnswer: dados_leitura <- filter(dados, ESTILO !=  "conversacao")
+  AnswerTests: any_of_exprs('dados_leitura <- filter(dados, ESTILO !=  "conversacao")', 'dados_leitura <- dados %>% filter(ESTILO !=  "conversacao")')
+  Hint: Digite dados_leitura <- filter(dados, ESTILO !=  "conversacao") e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: Agora crie um subconjunto de dados, chamado `dados_menor2`, de palavras cuja FREQUENCIA é menor do que 2% do corpus. O operador lógico do R para "menor que" é `<`. Digite dados_menor2 <- filter(dados, FREQUENCIA < 2).
+  CorrectAnswer: dados_menor2 <- filter(dados, FREQUENCIA < 2)
+  AnswerTests: any_of_exprs('dados_menor2 <- filter(dados, FREQUENCIA < 2)', 'dados_menor2 <- dados %>% filter(FREQUENCIA < 2)')
+  Hint: Digite dados_menor2 <- filter(dados, FREQUENCIA < 2) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: Mais uma! Se temos interesse em palavras cuja frequencia é MENOR OU IGUAL a 2%, o operador lógico pertinente é `<=`. Crie um novo subconjunto, com essa condição, chamado `dados_menor_igual2`.  
+  CorrectAnswer: dados_menor_igual2 <- filter(dados, FREQUENCIA <= 2)
+  AnswerTests: any_of_exprs('dados_menor_igual2 <- filter(dados, FREQUENCIA <= 2)', 'dados_menor_igual2 <- dados %>% filter(FREQUENCIA <= 2)')
+  Hint: Digite dados_menor_igual2 <- filter(dados, FREQUENCIA <= 2) e pressione CTRL + ENTER.
+
+- Class: mult_question
+  Output: Para criar o subconjunto de /r/ em coda em sílabas tônicas, usamos as aspas para especificar "tonica". Para criar o subconjunto de palavras menos frequentes do que 2%, não usamos as aspas. Por quê?
+  AnswerChoices: Porque "tonica" é uma sequência de caracteres e 2 é um elemento numérico;Porque queremos que o R entenda "2" como um caractere;Porque se digitarmos tonica sem as aspas, o R tratará a variante como numérica
+  CorrectAnswer: Porque "tonica" é uma sequência de caracteres e 2 é um elemento numérico
+  AnswerTests: omnitest(correctVal= 'Porque "tonica" é uma sequência de caracteres e 2 é um elemento numérico')
+  Hint: Pense na diferença entre objetos numéricos e de caracteres.
+
+- Class: cmd_question
+  Output: Podemos ser ainda mais restritivos e criar um subconjunto de dados de /r/ em coda em sílabas tônicas que ocorrem em final de palavra. O operador lógico no R para juntar duas condições é `&`. Digite dados_tonica_final <- filter(dados, TONICIDADE == "tonica" & POSICAO.R == "final").
+  CorrectAnswer: dados_tonica_final <- filter(dados, TONICIDADE == "tonica" & POSICAO.R == "final")
+  AnswerTests: any_of_exprs('dados_tonica_final <- filter(dados, TONICIDADE == "tonica" & POSICAO.R == "final")', 'dados_tonica_final <- dados %>% filter(TONICIDADE == "tonica" & POSICAO.R == "final")')
+  Hint: Digite dados_tonica_final <- filter(dados, TONICIDADE == "tonica" & POSICAO.R == "final") e pressione CTRL + ENTER.
+
+- Class: mult_question
+  Output: Podemos também ser MENOS restritivos e criar um subconjunto que contenha os dados de /r/ em coda que estejam em sílabas tônicas OU em sílaba final. Em relação ao conjunto dados_tonica_final, esse novo conjunto de dados (sílabas tônicas OU posição final)...
+  AnswerChoices: Provavelmente contém um número maior de dados do que dados_tonica_final;Provavelmente contém o mesmo número de dados de dados_tonica_final;Provavelmente contém um número menor de dados do que dados_tonica_final
+  CorrectAnswer: Provavelmente contém um número maior de dados do que dados_tonica_final
+  AnswerTests: omnitest(correctVal= 'Provavelmente contém um número maior de dados do que dados_tonica_final')
+  Hint: Se a condição "OU" é MENOS restritiva...
+
+- Class: text
+  Output: A razão para que um novo subconjunto que tenha os dados em sílabas tônicas OU em posição final seja provavelmente maior é o fato de que o operador lógico "ou" retorna um resultado VERDADEIRO se qualquer uma das duas condições é preenchida e, portanto, um maior número de observações potencialmente preencherá o critério. No caso do operador lógico `&`, o resultado só é verdadeiro se ambas as condições forem verdadeiras, o que faz com que a probabilidade de observações que preenchem ambos os critérios seja menor. 
+
+- Class: cmd_question
+  Output: Vamos então criar o subconjunto de dados de /r/ em sílabas tônicas OU em sílabas finais. O operador lógico "ou", no R, é o símbolo `|`. Chame esse novo conjunto de dados_tonica_ou_final.  
+  CorrectAnswer: dados_tonica_ou_final <- filter(dados, TONICIDADE == "tonica" | POSICAO.R == "final")
+  AnswerTests: any_of_exprs('dados_tonica_ou_final <- filter(dados, TONICIDADE == "tonica" | POSICAO.R == "final")', 'dados_tonica_ou_final <- dados %>% filter(TONICIDADE == "tonica" | POSICAO.R == "final")')
+  Hint: Digite dados_tonica_ou_final <- filter(dados, TONICIDADE == "tonica" | POSICAO.R == "final") e pressione CTRL + ENTER.
+
+- Class: text
+  Output: Usamos até agora a função filter(), do pacote dplyr/tidyverse, para fazer subconjuntos de dados restringindo o número de linhas (=ocorrências) do dataframe. Também é possível selecionar as colunas de um conjunto de dados para criar um novo dataframe, por meio da função select(). 
+  
+- Class: cmd_question
+  Output: A função select(), de modo semelhante à função filter(), também toma como primeiro argumento o dataframe original. Os demais argumentos são as colunas/variáveis que você deseja incluir. Crie um novo df chamado dados_varsociais1, com as variáveis SEXO.GENERO, IDADE, ESCOLARIDADE e REGIAO.
+  CorrectAnswer: dados_varsociais1 <- select(dados, SEXO.GENERO, IDADE, ESCOLARIDADE, REGIAO)
+  AnswerTests: omnitest(correctExpr='dados_varsociais1 <- select(dados, SEXO.GENERO, IDADE, ESCOLARIDADE, REGIAO)')
+  Hint: Digite dados_varsociais1 <- select(dados, SEXO.GENERO, IDADE, ESCOLARIDADE, REGIAO) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: Também é possível usar o operador `:` para selecionar desde uma coluna até outra. Crie um novo dataframe, chamado dados_varsociais2, que contém as colunas a partir de SEXO.GENERO até REGIAO.
+  CorrectAnswer: dados_varsociais2 <- select(dados, SEXO.GENERO:REGIAO)
+  AnswerTests: omnitest(correctExpr='dados_varsociais2 <- select(dados, SEXO.GENERO:REGIAO)')
+  Hint: Digite dados_varsociais2 <- select(dados, SEXO.GENERO:REGIAO) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "Você pode comparar os dois dfs em Environment: enquanto dados_varsociais1 tem quatro colunas, dados_varsociais2 tem uma coluna a mais, pois também inclui a variável FAIXA.ETARIA. Se quiser, veja novamente o dataframe dados completo, aberto em uma das janelas em Source."
+
+- Class: text
+  Output: "Nesta lição, você aprendeu uma série de funções para manipular conjuntos de dados no R, seja um vetor, seja um dataframe: ncol(), nrow(), str(), summary(), filter(), select() -- as duas últimas funções, do pacote dplyr. Aprendeu também alguns operadores lógicos do R: `==`, `!=`, `<`, `<=`, `&`, `|`."
+
+- Class: video
+  Output: "Para saber mais sobre as funções do pacote dplyr, recomendo visitar a página https://dplyr.tidyverse.org/. Se quiser visitá-la agora, pressione Y."
+  VideoLink: https://dplyr.tidyverse.org/
+
+- Class: text
+  Output: Você pode estar com a sensação de que entendeu o conteúdo, mas que não vai se lembrar de usar a função adequada quando realmente precisar... A solução para isso é praticar! Faça os exercícios correspondentes a esta lição no curso Introdução à Estatística para Linguistas - Exercícios! 

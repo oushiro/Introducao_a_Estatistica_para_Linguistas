@@ -1,0 +1,13 @@
+- Class: meta
+  Course: Introducao_a_Estatistica_para_Linguistas
+  Lesson: Sobre
+  Author: Livia Oushiro
+  Type: Standard
+  Organization: UNICAMP
+  Version: 2.4.3
+
+- Class: cmd_question
+  Output: "Se você usou este tutorial na análise de seus dados, cite-o como: \n \n Oushiro, Livia (2017). Introdução à Estatística para Linguistas, v.1.0.1 (dez/2017). Disponível em <10.5281/zenodo.1133461>. Licença Creative Commons 4.0 Atribuição - Não comercial. Acesso em dd/mm/aaaa. \n \n Digite mais() para outras referências."   
+  CorrectAnswer: mais()
+  AnswerTests: omnitest(correctExpr='mais()')
+  Hint: Digite mais()...

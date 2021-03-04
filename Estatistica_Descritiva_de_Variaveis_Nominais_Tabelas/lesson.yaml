@@ -1,0 +1,279 @@
+- Class: meta
+  Course: Introducao_a_Estatistica_para_Linguistas
+  Lesson: Estatistica Descritiva de Variaveis Nominais Tabelas
+  Author: Livia Oushiro
+  Type: Standard
+  Organization: UNICAMP
+  Version: 2.4.2
+
+- Class: figure
+  Output: Nesta lição, vamos aprender a verificar a distribuição de dados de variáveis nominais (também chamadas de categóricas ou qualitativas), por meio de tabelas.  
+  Figure: Licao04-background.R
+  FigureType: new
+
+- Class: text
+  Output: Uma vez com uma planilha de dados em mãos, o primeiro passo de uma análise estatística é tabular e visualizar os dados. Isso mesmo! Não é bom sair correndo para aplicar testes estatísticos sem ter uma ideia de como se distribuem seus dados. A feitura de gráficos é objeto da próxima lição. 
+
+- Class: text
+  Output: Normalmente se pensa que fazer tabelas, figuras e gráficos é um dos últimos passos da pesquisa, quando se está prestes a fazer uma comunicação num congresso, apresentar um pôster ou escrever um artigo... Mas adquira o bom hábito de produzi-las assim que tiver os dados organizados em uma planilha. A Estatística Descritiva é o primeiro passo de qualquer boa análise.
+
+- Class: cmd_question
+  Output: Também já é bom colocar em prática os bons hábitos de gerenciamento do fluxo de trabalho. Primeiro, carregue o pacote tidyverse, que será necessário para as funções que vamos executar.
+  CorrectAnswer: library(tidyverse)
+  AnswerTests: omnitest(correctExpr='library(tidyverse)')
+  Hint: Digite library(tidyverse) e pressione CTRL + ENTER.
+  
+- Class: cmd_question
+  Output: Nesta lição, vamos trabalhar com um arquivo de dados famoso -- do estudo de Labov nas lojas de departamento de Nova Iorque. (Se você não conhece este trabalho, leia o capítulo 2 de Padrões Sociolinguísticos, de William Labov.) Crie uma nova pasta em seu computador, com o nome que quiser, e defina-a como o diretório de trabalho.
+  CorrectAnswer: setwd("~/Dropbox/_R/swirl/arquivosDados")
+  AnswerTests: expr_uses_func('setwd')
+  Hint: Use a função setwd(). Você também pode usar a interface do RStudio, com as opções na aba Files, para fazer isso. 
+
+- Class: figure
+  Output: Acabei de fazer uma cópia do arquivo de dados de Labov, chamado LabovDS.csv, para o atual diretório de trabalho. Dê uma olhada nessa pasta.
+  Figure: copiarDadosDS.R
+  FigureType: new
+
+- Class: cmd_question
+  Output: "Agora carregue os dados da planilha LabovDS.csv em um dataframe chamado `ds` (para department store). Use a função read_csv(), definindo todas as colunas como factor. Não vai ser necessário redefinir os níveis de nenhuma variável."
+  CorrectAnswer: ds <- read_csv("LabovDS.csv", col_types = cols(.default = col_factor()))
+  AnswerTests: any_of_exprs('ds <- read_csv("LabovDS.csv", col_types = cols(.default = col_factor()))')
+  Hint: Releia as instruções acima com atenção.  
+
+- Class: cmd_question
+  Output: Sempre que carregar um arquivo de dados, é importante verificar se o arquivo foi lido corretamente. Aplique a função str() ao dataframe `ds` para fazer essa checagem e também para ter um primeiro contato com a estrutura dos dados. 
+  CorrectAnswer: str(ds)
+  AnswerTests: omnitest(correctExpr='str(ds)')
+  Hint: Digite str(ds) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "O R nos informa que ds é um dataframe com 759 ocorrências de 4 variáveis: r, store, emphasis e word. Nesse estudo, Labov analisou a pronúncia variável de /r/ pós-vocálico -- que pode ser realizado (r1) ou apagado (r0) --, em 3 lojas de departamento de Nova Iorque (Saks, Macy's e S.Klein's), em dois contextos linguísticos -- meio (fourth) e fim de palavra (floor) --, e em dois graus de ênfase (casual ou enfático). Os dados de /r/ codificados como d se referem a realizações duvidosas, em que ele não conseguiu determinar se o /r/ havia sido realizado ou apagado."
+
+- Class: text
+  Output: "Seu método foi extremamente engenhoso: Labov se aproximava de um funcionário da loja e perguntava onde ficava um determinado item (p.ex., os sapatos femininos), cuja resposta ele já sabia ser \"fourth floor\" (no quarto andar). Em seguida, ele fingia não ter entendido o que a pessoa havia dito e pedia para que repetisse, ao que se esperava que o falante respondesse de modo mais claro ou enfático. Assim ele obtinha 4 ocorrências de /r/ pós-vocálico por falante, anotava as respostas em seu caderninho e seguia para fazer o mesmo com outro funcionário. Labov colheu dados de 68 pessoas na Saks, 125 na Macy's e 71 na S.Klein's."
+
+- Class: cmd_question
+  Output: Um pesquisador honesto presta conta de todos os seus dados! Se Labov colheu 4 dados de 68 + 125 + 71 pessoas, qual deve ser o total de dados? Faça esta conta agora.
+  CorrectAnswer: (68 + 125 + 71) * 4
+  AnswerTests: omnitest(correctVal=1056)
+  Hint: Tente (68 + 125 + 71) * 4
+
+- Class: text
+  Output: "Exato! Deveria haver 1056 dados, mas há 759 no total. Faltam, portanto, 297 dados. Labov explica em seu trabalho o que ocorreu: em alguns casos, principalmente na repetição, o falante não produziu \"fourth floor\", mas simplesmente \"fourth\". Esse tipo de coisa acontece. Pesquisas dificilmente tendem a ocorrer exatamente como planejado ou previsto, e os percalços e a solução encontrada também devem ser reportados em suas publicações." 
+
+- Class: text
+  Output: Estamos prontos, então, para começar a analisar esses dados. Um primeiro interesse é verificar quantos dados há para cada variante de cada variável. No tidyverse, isso é feito com a função count().
+
+- Class: cmd_question
+  Output: "No script, temos agora um novo símbolo, `%>%`, que é chamado de pipe. Esse símbolo, que será bastante usado junto a funções do pacote tidyverse, pode ser glosado como: \"pegue o resultado da operação anterior e execute o que vem em seguida\". Neste caso, estamos dizendo ao R para pegar o dataframe `ds` e, com ele, fazer a contagem dos dados da variável r (quantos r1-realizações, r0-apagamentos e d-dados duvidosos). Execute-o agora para ver o resultado."
+  CorrectAnswer: ds %>% count(r)
+  AnswerTests: omnitest(correctExpr='ds %>% count(r)')
+  Hint: Rode a linha de comando deste ponto do script. 
+  
+- Class: text
+  Output: "O R nos fornece o output no formato de um dataframe visualizado como tibble, informando que houve 231 ocorrências de r1, 499 de r0 e 29 de d. Esses números são chamados de FREQUÊNCIAS. Cabe aqui chamar a atenção para o fato de que, no uso comum, normalmente se emprega o termo 'frequência' para se referir a proporções, que são coisas distintas (e vamos ver logo adiante). O uso técnico e correto do termo 'frequência' é este: quantas vezes alguma variante ocorreu."
+
+- Class: text
+  Output: A cada tabela, figura, teste estatístico..., cabe agora ao pesquisador verificar se os resultados estão de acordo com as expectativas, com a teoria, com os modelos testados etc. Pare para pensar um pouco o que nos diz a tabela de distribuição de dados de /r/.
+
+- Class: text
+  Output: "Evidentemente, não há uma única resposta certa para isso, mas minimamente vale a pena notar duas coisas: (i) o número de ocorrências de dados duvidosos é bastante pequeno, o que dá maior confiança a quaisquer outros resultados a que se vai chegar -- imagine se mais da metade dos dados fossem duvidosos!; (ii) o número de ocorrências de apagamento, no inglês novaiorquino na década de 1960 para esse tipo de falante (funcionários de lojas de departamento), era relativamente bem mais frequente do que sua realização -- mais do que o dobro!"
+
+- Class: mult_question
+  Output: Visto que há um número pequeno de ocorrências de d, e que o foco do estudo é sobre a realização vs. apagamento de /r/, podemos descartar os dados duvidosos e criar um novo subconjunto de dados. Vimos como fazer isso na Lição 2 - Manipulação de Vetores e Dataframes. Você se lembra como? Qual função vamos usar?
+  AnswerChoices: filter();getwd();c();read_csv();file.create()
+  CorrectAnswer: filter()
+  AnswerTests: omnitest(correctVal= 'filter()')
+  Hint: Se titubeou para responder essa pergunta, reveja depois a Lição 2!
+
+- Class: cmd_question
+  Output: "Vamos criar um novo conjunto de dados, chamado ds2, que contém apenas os dados de \"r0\" e \"r1\". Vamos aproveitar e usar o pipe %>%, que acabamos de aprender. Digite ds2 <- ds %>% filter(r != \"d\")."
+  CorrectAnswer: ds2 <- ds %>% filter(r != "d")
+  AnswerTests: omnitest(correctExpr='ds2 <- ds %>% filter(r != "d")')
+  Hint: Digite ds2 <- ds %>% filter(r != "d") e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: Cheque se o novo dataframe foi criado corretamente. Primeiro, em Environment, veja se aparece ds2, que deve conter 29 dados a menos do que ds. Em seguida, aplique a função str() a ds2. (Sim, isso é algo que deve ser feito sempre!)
+  CorrectAnswer: str(ds2)
+  AnswerTests: omnitest(correctExpr='str(ds2)')
+  Hint: Digite str(ds2) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Opa! Tem um problema! Apesar de excluirmos os dados duvidosos da planilha, \"d\" continua sendo um nível dessa variável fatorial. Isso acontece porque é possível haver um nível com zero dados. Mas tem um modo fácil de excluí-lo: volte à linha de comando em que excluímos os dados duvidosos, inclua novo %>% após o comando com filter(), e digite na linha seguinte droplevels(). Isso fará com que todos os níveis sem dados sem excluídos."
+  CorrectAnswer: ds2 <- ds %>% filter(r != "d") %>% droplevels()
+  AnswerTests: omnitest(correctExpr='ds2 <- ds %>% filter(r != "d") %>% droplevels()')
+  Hint: Digite ds2 <- ds %>% filter(r != "d") %>% droplevels() e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: Vamos seguir agora com o dataframe ds2, ok? Reveja a distribuição de dados de r no novo conjunto de dados, por meio da função count().
+  CorrectAnswer: ds2 %>% count(r)
+  AnswerTests: omnitest(correctExpr='ds2 %>% count(r)')
+  Hint: Digite ds2 %>% count(r) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: Para calcular proporções no tidyverse, é necessário calcular primeiramente as frequências, como acabamos de fazer. Às frequências, vamos aplicar a função mutate() que, genericamente, faz transformações nos dados. Nesse caso, usamos a função prop.table() sobre a coluna n para computar as proporções. Identifique esses passos na linha de comando no script, que já está pronta, e rode-a em seguida. Observe o uso do pipe, que toma o resultado de cada operação para executar a seguinte. 
+  CorrectAnswer: ds2 %>% count(r) %>% mutate(prop = prop.table(n))
+  AnswerTests: omnitest(correctExpr='ds2 %>% count(r) %>% mutate(prop = prop.table(n))')
+  Hint: Rode a linha de comando deste ponto do script.
+  
+- Class: cmd_question
+  Output: "A proporção de r1 foi de 32% e de r0 foi de 64%. Vamos agora calcular a frequência dos dados da variável store. "
+  CorrectAnswer: ds2 %>% count(store)
+  AnswerTests: omnitest(correctExpr='ds2 %>% count(store)')
+  Hint: Digite ds2 %>% count(store) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "Vejamos os resultados. Para store, o R informa que houve, no total, 178 ocorrências de /r/ na Saks, 336 na Macy's e 216 na S.Klein's. O que isso quer dizer?"
+
+- Class: text
+  Output: "Na verdade, isso nos diz muito pouco, para além de uma pista de onde estão os 297 dados não produzidos. Visto que mais dados foram coletados na Macy's (125 pessoas), era mesmo de se esperar que houvesse mais dados dessa loja..."
+
+- Class: text
+  Output: "As distribuições de dados das variáveis store, emphasis e word não fazem sentido sem levar em conta aquilo que é o foco do estudo: a pronúncia de /r/ pós-vocálico. A pronúncia de /r/ é a VARIÁVEL DEPENDENTE (VD), e todas as demais são INDEPENDENTES (VIs). O que nos interessa é conhecer a distribuição de dados das VIs em relação à VD."
+
+- Class: cmd_question
+  Output: Para ver a distribuição dos dados entre duas variáveis, também usamos a função count(), com a adição de mais um argumento. Compute então as frequências de dados por store e r, nessa ordem. 
+  CorrectAnswer: ds2 %>% count(store, r) 
+  AnswerTests: omnitest(correctExpr='ds2 %>% count(store, r)')
+  Hint: Digite ds2 %>% count(store, r) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: Em qual das lojas houve maior ocorrência de apagamentos de /r/? Evidentemente, as simples frequências (93, 211 e 195) podem ser enganadoras, uma vez que os totais para cada loja são diferentes. Queremos, então, visualizar a distribuição em proporções, que indicam o quanto cada frequência representa do total. 
+
+- Class: cmd_question
+  Output: Para computar as proporções, o comando será semelhante ao que fizemos acima para a variável r. No entanto, como agora temos duas variáveis, é necessário informar ao R com base em qual variável será calculada essa medida estatística, por meio da função group_by(). Nela, estamos dizendo ao R para calcular as proporções por store. Na linha de comando no script, essa função foi incluída após count() e antes de mutate(). Após se certificar de que entendeu essa linha de comando, rode-a com CTRL + ENTER. 
+  CorrectAnswer: ds2 %>% count(store, r) %>% group_by(store) %>% mutate(prop = prop.table(n))
+  AnswerTests: omnitest(correctExpr='ds2 %>% count(store, r) %>% group_by(store) %>% mutate(prop = prop.table(n))')
+  Hint: Rode a linha de comando deste ponto do script.
+  
+- Class: cmd_question
+  Output: "Na última linha de comando, agrupamos os dados por store, de modo que, em cada loja, os dados de r1 e r0 somam 100%. Para contrastar, rode a próxima linha de comando, que agrupa os dados pela variável r."
+  CorrectAnswer: ds2 %>% count(r, store) %>% group_by(r) %>% mutate(prop = prop.table(n))
+  AnswerTests: omnitest(correctExpr='ds2 %>% count(r, store) %>% group_by(r) %>% mutate(prop = prop.table(n))')
+  Hint: Rode a linha de comando deste ponto do script.
+  
+- Class: text
+  Output: "Desta vez, são os dados das lojas -- Saks, Macy's, S.Klein -- que somam 100% ou para r1 ou para r0. Mas essa última tabela não faz sentido! Ao tabular os dados de cada loja quanto ao uso da variável r, queremos saber se há diferenças entre os locais; cada uma delas, portanto, deve ser tomada com uma totalidade, dentro da qual se analisa a distribuição dos dados. Daí sim eles podem ser comparados. Do cômputo correto, depreendemos que r0 é mais frequente que r1 em todas as lojas, e que a proporção de apagamento na S.Klein (90,3%) é muito maior do que na Macy's (62,8%) e na Saks (52,2%)."
+  
+- Class: text
+  Output: Essa última operação foi feita a fim de chamar a atenção para a devida escolha da variável pela qual os dados devem ser agrupados. O R não sabe o que é store e r, e não tem como decidir por você! Veja que a escolha da variável incorreta levará a medidas estatísticas completamente diferentes!
+  
+- Class: cmd_question
+  Output: Visualize agora a distribuição dos dados de frequência e proporções de emphasis pela VD.
+  CorrectAnswer: ds2 %>% count(emphasis, r) %>% group_by(emphasis) %>% mutate(prop = prop.table(n))
+  AnswerTests: omnitest(correctExpr='ds2 %>% count(emphasis, r) %>% group_by(emphasis) %>% mutate(prop = prop.table(n))')
+  Hint: Use como modelo o código que usamos para tabular os dados de store por r, e troque store por emphasis.
+  
+- Class: mult_question
+  Output: Da tabela acima, em qual estilo de fala ocorreu mais apagamento (r0)?
+  AnswerChoices: casual;enfático;não sei!
+  CorrectAnswer: casual
+  AnswerTests: omnitest(correctVal= 'casual')
+  Hint: Pense um pouco!
+
+- Class: cmd_question
+  Output: Compute a frequência e a proporção dos dados de word pela VD.
+  CorrectAnswer: ds2 %>% count(word, r) %>% group_by(word) %>% mutate(prop = prop.table(n))
+  AnswerTests: omnitest(correctExpr='ds2 %>% count(word, r) %>% group_by(word) %>% mutate(prop = prop.table(n))')
+  Hint: Use como modelo o código que usamos para tabular os dados de store por r, e troque store por word.
+  
+- Class: mult_question
+  Output: "Da tabela acima, vemos que a proporção de r0 na palavra \"fourth\" é maior do que na palavra \"floor\". Também já vimos que houve relativamente mais apagamento no estilo casual (vs. enfático) e na S.Klein (vs. Macy's e Saks). Em qual das variáveis a diferença entre proporções parece ser maior? "
+  AnswerChoices: store;emphasis;word
+  CorrectAnswer: store
+  AnswerTests: omnitest(correctVal= 'store')
+  Hint: Compare as diferenças entre as proporções por cada variável independente. 
+  
+- Class: text
+  Output: "Na questão acima, usei o termo \"parece\" pois, para determinar o grau dessas diferenças, precisaremos de testes estatísticos que serão objeto de lições futuras. Essas distribuições, no entanto, já são um ótimo começo para saber o que está acontecendo nos dados."
+  
+- Class: text
+  Output: "Ao usar as funções do tidyverse, os resultados são fornecidos no formato de dataframes. Todas as distribuições de dados que vimos acima são nesse formato. Vamos ver agora outro modo de fazer a mesma coisa: visualizar frequências e distribuições de dados, mas dessa vez por meio de tabelas. Ao final, vamos comparar os dois modos -- ambos serão úteis nas próximas lições. "
+  
+- Class: cmd_question
+  Output: A instalação base do R tem uma função chamada table(), que serve, justamente, para tabular dados. Vamos usá-la junto à função with(), para que o nome do dataframe não tenha que ser digitado muitas vezes. Rode a linha de comando neste ponto do script.
+  CorrectAnswer: freq.r <- with(ds2, table(r))
+  AnswerTests: omnitest(correctExpr='freq.r <- with(ds2, table(r))')
+  Hint: Rode a linha de comando neste ponto do script.
+
+- Class: cmd_question
+  Output: Visualize a tabela digitando freq.r.
+  CorrectAnswer: freq.r
+  AnswerTests: omnitest(correctExpr='freq.r')
+  Hint: Digite freq.r e pressione CTRL + ENTER.
+  
+- Class: cmd_question
+  Output: Para fazer a tabela de proporções, como vimos mais acima, precisamos da tabela de frequências. Aplique então a função prop.table() à tabela freq.r, e guarde o resultado em um objeto chamado prop.r.
+  CorrectAnswer: prop.r <- prop.table(freq.r)
+  AnswerTests: omnitest(correctExpr='prop.r <- prop.table(freq.r)')
+  Hint: Digite prop.r <- prop.table(freq.r) e pressione CTRL + ENTER.
+  
+- Class: cmd_question
+  Output: E visualize `prop.r`.
+  CorrectAnswer: prop.r
+  AnswerTests: omnitest(correctExpr='prop.r')
+  Hint: Digite prop.r e pressione CTRL + ENTER.
+  
+- Class: cmd_question
+  Output: Crie um objeto chamado `freq.store` com a distribuição de dados de loja (store) pela VD (r). Para tanto, inclua as duas variáveis como argumentos de table(), deixando a VD ao final.
+  CorrectAnswer: freq.store <- with(ds2, table(store, r))
+  AnswerTests: omnitest(correctExpr='freq.store <- with(ds2, table(store, r))')
+  Hint: Digite freq.store <- with(ds2, table(store, r)) e pressione CTRL + ENTER.
+  
+- Class: cmd_question
+  Output: Visualize freq.store.
+  CorrectAnswer: freq.store
+  AnswerTests: omnitest(correctExpr='freq.store')
+  Hint: Digite freq.store e pressione CTRL + ENTER.
+
+- Class: text
+  Output: Ao colocar a VD como segundo argumento de table(), ela aparece nas colunas (e a VI nas linhas), que é o modo mais comum de apresentar distribuição de dados de VIs por uma VD. Embora, em princípio, não faça diferença de modo você vai visualizar a distribuição dos dados, recomendo que você se acostume com essa convenção. 
+    
+- Class: mult_question
+  Output: "Assim como no tidyverse, para fazer a tabela de proporções quando se tabulam duas variáveis, podemos especificar para qual das variáveis as variantes somarão 100% -- a da linha, a da coluna, ou ainda a tabela toda. Na função prop.table(), isso é informado como um novo argumento, pela convenção 1 = linha, 2 = coluna, e nada (= default) = tabela. Pela tabela de frequências acima, qual opção faz mais sentido aplicar?"
+  AnswerChoices: 1 = linha;2 = coluna;nada = default
+  CorrectAnswer: 1 = linha
+  AnswerTests: omnitest(correctVal= '1 = linha')
+  Hint: Pense mais um pouco!
+  
+- Class: cmd_question
+  Output: Crie então uma tabela de proporções chamada prop.store, usando a tabela freq.store e 1 como segundo argumento de prop.table().
+  CorrectAnswer: prop.store <- prop.table(freq.store, 1)
+  AnswerTests: omnitest(correctExpr='prop.store <- prop.table(freq.store, 1)')
+  Hint: Digite prop.store <- prop.table(freq.store, 1) e pressione CTRL + ENTER.
+  
+- Class: cmd_question
+  Output: E visualize `prop.store`.
+  CorrectAnswer: prop.store
+  AnswerTests: omnitest(correctExpr='prop.store')
+  Hint: Digite prop.store e pressione CTRL + ENTER.
+  
+- Class: text
+  Output: Note que, aqui também, a escolha equivocada da variável pela qual as proporções serão computadas pode levar a medições completamente diferentes. Neste caso, é necessário saber qual variável ocupa a linha e qual ocupa a coluna para bem escolher 1 ou 2 em prop.table().  
+  
+- Class: cmd_question
+  Output: Tabelas são semelhantes aos dataframes, pois também têm linhas e colunas. Assim, é possível visualizar elementos específicos da uma tabela por meio dos colchetes. Verifique qual é o elemento na 2a. linha da 1a. coluna de freq.store.  
+  CorrectAnswer: freq.store[2, 1]
+  AnswerTests: omnitest(correctExpr='freq.store[2, 1]')
+  Hint: Digite freq.store[2, 1] e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: Também é possível visualizar os valores totais das linhas e das colunas de uma tabela aplicando a função addmargins(). Digite addmargins(freq.store) para ver o resultado.
+  CorrectAnswer: addmargins(freq.store)
+  AnswerTests: omnitest(correctExpr='addmargins(freq.store)')
+  Hint: Digite addmargins(freq.store) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: Você deve ter notado que a visualização de frequências e proporções por meio de tabelas é diferente daquela no formato dataframe. Para além dessa diferença estética, há consequências práticas de escolher computar essas medidas por meio das funções do tidyverse, como fizemos primeiro, ou por meio das funções da instalação base do R.
+  
+- Class: text
+  Output: "A primeira delas é que, no tidyverse, é possível computar frequências e proporções (além de outras medidas) por meio de uma única linha de comando, usando %>%, e, na instalação base, isso precisa ser feito passo a passo. Para um usuário iniciante em R, a segunda opção pode parecer mais fácil, uma vez que é possível ter maior controle e visualizar cada etapa do que se está fazendo. Entretanto, como já vimos em lições anteriores, uma linha de comando não precisa ser digitada por completo logo de primeira. Você também pode digitar parte da linha de comando (desde que já seja inteligível ao R), ver o resultado, e completá-la posteriormente."
+  
+- Class: text
+  Output: Uma segunda diferença é que as funções do tidyverse geraram o output no formato de dataframe, e as funções da instalação base geraram tabelas. Essa diferença é relevante a depender do que se pretende fazer posteriormente com esses dados. Por exemplo, para fazer um gráfico de barras no tidyverse (com o pacote ggplot2), você vai precisar de um dataframe (ver Lições 5 e 7); para fazer um teste de qui-quadrado, você vai precisar de uma tabela (ver Lição 9). É importante, então, conhecer os dois modos de computar frequência e proporções!
+    
+- Class: text
+  Output: "Nesta lição, vimos, por exemplo, que houve proporcionalmente mais ocorrências de apagamento de /r/ na S.Klein's, seguida da Macy's, e por último na Saks. (Leia o estudo de Labov para ver sua interpretação desses resultados!). As diferenças entre as lojas já fica bastante clara por meio dos números, mas isso pode ficar ainda mais claro se mostrado por uma figura -- um objeto gráfico --, em vez de uma tabela, que é textual. A feitura de gráficos é o assunto da próxima lição." 
+
+- Class: text
+  Output: Faça agora os exercícios correspondentes a esta aula!

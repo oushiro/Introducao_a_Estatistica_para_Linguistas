@@ -1,0 +1,330 @@
+- Class: meta
+  Course: Introducao_a_Estatistica_para_Linguistas
+  Lesson: Estatistica_Inferencial_Regressao_Linear_Parte2
+  Author: Livia Oushiro
+  Type: Standard
+  Organization: UNICAMP
+  Version: 2.4.3
+
+- Class: figure
+  Output: "Esta lição dá continuidade ao tópico Regressão Linear, iniciado na lição anterior. Ali, criamos modelos relativamente simples de regressão linear com variáveis previsoras binária (AMOSTRA), com mais de 2 fatores (CONT.SEG) e numérica (F1.SEG.NORM), bem como modelos com duas variáveis sem e com interação, com vistas a treinar a leitura dos resultados. Entretanto, análises de regressão linear por meio da função lm() permitem incluir mais variáveis previsoras, e um modelo mais completo deve abarcar tantas variáveis pertinentes quanto possível."
+  Figure: Licao13-background.R
+  FigureType: new
+
+- Class: figure
+  Output: "Por outro lado, ao criar modelos multivariados, é importante ter em mente o princípio da Navalha de Occam, também conhecido como Princípio da Simplicidade ou Princípio da Parcimônia. Ele estabelece que teorias mais simples são preferíveis a teorias mais complexas, e que não se deve agregar hipóteses desnecessárias a uma teoria. Transpondo tal princípio a nossos modelos estatísticos, poderíamos imaginar que um modelo que inclui 20 variáveis previsoras se aproxima mais da realidade; contudo, se 15 dessas variáveis contribuem pouco para fazer previsões a respeito da variável resposta, um modelo com 5 variáveis é preferível por ser mais simples."
+  Figure: unload-lmerTest-lme4.R
+  FigureType: new
+
+- Class: text
+  Output: "É daí também que surge o interesse em modelos multivariados: o efeito de uma variável previsora pode se mostrar pertinente em uma análise univariada, mas se revelar não tão influente quando considerada frente a outras variáveis. A análise multivariada pode indiciar que o efeito de determinada variável é apenas superficial ou pequeno em vista de outros efeitos. Cabe então a pergunta: como decidir quais e quantas variáveis previsoras incluir num modelo linear?"
+
+- Class: text
+  Output: "A decisão sobre quais variáveis têm efeito de fato para descrever, explicar e prever o comportamento da variável resposta cabe inequivocadamente ao pesquisador. Cada variável previsora é uma hipótese a respeito da variável resposta, e as hipóteses, como já vimos, devem ter por base a teoria e a literatura sobre determinado assunto -- em outras palavras, devem ser bem motivadas. Mas o pesquisador sempre pode propor novas correlações ou descobrir que um efeito que se mostrou significativo em um conjunto de dados não é em outro conjunto."
+
+- Class: text
+  Output: "Para chegar a um modelo satisfatório dos dados, há duas abordagens possíveis: começar por um modelo estatístico simples e a ele acrescentar novas variáveis previsoras, uma a uma; ou começar com um modelo complexo, com todas as variáveis previsoras, e procurar eliminar aquelas que têm pouca ou nenhuma influência na variável resposta. O R tem algumas funções que facilitam a construção de tais modelos, dentre as quais estão as funções step() e drop1()."
+
+- Class: cmd_question
+  Output: Nesta lição, vamos precisar de quatro pacotes. Carregue primeiro o pacote tidyverse.
+  CorrectAnswer: library(tidyverse)
+  AnswerTests: omnitest(correctExpr='library(tidyverse)')
+  Hint: Digite library(tidyverse) e pressione CTRL + ENTER.
+  
+- Class: cmd_question
+  Output:  Carregue em seguida o pacote car.
+  CorrectAnswer: library(car)
+  AnswerTests: omnitest(correctExpr='library(car)')
+  Hint: Digite library(car) e pressione CTRL + ENTER.
+  
+- Class: cmd_question
+  Output: Carregue também o pacote lme4.
+  CorrectAnswer: library(lme4)
+  AnswerTests: omnitest(correctExpr='library(lme4)')
+  Hint: Digite library(lme4) e pressione CTRL + ENTER.
+  
+- Class: cmd_question
+  Output: E carregue o pacote lmerTest.
+  CorrectAnswer: library(lmerTest)
+  AnswerTests: omnitest(correctExpr='library(lmerTest)')
+  Hint: Digite library(lmerTest) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: Já deixei disponível para você o conjunto de dados VOGAL_e2, com que trabalhamos na lição passada. Veja sua estrutura com str().
+  CorrectAnswer: str(VOGAL_e2)
+  AnswerTests: omnitest(correctExpr='str(VOGAL_e2)')
+  Hint: Digite str(VOGAL_e2) e pressione CTRL + ENTER.
+  
+- Class: cmd_question
+  Output: "Imagine que um pesquisador tenha levantado a hipótese de que altura da vogal /e/ pretônica depende das variáveis AMOSTRA, SEXO, F1.SEG.NORM, CONT.PREC e CONT.SEG. A partir de VOGAL_e2, crie primeiro um modelo linear chamado mod, com F1.NORM como variável resposta e as variáveis AMOSTRA + SEXO + F1.SEG.NORM + CONT.PREC + CONT.SEG como variáveis previsoras."
+  CorrectAnswer: mod <- lm(F1.NORM ~ AMOSTRA + SEXO + F1.SEG.NORM + CONT.PREC + CONT.SEG, data = VOGAL_e2)
+  AnswerTests: omnitest(correctExpr='mod <- lm(F1.NORM ~ AMOSTRA + SEXO + F1.SEG.NORM + CONT.PREC + CONT.SEG, data = VOGAL_e2)')
+  Hint: Digite mod <- lm(F1.NORM ~ AMOSTRA + SEXO + F1.SEG.NORM + CONT.PREC + CONT.SEG, data = VOGAL_e2) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Veja o resultado de mod com summary()."
+  CorrectAnswer: summary(mod)
+  AnswerTests: omnitest(correctExpr='summary(mod)')
+  Hint: Digite summary(mod) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "O resultado do modelo inclui todas as variáveis previsoras (e respectivos fatores, em caso de variáveis nominais), suas estimativas e valores de significância em relação ao coeficiente linear (intercept). Como visto na lição passada, sua leitura depende do conhecimento de quais são os níveis de referência."
+
+- Class: mult_question
+  Output: "Para a variável AMOSTRA, qual é o nível de referência? Veja o resultado de str(), se necessário."
+  AnswerChoices: PBSP;SP2010
+  CorrectAnswer: PBSP
+  AnswerTests: omnitest(correctVal= 'PBSP')
+  Hint: Qual é o primeiro nível dessa variável?
+
+- Class: mult_question
+  Output: "Para a variável SEXO, qual é o nível de referência?"
+  AnswerChoices: feminino;masculino
+  CorrectAnswer: feminino
+  AnswerTests: omnitest(correctVal= 'feminino')
+  Hint: Qual é o primeiro nível dessa variável?
+
+- Class: mult_question
+  Output: "Para a variável F1.SEG.NORM, qual é o nível de referência?"
+  AnswerChoices: F1.SEG.NORM = 0 Hz;F1.SEG.NORM = 400 Hz;F1.SEG.NORM = 600 Hz
+  CorrectAnswer: F1.SEG.NORM = 0 Hz
+  AnswerTests: omnitest(correctVal= 'F1.SEG.NORM = 0 Hz')
+  Hint: Como esta é uma variável numérica, o valor de referência é zero.
+
+- Class: mult_question
+  Output: "Para a variável CONT.PREC, qual é o nível de referência?"
+  AnswerChoices: dental.alveolar;labial;palatal.sibilante;velar;vibrante
+  CorrectAnswer: dental.alveolar
+  AnswerTests: omnitest(correctVal= 'dental.alveolar')
+  Hint: Qual é o primeiro nível dessa variável?
+
+- Class: mult_question
+  Output: "Para a variável CONT.SEG, qual é o nível de referência?"
+  AnswerChoices: dental.alveolar;labial;palatal.sibilante;velar;vibrante
+  CorrectAnswer: dental.alveolar
+  AnswerTests: omnitest(correctVal= 'dental.alveolar')
+  Hint: Qual é o primeiro nível dessa variável?
+
+- Class: text
+  Output: "Os respectivos valores de referência são o zero ou o primeiro nível de acordo com a ordem em que aparecem na planilha ou de acordo com o especificado pel@ usuári@ no momento da importação dos dados. Em mod, o coeficiente linear 397.14855 se refere, portanto, à estimativa do valor de F1.NORM para falantes paraibanos do sexo feminino, quando F1.SEG.NORM é zero e quando o contexto precedente e o contexto seguinte são consoantes dental-alveolares. As estimativas para todos os outros cenários possíveis podem ser deduzidos a partir dos coeficientes angulares."
+
+- Class: text
+  Output: "Vemos que a estimativa de F1.NORM para AMOSTRASP2010 difere significativamente em relação a PBSP; a cada unidade de F1.NORM; quando CONT.PREC é palatal-sibilante (em relação à dental-alveolar); e quando CONT.SEG é labial ou palatal-sibilante (em relação à dental-alveolar). Não há diferença significativa para as estimativas de homens e mulheres, e em relação aos demais contextos precedentes ou seguintes em relação à dental-alveolar. Sobre a variável SEXO, um pesquisador pode se perguntar se é pertinente manter essa variável no modelo, uma vez que parece não estar contribuindo muito para a estimativa da variável resposta. Sobre as variáveis CONT.PREC e CONT.SEG, o pesquisador pode se perguntar se as variáveis são relevantes de modo global, já que apenas um ou dois fatores de cada variável mostram diferenças significativas em relação ao nível de referência."
+
+- Class: text
+  Output: "A função step() compara diferentes modelos com e sem a inclusão de diferentes variáveis e reporta, ao final, quais variáveis devem ser mantidas. Para isso, baseia-se no AIC (Akaike Information Criterion), que penaliza o modelo se tem muitas variáveis -- de modo semelhante ao R^2 ajustado. A função pode ser aplicada em três direções: (i) forward; (ii) backward; e (iii) both. Comecemos com a opção 'forward'."
+
+- Class: cmd_question
+  Output: "Para isso, primeiro precisamos criar um modelo que não inclui qualquer variável previsora. Crie então um modelo chamado m0, com a seguinte linha de comando: m0 <- lm(F1.NORM ~ 1, data = VOGAL_e2)."
+  CorrectAnswer: m0 <- lm(F1.NORM ~ 1, data = VOGAL_e2)
+  AnswerTests: omnitest(correctExpr='m0 <- lm(F1.NORM ~ 1, data = VOGAL_e2)')
+  Hint: Digite m0 <- lm(F1.NORM ~ 1, data = VOGAL_e2) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Vamos agora aplicar a função step(), com os seguintes argumentos: (i) m0; (ii) direction = \"forward\"; (iii) scope = ~ AMOSTRA + SEXO + F1.SEG.NORM + CONT.PREC + CONT.SEG. Guarde o resultado num objeto chamado m.fw."
+  CorrectAnswer: m.fw <- step(m0, direction = "forward", scope = ~ AMOSTRA + SEXO + F1.SEG.NORM + CONT.PREC + CONT.SEG)
+  AnswerTests: omnitest(correctExpr='m.fw <- step(m0, direction = "forward", scope = ~ AMOSTRA + SEXO + F1.SEG.NORM + CONT.PREC + CONT.SEG)')
+  Hint: Digite m.fw <- step(m0, direction = "forward", scope = ~ AMOSTRA + SEXO + F1.SEG.NORM + CONT.PREC + CONT.SEG) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Acima, especificamos que queremos partir do modelo m0, sem variáveis previsoras, e avaliar se a adição de novas variáveis melhora seu poder explanatório. O R então calculou o AIC para diferentes modelos e incluiu as variáveis F1.NORM, AMOSTRA, CONT.SEG, CONT.PREC e SEXO -- nessa ordem. Digite agora m.fw para ver o cálculo de coeficientes de cada previsor."
+  CorrectAnswer: m.fw
+  AnswerTests: omnitest(correctExpr='m.fw')
+  Hint: Digite m.fw e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Vamos agora fazer um modelo \"de trás para frente\". A função step() toma novamente como argumentos o modelo de qual se quer partir -- aqui usaremos `mod`, o modelo completo feito acima -- e a direção -- direction = \"backward\". Neste caso, não é necessário especificar o argumento scope. Digite então m.bw <- step(mod, direction = \"backward\")."
+  CorrectAnswer: m.bw <- step(mod, direction = "backward")
+  AnswerTests: omnitest(correctExpr='m.bw <- step(mod, direction = "backward")')
+  Hint: Digite m.bw <- step(mod, direction = "backward") e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "No modelo \"de trás para frente\", o R começa com o modelo completo e tenta excluir variáveis uma a uma. Nenhuma variável foi excluída, e o R as manteve na ordem em que foram especificadas dentro do modelo inicial -- AMOSTRA, SEXO, F1.SEG.NORM, CONT.PREC e CONT.SEG. O importante aqui é checar se as mesmas variáveis que foram incluídas no modelo \"para frente\" também são incluídas no modelo \"de trás para frente\". Caso isso não ocorra, é um sinal de que há interação entre variáveis do modelo. Cabe ao pesquisador encontrá-la(s) e incluir a interação num novo modelo."
+
+- Class: cmd_question
+  Output: "Veja também o resultado guardado em m.bw."
+  CorrectAnswer: m.bw
+  AnswerTests: omnitest(correctExpr='m.bw')
+  Hint: Digite m.bw e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Note que os coeficientes angulares são os mesmos calculados para o modelo forward. Por fim, apliquemos a direção 'both'. Neste caso, o programa começa executando o mesmo que a direção 'forward' mas, toda vez que inclui uma nova variável, ele tenta excluir alguma variável que possa não mais estar contribuindo para o modelo. A partir da linha de comando em que você criou m.fw, mude o nome do objeto para m.both e apague o argumento `direction`; não é necessário especificá-lo pois este é o valor default da função."
+  CorrectAnswer: m.both <- step(m0, scope = ~ AMOSTRA + SEXO + F1.SEG.NORM + CONT.PREC + CONT.SEG)
+  AnswerTests: omnitest(correctExpr='m.both <- step(m0, scope = ~ AMOSTRA + SEXO + F1.SEG.NORM + CONT.PREC + CONT.SEG)')
+  Hint: Digite m.both <- step(m0, scope = ~ AMOSTRA + SEXO + F1.SEG.NORM + CONT.PREC + CONT.SEG) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "E veja os valores de coeficiente angular no resultado guardado em m.both."
+  CorrectAnswer: m.both
+  AnswerTests: omnitest(correctExpr='m.both')
+  Hint: Digite m.both e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "Novamente, o que se espera é que as variáveis selecionadas sejam as mesmas e que os coeficientes angulares também tenham os mesmos valores. Caso isso não ocorra, há uma forte evidência de que as variáveis não são independentes entre si e deve-se verificar se há interações entre as variáveis do modelo."
+
+- Class: cmd_question
+  Output: "Outra função que permite avaliar se vale a pena manter determinada variável no modelo estatístico é drop1(). A função requer um modelo com inclusão de todas as variáveis previsoras que se quer testar -- no nosso caso, `mod` -- e o tipo de teste a se aplicar -- aqui vamos usar \"F\", que toma por base a estatística-F para comparar modelos (aquela que aparece ao pé do resultado de summary(); outra opção seria o teste \"Chisq\"). Digite então drop1(mod, test = \"F\")."
+  CorrectAnswer: drop1(mod, test = "F")
+  AnswerTests: omnitest(correctExpr='drop1(mod, test = "F")')
+  Hint: Digite drop1(mod, test = "F") e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "O resultado de drop1() apresenta um valor de significância para cada variável previsora incluída no modelo (assim como outras medidas estatísticas). Aqui vemos que SEXO não se correlaciona significativamente com F1.NORM -- diferentemente do resultado da função step(). Cabe ao pesquisador decidir se ele seguirá o resultado da função step() ou drop1(). Os resultados podem diferir porque cada teste se baseia em um critério diferente (AIC para step(); estatística-F ou qui-quadrado para drop1()). Por mais frustrante que isso possa ser, não há aqui fórmula mágica para lhe dizer qual decisão tomar. Mas esse fato é importante para nos lembrar de que a análise estatística não dá todas as respostas, pois está sempre sujeita à interpretação d@ pesquisador@." 
+
+- Class: text
+  Output: "Com drop1(), o pesquisador pode ainda atualizar o modelo e continuar aplicando a função para tentar excluir mais uma variável, pois a função exclui as variáveis previsoras uma de cada vez. Aqui, não a aplicaremos mais pois todas as variáveis remanescentes são significativas."
+
+- Class: cmd_question
+  Output: "Temos então boas evidências de que as variáveis F1.SEG.NORM, AMOSTRA, CONT.SEG e CONT.PREC se correlacionam com a altura da vogal /e/ pretônica, mas evidências não tão fortes quanto ao papel da variável SEXO. Vamos criar um modelo linear chamado `modelo` com a inclusão apenas das variáveis selecionadas tanto em step() quanto em drop1() -- ou seja, excluindo a variável SEXO --, nos dados de VOGAL_e2."
+  CorrectAnswer: modelo <- lm(F1.NORM ~ F1.SEG.NORM + AMOSTRA + CONT.SEG + CONT.PREC, data = VOGAL_e2)
+  AnswerTests: omnitest(correctExpr='modelo <- lm(F1.NORM ~ F1.SEG.NORM + AMOSTRA + CONT.SEG + CONT.PREC, data = VOGAL_e2)')
+  Hint: Digite modelo <- lm(F1.NORM ~ F1.SEG.NORM + AMOSTRA + CONT.SEG + CONT.PREC, data = VOGAL_e2) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "Após chegar a um modelo de seus dados, ainda é necessário fazer alguns testes para checar se o modelo não viola os pressupostos básicos de modelos lineares. A checagem desses pressupostos é importante para se certificar de que seus resultados são confiáveis."
+
+- Class: text
+  Output: "O primeiro deles é fácil: a variável resposta deve ser numérica e contínua. Numa variável contínua, a relação entre os valores das observações é quantitativa; por exemplo, é possível dizer que uma vogal com 300 Hz de F1 tem a metade do valor de uma vogal com 600 Hz. Para variáveis nominais, aplicamos outros tipos de teste (regressão logística -- que veremos nas Lições 14 e 15 --, multinomial ou de Poisson -- que não serão vistas neste curso)."
+
+- Class: text
+  Output: "Uma segunda checagem a fazer é verificar se a relação entre a variável resposta e uma variável previsora numérica é de fato linear. Isso pode ser feito por meio da função plot() -- como fizemos na Lição 11 -- ou ainda por meio da função crPlot() do pacote car."
+
+- Class: cmd_question
+  Output: "Em nosso modelo, apenas F1.SEG.NORM é uma variável numérica. Digite então crPlot(modelo, var = \"F1.SEG.NORM\") para checar se a relação entre essa variável e a variável resposta é linear."
+  CorrectAnswer: crPlot(modelo, var = "F1.SEG.NORM")
+  AnswerTests: omnitest(correctExpr='crPlot(modelo, var = "F1.SEG.NORM")')
+  Hint: Digite crPlot(modelo, var = "F1.SEG.NORM") e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Na figura plotada, a linha pontilhada corresponde aos valores previstos pelo modelo, e a linha contínua corresponde a uma linha de regressão suavizada que segue mais fielmente a distribuição observada. Se a linha contínua não segue a linha pontilhada, isso é um sinal de que o pressuposto de relação de linearidade entre as variáveis não é cumprido. Na figura, vemos que a linha contínua mais se distancia da linha pontilhada nos maiores valores de F1.SEG.NORM. No início da análise, na lição anterior, retiramos dados acima de 500 Hz apenas para a variável resposta (F1.NORM), mas não para a vogal da sílaba seguinte. Esses correspondem apenas a quatro dados, de modo que retirá-los não causará grande impacto na amostra, ao mesmo tempo que melhorará o modelo. Crie então um novo subconjunto de dados, chamado VOGAL_e3, com os dados de F1.SEG.NORM abaixo de 500 Hz."
+  CorrectAnswer: VOGAL_e3 <- filter(VOGAL_e2, F1.SEG.NORM < 500)
+  AnswerTests: any_of_exprs('VOGAL_e3 <- filter(VOGAL_e2, F1.SEG.NORM < 500)', 'VOGAL_e3 <- VOGAL_e2 %>% filter(F1.SEG.NORM < 500)', 'VOGAL_e3 <- VOGAL_e2 %>% filter(., F1.SEG.NORM < 500)')
+  Hint: Digite VOGAL_e3 <- filter(VOGAL_e2, F1.SEG.NORM < 500) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Crie agora um novo modelo linear, chamado modelo2, com a mesma fórmula F1.NORM ~ AMOSTRA + F1.SEG.NORM + CONT.PREC + CONT.SEG, no conjunto VOGAL_e3."
+  CorrectAnswer: modelo2 <- lm(F1.NORM ~ AMOSTRA + F1.SEG.NORM + CONT.PREC + CONT.SEG, data = VOGAL_e3)
+  AnswerTests: omnitest(correctExpr='modelo2 <- lm(F1.NORM ~ AMOSTRA + F1.SEG.NORM + CONT.PREC + CONT.SEG, data = VOGAL_e3)')
+  Hint: Digite modelo2 <- lm(F1.NORM ~ AMOSTRA + F1.SEG.NORM + CONT.PREC + CONT.SEG, data = VOGAL_e3) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "E aplique a função crPlot() a modelo2, com var = \"F1.SEG.NORM\", para checar se a relação entre as variáveis se aproxima mais da linearidade."
+  CorrectAnswer: crPlot(modelo2, var = "F1.SEG.NORM")
+  AnswerTests: omnitest(correctExpr='crPlot(modelo2, var = "F1.SEG.NORM")')
+  Hint: Digite crPlot(modelo2, var = "F1.SEG.NORM") e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "Em relação à figura anterior, a linha contínua contínua se aproxima muito mais da linha pontilhada."
+
+- Class: text
+  Output: "Outro pressuposto fundamental num modelo linear é que as variáveis previsoras não sejam dependentes entre si. Tal dependência é chamada de multicolinearidade, que ocorre quando algumas variáveis previsoras do modelo se referem a um mesmo efeito. No conjunto original de pretônicas, por exemplo, F1.SEG.NORM se refere à altura da vogal da sílaba seguinte; há ainda outra variável na planilha, chamada VOGAL.SIL.SEG, que codifica a vogal em vez de seu valor de F1. Trata-se de uma mesma variável, vista de duas maneiras (a primeira, contínua; a segunda, nominal), de modo que não devem ser incluídas em um mesmo modelo. Em geral, @ própri@ pesquisador@ é capaz de prever que duas variáveis não são independentes entre si e já não incluí-las num mesmo teste estatístico."
+
+- Class: cmd_question
+  Output: "Mas há uma função do pacote car, vif(), que permite checar se variáveis incluídas num modelo são colineares. Aplique-a a modelo2."
+  CorrectAnswer: vif(modelo2)
+  AnswerTests: omnitest(correctExpr='vif(modelo2)')
+  Hint: Digite vif(modelo2) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "Quando duas variáveis são colineares, os valores de GVIF (da primeira coluna) e GVIF-ajustado (da terceira coluna) são altos, acima de 5. Nosso modelo está ok quanto a esse critério, já que todos os valores são abaixo de 2."
+
+- Class: cmd_question
+  Output: "Outro pressuposto já foi mencionado na lição anterior: a distribuição dos resíduos é normal, com valores simétricos e mediana zero. Digite summary(modelo2) para visualizar o resultado de nosso último modelo."
+  CorrectAnswer: summary(modelo2)
+  AnswerTests: omnitest(correctExpr='summary(modelo2)')
+  Hint: Digite summary(modelo2) e pressione CTRL + ENTER.
+
+- Class: mult_question
+  Output: "Vemos nos resíduos que a distribuição não parece ser normal, principalmente pelos valores Min (-59.972) e Max (71.855). Já vimos, em lições anteriores, uma função para verificar numericamente se uma distribuição é normal. Qual é ela?"
+  AnswerChoices: shapiro.test();t.test();bonferroni.test();chisq.test()
+  CorrectAnswer: shapiro.test()
+  AnswerTests: omnitest(correctVal= 'shapiro.test()')
+  Hint: Refaça a Lição 10, se necessário!
+
+- Class: cmd_question
+  Output: "Aplique então o teste de Shapiro a modelo2$residuals."
+  CorrectAnswer: shapiro.test(modelo2$residuals)
+  AnswerTests: omnitest(correctExpr='shapiro.test(modelo2$residuals)')
+  Hint: Digite shapiro.test(modelo2$residuals) e pressione CTRL + ENTER.
+
+- Class: mult_question
+  Output: "O que informa o teste acima?"
+  AnswerChoices: a distribuição dos resíduos de modelo2 não é normal;a distribuição dos resíduos de modelo2 é normal
+  CorrectAnswer: a distribuição dos resíduos de modelo2 não é normal
+  AnswerTests: omnitest(correctVal= 'a distribuição dos resíduos de modelo2 não é normal')
+  Hint: Lembre-se que o teste de Shapiro testa a hipótese nula de que os dados vêm de uma distribuição normal.
+
+- Class: text
+  Output: "A assunção de normalidade dos resíduos torna-se menos importante quando se trabalha com uma amostra grande. Neste caso, em que temos mais de 600 dados, podemos ficar razoavelmente seguros de que a não normalidade dos resíduos não afeta as estimativas de maneira danosa. Em amostras menores, a não normalidade dos resíduos pode ser mais problemática, visto que cada observação tem maior peso quanto menor for a amostra (Lição 6)."
+
+- Class: text
+  Output: "Por fim, é importante avaliar se cada observação é independente uma das outras. Idealmente, cada dado coletado da população deveria ter a mesma chance de entrar na amostra. Em estudos linguísticos, isso raramente é o caso. Nos dados de vogais pretônicas, em que estamos trabalhando, as mais de 674 ocorrências de /e/ pretônico advêm de 14 falantes (7 paraibanos e 7 paulistanos), o que significa que vieram de um conjunto pequeno da população. De cada falante, foram extraídos cerca de 50 dados da vogal /e/, o que significa que os dados em cada subconjunto não são independentes uns dos outros."
+
+- Class: text
+  Output: "Grande parte da variabilidade nos dados linguísticos se deve ao próprio falante. Na estatística, este tipo de variável é chamada de ALEATÓRIA, pois normalmente muda a cada amostra. Variáveis aleatórias se contrapõem a variáveis FIXAS, que podem ser facilmente reproduzidas em outros estudos. Por exemplo, a variável SEXO é uma variável fixa, pois seus níveis -- feminino e masculino -- podem ser facilmente reproduzidos em nova amostra de falantes paraibanos e paulistanos. Se escolhêssemos novos falantes aleatoriamente, provavelmente teríamos homens e mulheres na nova amostra. Por outro lado, essa mesma nova amostragem dificilmente conteria os exatos 14 falantes da primeira amostra. Considerando-se que muito da variabilidade nos dados vem dos próprios indivíduos, é importante levar em conta sua contribuição para o resultado final dos modelos estatísticos."
+
+- Class: text
+  Output: "Outra variável aleatória comum em estudos linguísticos é o ITEM LEXICAL. Certas palavras podem ter comportamento idiossincrático, independentemente de condicionamentos mais gerais como classe morfológica, contexto fonológico precedente a um segmento alvo, contexto fonológico seguinte, função sintática etc. Seguindo o mesmo raciocínio acima, uma nova amostra aleatória de dados linguísticos (coletados da mesma maneira) muito provavelmente conterá substantivos, verbos, advérbios..., mas dificilmente conterá exatamente os mesmos itens lexicais que compõem a amostra original."
+
+- Class: text
+  Output: "Variáveis aleatórias, quando existirem, devem ser incluídas nos modelos estatísticos. Modelos que incluem tanto variáveis fixas quanto variáveis aleatórias são chamados de MODELOS DE EFEITOS MISTOS. Tais modelos são implementados no R por meio do pacote lme4, que carregamos no início desta lição. O pacote lmerTest, também já carregado, fornece valores-p para as estimativas."
+
+- Class: cmd_question
+  Output: "A função lmer() toma os mesmos argumentos de lm(), com a diferença de que requer a inclusão de variáveis aleatórias. Estas são indicadas dentro da fórmula com a notação (1|varaleatoria). Vamos então criar um modelo de efeitos mistos a partir do último modelo criado (modelo2). A partir daquela linha de comando, modifique (i) o nome do objeto para mod1.lmer; (ii) a função para lmer; e (iii) inclua duas novas variáveis na fórmula: + (1|PARTICIPANTE) + (1|PALAVRA)."
+  CorrectAnswer: mod1.lmer <- lmer(F1.NORM ~ AMOSTRA + F1.SEG.NORM + CONT.PREC + CONT.SEG + (1|PARTICIPANTE) + (1|PALAVRA), data = VOGAL_e3)
+  AnswerTests: omnitest(correctExpr='mod1.lmer <- lmer(F1.NORM ~ AMOSTRA + F1.SEG.NORM + CONT.PREC + CONT.SEG + (1|PARTICIPANTE) + (1|PALAVRA), data = VOGAL_e3)')
+  Hint: Digite mod1.lmer <- lmer(F1.NORM ~ AMOSTRA + F1.SEG.NORM + CONT.PREC + CONT.SEG + (1|PARTICIPANTE) + (1|PALAVRA), data = VOGAL_e3) e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Aplique a função summary() a mod1.lmer."
+  CorrectAnswer: summary(mod1.lmer)
+  AnswerTests: omnitest(correctExpr='summary(mod1.lmer)')
+  Hint: Digite summary(mod1.lmer) e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "O principal resultado a checar num modelo de efeitos mistos é se os mesmos efeitos fixos continuam a ser correlacionados após a inclusão das variáveis aleatórias. Ao ver os coeficientes de mod1.lmer, percebemos que a variável CONT.PREC deixa de ser significativamente correlacionada com F1.NORM. Isso é sinal de que o efeito anteriormente observado se deve a alguns falantes ou a alguns itens lexicais específicos (mais provavelmente este último caso, já que se trata de uma variável linguística) e, tendo-os em conta como variável aleatória, pode-se chegar à conclusão de que CONT.PREC não tem um efeito verdadeiro sobre a variável resposta."
+
+- Class: cmd_question
+  Output: "Podemos também aplicar a função step(), na direção \"de trás para frente\", para verificar se a variável CONT.PREC é excluída desse novo modelo (as direções 'forward' e 'both' não funcionarão aqui, já que a função lmer() não permite criar um modelo sem efeitos aleatórios). Digite então m.bw.lmer <- step(mod1.lmer, direction = \"backward\")."
+  CorrectAnswer: m.bw.lmer <- step(mod1.lmer, direction = "backward")
+  AnswerTests: omnitest(correctExpr='m.bw.lmer <- step(mod1.lmer, direction = "backward")')
+  Hint: Digite m.bw.lmer <- step(mod1.lmer, direction = "backward") e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Veja o resultado de m.bw.lmer."
+  CorrectAnswer: m.bw.lmer
+  AnswerTests: omnitest(correctExpr='m.bw.lmer')
+  Hint: Digite m.bw.lmer e pressione CTRL + ENTER.
+
+- Class: text
+  Output: "As primeiras linhas do resultado mostram as variáveis eliminadas e mantidas na coluna elim.num. Dos efeitos fixos, CONT.PREC de fato se mostra não correlacionada com F1.NORM, de modo que podemos retirá-la do modelo final. Dos efeitos aleatórios, PARTICIPANTE foi eliminado; isso se deve ao fato de que a normalização de Lobanov tem justamente o objetivo de minimizar diferenças que se devem a características individuais. Em qualquer outra análise que não envolva normalização, a inclusão da variável falante/participante é fundamental."
+
+- Class: figure
+  Output: "Cabe comentar, por fim, como apresentar os resultados de uma análise multivariada de regressão linear. Em Plots se apresentam duas tabelas de Gries (2013:257) como exemplos: é importante reportar todos os valores da tabela de coeficientes, bem como as medidas estatísticas que aparecem ao pé do resultado de summary()."
+  Figure: mostrar-tabelaGries.R
+  FigureType: new
+
+- Class: figure
+  Output: "Eis outro exemplo: este é do artigo de Walker et al (2014), publicado na Language Variation and Change. Ao reportar modelos de efeitos mistos, é relevante indicar os efeitos aleatórios incluídos no modelo. Textualmente, a descrição dos resultados deve explicitar claramente qual análise estatística foi aplicada (modelo de regressão linear, modelo de efeitos mistos), quais variáveis foram incluídas (com seus respectivos fatores, para variáveis nominais) -- mesmo que não significativamente correlacionadas, e quais variáveis previsoras apresentam correlação significativa com a variável resposta. Além dessas descrição, o pesquisador, evidentemente, também deve buscar interpretar os resultados."
+  Figure: mostrar-tabelaWalkeral.R
+  FigureType: new
+
+- Class: figure
+  Output: "E aqui está um tabela, elaborada pela linguista Elisa Battisti, que é particularmente informativa -- um modelo que eu mesma passei a adotar em meus trabalhos. Para variáveis previsoras fatoriais (todas as variáveis, neste caso), além das estatísticas geradas pelo modelo, inclui-se uma coluna com o número de dados do valor de aplicação e do total para a respectiva variante da linha. Ao pé da tabela, apresenta-se o modelo completo que foi testado."
+  Figure: mostrar-tabelaBattisti.R
+  FigureType: new
+  
+- Class: text
+  Output: Cabe ainda ressaltar que o melhor modo de reportar os seus resultados deve seguir modelos de sua área de pesquisa específica. O melhor jeito de saber isso é lendo artigos de periódicos renomados da sua área. 
+  
+- Class: text
+  Output: "Nesta e na última lição, vimos como realizar e ler os resultados de modelos lineares, as funções step() e drop1() que auxiliam o pesquisador a escolher as variáveis a serem incluídas ou retiradas do modelo, e um 'checklist' de pressupostos que devem ser checados a fim de avaliar quão confiáveis são os resultados. Em especial, enfatiza-se a importância de se realizar uma análise de efeitos mistos, com a inclusão de variáveis aleatórias, para que se possa confirmar se as variáveis fixas de fato têm influência na variável resposta. O resultado final a ser reportado deve ser, idealmente, aquele do modelo de efeitos mistos."
+
+- Class: figure
+  Output: "Em Source, abri um novo script, com uma sugestão de roteiro de análise para um conjunto de dados de uma variável numérica, como é o caso das vogais pretônicas. Trata-se efetivamente apenas de uma sugestão -- cabe a você decidir as análises que  efetivamente acabará fazendo. A ideia desse roteiro é juntar o conteúdo que foi aqui apresentado ao longo de diversas lições, mas que, na prática, serão realizados em sequência por você. "
+  Figure: Licao13-roteiro.R
+  FigureType: new
+    
+- Class: text
+  Output: "Recomendo fortemente a leitura de Levshina (2015:cap7-cap8) para se aprofundar nos preceitos da análise de regressão linear. Estes capítulos apresentam os passos e os pressupostos de modelos lineares de modo bastante detalhado. E faça os exercícios da Lição 13!"
+  
