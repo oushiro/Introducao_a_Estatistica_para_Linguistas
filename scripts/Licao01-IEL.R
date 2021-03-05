@@ -79,4 +79,4 @@ dados <- read_csv("DadosRT.csv",
 
 # (94%) Visualizar `dados`
 
-
+  
