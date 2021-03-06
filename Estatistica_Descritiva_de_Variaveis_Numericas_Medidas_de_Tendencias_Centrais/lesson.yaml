@@ -172,7 +172,7 @@
   Output: "Vemos que a variância é maior na turma B. Isso significa que a perfórmance dos estudantes da turma B foi menos homogênea, mais dispersa, do que os da turma A. Mas esses números são um pouco difíceis de interpretar. O que significam 8,8 ou 14,9 de variância? Uma medida mais 'intuitiva' é o desvio padrão." 
 
 - Class: cmd_question
-  Output: O desvio padrão é a raiz quadrada da variância. Lembra que elevamos todos os valores de diferença entre uma observação e a média ao quadrado? A raiz quadrada reverte essa operação. No R, a função para calcular o desvio padrão é sd() (=standard deviation). Aplique-a a agora ao vetor notas_turmaA. 
+  Output: O desvio padrão é a raiz quadrada da variância. Lembra que elevamos todos os valores de diferença entre uma observação e a média ao quadrado? A raiz quadrada reverte essa operação. No R, a função para calcular o desvio padrão é sd() (=standard deviation). Aplique-a agora ao vetor notas_turmaA. 
   CorrectAnswer: sd(notas_turmaA)
   AnswerTests: omnitest(correctExpr='sd(notas_turmaA)')
   Hint: Digite sd(notas_turmaA) e pressione CTRL + ENTER.
@@ -246,7 +246,7 @@
   Output: "O arquivo Pretonicas.csv contém medições de F1 e F2 de vogais pretônicas de 7 falantes paraibanos que migraram para a cidade de São Paulo (amostra PBSP). Além disso, o arquivo também contém as mesmas medições para 7 paulistanos nativos (amostra SP2010), que servem como um parâmetro de comparação para os padrões de fala dos migrantes." 
 
 - Class: text  
-  Output: "A questão mais geral por trás desses dados é descobrir se alguns migrantes paraibanos se acomodaram aos padrões da nova comunidade, e quais. Para isso, foram extraídas medições de F1 e F2 de cerca de 130 a 180 vogais pretônicas da fala de cada um desses participantes, com especial interesse nas vogais médias /e/ e /o/ (como em 'relógio' e 'romã'), em contextos linguísticos que favorecem o abaixamento dessas vogais (as realizações média-baixas '\u025B' e '\u0254'). Em princípio se espera que os paulistanos tenham vogais médias relativamente mais altas do que os paraibanos, mas que alguns deles tenham se aproximado do novo padrão." 
+  Output: "A questão mais geral por trás desses dados é descobrir se alguns migrantes paraibanos se acomodaram aos padrões da nova comunidade, e quais. Para isso, foram extraídas medições de F1 e F2 de cerca de 130 a 180 vogais pretônicas da fala de cada um desses participantes, com especial interesse nas vogais médias /e/ e /o/ (como em 'relógio' e 'romã'), em contextos linguísticos que favorecem o abaixamento dessas vogais (as realizações média-baixas '\u025B' e '\u0254'). Em princípio se espera que os paulistanos tenham vogais médias relativamente mais altas do que os paraibanos, mas que alguns dos migrantes tenham se aproximado do novo padrão." 
 
 - Class: figure
   Output: "Linguística e acusticamente, a altura das vogais é medida pelo formante F1, em Hertz. Quanto mais alto é o valor de F1, mais BAIXA é a vogal. Coloquei o quadro de vogais do IPA em Plots para facilitar essa visualização." 

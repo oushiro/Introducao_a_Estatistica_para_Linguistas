@@ -65,7 +65,7 @@
   Hint: Digite aleatorio[c(1, 3)] e pressione CTRL + ENTER. 
 
 - Class: cmd_question
-  Output: Também é possível exibir todos os elementos de um vetor EXCETO um ou alguns, com o operador de subtração `-`. Tente numeros[-2].
+  Output: Também é possível exibir todos os elementos de um vetor EXCETO um ou alguns, com o operador de subtração `-`. Teste numeros[-2].
   CorrectAnswer: numeros[-2]
   AnswerTests: omnitest(correctExpr='numeros[-2]')
   Hint: Digite numeros[-2] e pressione CTRL + ENTER.
@@ -226,7 +226,7 @@
   Hint: Se a condição "OU" é MENOS restritiva...
 
 - Class: text
-  Output: A razão para que um novo subconjunto que tenha os dados em sílabas tônicas OU em posição final seja provavelmente maior é o fato de que o operador lógico "ou" retorna um resultado VERDADEIRO se qualquer uma das duas condições é preenchida e, portanto, um maior número de observações potencialmente preencherá o critério. No caso do operador lógico `&`, o resultado só é verdadeiro se ambas as condições forem verdadeiras, o que faz com que a probabilidade de observações que preenchem ambos os critérios seja menor. 
+  Output: A razão para que um novo subconjunto que tenha os dados em sílabas tônicas OU em posição final seja provavelmente maior é o fato de que o operador lógico "ou" retorna um resultado VERDADEIRO se qualquer uma das duas condições é preenchida e, portanto, um maior número de observações potencialmente preencherá o critério. No caso do operador lógico `&`, o resultado só é verdadeiro se ambas as condições forem verdadeiras, o que faz com que a probabilidade de haver observações que preenchem ambos os critérios seja menor. 
 
 - Class: cmd_question
   Output: Vamos então criar o subconjunto de dados de /r/ em sílabas tônicas OU em sílabas finais. O operador lógico "ou", no R, é o símbolo `|`. Chame esse novo conjunto de dados_tonica_ou_final.  

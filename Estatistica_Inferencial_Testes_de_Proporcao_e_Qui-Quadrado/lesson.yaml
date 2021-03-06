@@ -275,7 +275,7 @@
   Output: "Ambos dão o valor de 0.683561. Você se lembra onde já viu esse número?"
 
 - Class: text
-  Output: "Sim, é a proporção geral de r0 na amostra! Os valores esperados são justamente aqueles que se esperariam caso não houvesse diferença entre as proporções (no exemplo, entre as proporções de r0 nas palavras fourth e floor)."
+  Output: "Sim, é a proporção geral de r0 na amostra! Os valores esperados são justamente aqueles que se esperariam caso não houvesse diferença entre as proporções (no exemplo, entre as proporções de r0 nas palavras fourth e floor)  -- que seriam, então, iguais à proporção geral de r0 na amostra (68%)."
 
 - Class: text
   Output: "O teste de qui-quadrado compara valores observados com valores esperados de acordo com a hipótese nula. Foi o mesmo que fizemos no teste de proporções, certo? Aliás, essencialmente, TODO teste estatístico faz isso: compara valores observados com valores esperados. "

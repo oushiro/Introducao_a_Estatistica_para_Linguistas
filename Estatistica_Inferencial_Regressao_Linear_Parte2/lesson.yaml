@@ -7,7 +7,7 @@
   Version: 2.4.3
 
 - Class: figure
-  Output: "Esta lição dá continuidade ao tópico Regressão Linear, iniciado na lição anterior. Ali, criamos modelos relativamente simples de regressão linear com variáveis previsoras binária (AMOSTRA), com mais de 2 fatores (CONT.SEG) e numérica (F1.SEG.NORM), bem como modelos com duas variáveis sem e com interação, com vistas a treinar a leitura dos resultados. Entretanto, análises de regressão linear por meio da função lm() permitem incluir mais variáveis previsoras, e um modelo mais completo deve abarcar tantas variáveis pertinentes quanto possível."
+  Output: "Esta lição dá continuidade ao tópico Regressão Linear, iniciado na lição anterior. Ali, criamos modelos relativamente simples de regressão linear com variáveis previsoras binária (AMOSTRA), com mais de 2 fatores (CONT.SEG) e numérica (F1.SEG.NORM), bem como modelos com duas variáveis sem e com interação, com vistas a treinar a leitura dos resultados. Entretanto, análises de regressão linear por meio da função lm() permitem incluir mais variáveis previsoras, e um modelo mais completo deve abarcar tantas variáveis pertinentes quanto possível -- são esses modelos mais completos que, preferencialmente, você reportará em suas publicações."
   Figure: Licao13-background.R
   FigureType: new
 
@@ -106,7 +106,7 @@
   Hint: Qual é o primeiro nível dessa variável?
 
 - Class: text
-  Output: "Os respectivos valores de referência são o zero ou o primeiro nível de acordo com a ordem em que aparecem na planilha ou de acordo com o especificado pel@ usuári@ no momento da importação dos dados. Em mod, o coeficiente linear 397.14855 se refere, portanto, à estimativa do valor de F1.NORM para falantes paraibanos do sexo feminino, quando F1.SEG.NORM é zero e quando o contexto precedente e o contexto seguinte são consoantes dental-alveolares. As estimativas para todos os outros cenários possíveis podem ser deduzidos a partir dos coeficientes angulares."
+  Output: "Os respectivos valores de referência são o zero ou o primeiro nível de acordo com a ordem em que aparecem na planilha ou de acordo com o especificado pel@ usuári@ no momento da importação dos dados. Em mod, o coeficiente linear 397.14855 se refere, portanto, à estimativa do valor de F1.NORM para falantes paraibanos do sexo feminino, quando F1.SEG.NORM é zero e quando o contexto precedente e o contexto seguinte são consoantes dental-alveolares. As estimativas para todos os outros cenários possíveis podem ser deduzidos a partir da soma dos valores dos coeficientes angulares."
 
 - Class: text
   Output: "Vemos que a estimativa de F1.NORM para AMOSTRASP2010 difere significativamente em relação a PBSP; a cada unidade de F1.NORM; quando CONT.PREC é palatal-sibilante (em relação à dental-alveolar); e quando CONT.SEG é labial ou palatal-sibilante (em relação à dental-alveolar). Não há diferença significativa para as estimativas de homens e mulheres, e em relação aos demais contextos precedentes ou seguintes em relação à dental-alveolar. Sobre a variável SEXO, um pesquisador pode se perguntar se é pertinente manter essa variável no modelo, uma vez que parece não estar contribuindo muito para a estimativa da variável resposta. Sobre as variáveis CONT.PREC e CONT.SEG, o pesquisador pode se perguntar se as variáveis são relevantes de modo global, já que apenas um ou dois fatores de cada variável mostram diferenças significativas em relação ao nível de referência."
@@ -127,7 +127,7 @@
   Hint: Digite m.fw <- step(m0, direction = "forward", scope = ~ AMOSTRA + SEXO + F1.SEG.NORM + CONT.PREC + CONT.SEG) e pressione CTRL + ENTER.
 
 - Class: cmd_question
-  Output: "Acima, especificamos que queremos partir do modelo m0, sem variáveis previsoras, e avaliar se a adição de novas variáveis melhora seu poder explanatório. O R então calculou o AIC para diferentes modelos e incluiu as variáveis F1.NORM, AMOSTRA, CONT.SEG, CONT.PREC e SEXO -- nessa ordem. Digite agora m.fw para ver o cálculo de coeficientes de cada previsor."
+  Output: "Acima, especificamos que queremos partir do modelo m0, sem variáveis previsoras, e avaliar se a adição de novas variáveis melhora seu poder explanatório. O R então calculou o AIC para diferentes modelos e incluiu as variáveis F1.NORM, AMOSTRA, CONT.SEG, CONT.PREC e SEXO -- nessa ordem. Essa ordem de seleção indica a importância relativa de cada variável para explicar a variação em F1.NORM. Digite agora m.fw para ver o cálculo de coeficientes de cada previsor."
   CorrectAnswer: m.fw
   AnswerTests: omnitest(correctExpr='m.fw')
   Hint: Digite m.fw e pressione CTRL + ENTER.
@@ -226,7 +226,7 @@
   Hint: Digite vif(modelo2) e pressione CTRL + ENTER.
 
 - Class: text
-  Output: "Quando duas variáveis são colineares, os valores de GVIF (da primeira coluna) e GVIF-ajustado (da terceira coluna) são altos, acima de 5. Nosso modelo está ok quanto a esse critério, já que todos os valores são abaixo de 2."
+  Output: "Quando duas variáveis são colineares, os valores de GVIF (da primeira coluna) e GVIF-ajustado (da terceira coluna) são altos, acima de 5. Nosso modelo está ok quanto a esse critério, já que todos os valores são abaixo de 2. Caso verifique valores acima de 5, você deve considerar não incluir as variáveis colineares no mesmo modelo."
 
 - Class: cmd_question
   Output: "Outro pressuposto já foi mencionado na lição anterior: a distribuição dos resíduos é normal, com valores simétricos e mediana zero. Digite summary(modelo2) para visualizar o resultado de nosso último modelo."
@@ -267,7 +267,10 @@
   Output: "Outra variável aleatória comum em estudos linguísticos é o ITEM LEXICAL. Certas palavras podem ter comportamento idiossincrático, independentemente de condicionamentos mais gerais como classe morfológica, contexto fonológico precedente a um segmento alvo, contexto fonológico seguinte, função sintática etc. Seguindo o mesmo raciocínio acima, uma nova amostra aleatória de dados linguísticos (coletados da mesma maneira) muito provavelmente conterá substantivos, verbos, advérbios..., mas dificilmente conterá exatamente os mesmos itens lexicais que compõem a amostra original."
 
 - Class: text
-  Output: "Variáveis aleatórias, quando existirem, devem ser incluídas nos modelos estatísticos. Modelos que incluem tanto variáveis fixas quanto variáveis aleatórias são chamados de MODELOS DE EFEITOS MISTOS. Tais modelos são implementados no R por meio do pacote lme4, que carregamos no início desta lição. O pacote lmerTest, também já carregado, fornece valores-p para as estimativas."
+  Output: "Variáveis aleatórias, quando existirem, SEMPRE devem ser incluídas nos modelos estatísticos. Modelos que incluem tanto variáveis fixas quanto variáveis aleatórias são chamados de MODELOS DE EFEITOS MISTOS. O motivo de termos deixado os efeitos aleatórios para o final é bastante prático: você verá daqui a pouco que esses modelos demoram um bocado para rodar no R. Minha recomendação, portanto, é que você chegue a um modelo satisfatório com efeitos fixos, cheque se esse modelo não viola os pressupostos de modelos lineares (fazendo novos ajustes, se necessários) e, apenas como última etapa, inclua os efeitos aleatórios. Este é um excelente exemplar da expressão \"por último, mas não menos importante\": qualquer estudo que tenha variáveis aleatórias deve incluí-las na modelagem estatística. "
+  
+- Class: text
+- Output: "Tais modelos são implementados no R por meio do pacote lme4, que carregamos no início desta lição. O pacote lmerTest, também já carregado, fornece valores-p para as estimativas."
 
 - Class: cmd_question
   Output: "A função lmer() toma os mesmos argumentos de lm(), com a diferença de que requer a inclusão de variáveis aleatórias. Estas são indicadas dentro da fórmula com a notação (1|varaleatoria). Vamos então criar um modelo de efeitos mistos a partir do último modelo criado (modelo2). A partir daquela linha de comando, modifique (i) o nome do objeto para mod1.lmer; (ii) a função para lmer; e (iii) inclua duas novas variáveis na fórmula: + (1|PARTICIPANTE) + (1|PALAVRA)."
@@ -310,7 +313,7 @@
   FigureType: new
 
 - Class: figure
-  Output: "E aqui está um tabela, elaborada pela linguista Elisa Battisti, que é particularmente informativa -- um modelo que eu mesma passei a adotar em meus trabalhos. Para variáveis previsoras fatoriais (todas as variáveis, neste caso), além das estatísticas geradas pelo modelo, inclui-se uma coluna com o número de dados do valor de aplicação e do total para a respectiva variante da linha. Ao pé da tabela, apresenta-se o modelo completo que foi testado."
+  Output: "E aqui está um tabela, elaborada pela linguista Elisa Battisti -- um modelo que eu mesma passei a adotar em meus trabalhos por ser particularmente informativo e elegante. Para variáveis previsoras fatoriais (todas as variáveis, neste caso), além das estatísticas geradas pelo modelo, inclui-se uma coluna com o número de dados do valor de aplicação e do total para a respectiva variante da linha. Ao pé da tabela, apresenta-se o modelo completo que foi testado."
   Figure: mostrar-tabelaBattisti.R
   FigureType: new
   
@@ -318,7 +321,7 @@
   Output: Cabe ainda ressaltar que o melhor modo de reportar os seus resultados deve seguir modelos de sua área de pesquisa específica. O melhor jeito de saber isso é lendo artigos de periódicos renomados da sua área. 
   
 - Class: text
-  Output: "Nesta e na última lição, vimos como realizar e ler os resultados de modelos lineares, as funções step() e drop1() que auxiliam o pesquisador a escolher as variáveis a serem incluídas ou retiradas do modelo, e um 'checklist' de pressupostos que devem ser checados a fim de avaliar quão confiáveis são os resultados. Em especial, enfatiza-se a importância de se realizar uma análise de efeitos mistos, com a inclusão de variáveis aleatórias, para que se possa confirmar se as variáveis fixas de fato têm influência na variável resposta. O resultado final a ser reportado deve ser, idealmente, aquele do modelo de efeitos mistos."
+  Output: "Nesta e na última lição, vimos como realizar e ler os resultados de modelos lineares, as funções step() e drop1() que auxiliam o pesquisador a escolher as variáveis a serem incluídas ou retiradas do modelo, e uma lista de pressupostos que devem ser checados a fim de avaliar quão confiáveis são os resultados. Em especial, enfatiza-se a importância de se realizar uma análise de efeitos mistos, com a inclusão de variáveis aleatórias, para que se possa confirmar se as variáveis fixas de fato têm influência na variável resposta. O resultado final a ser reportado deve ser, idealmente, aquele do modelo de efeitos mistos."
 
 - Class: figure
   Output: "Em Source, abri um novo script, com uma sugestão de roteiro de análise para um conjunto de dados de uma variável numérica, como é o caso das vogais pretônicas. Trata-se efetivamente apenas de uma sugestão -- cabe a você decidir as análises que  efetivamente acabará fazendo. A ideia desse roteiro é juntar o conteúdo que foi aqui apresentado ao longo de diversas lições, mas que, na prática, serão realizados em sequência por você. "

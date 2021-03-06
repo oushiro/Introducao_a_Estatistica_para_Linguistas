@@ -324,7 +324,7 @@
   Hint: Digite t.test(g1, g2, paired = T) e pressione CTRL + ENTER.
 
 - Class: cmd_question
-  Output: "O R indica que a diferença é significativa, e que a diferença g1 - g2 é em média -1.58. Para comparar, veja o resultado de um teste-t caso não se especificasse que as amostras são pareadas. Digite t.test(g1, g2) -- o que seria o mesmo que t.test(extra ~ group, data = sleep). "
+  Output: "O R indica que a diferença é significativa (p = 0.0028), e que a diferença g1 - g2 é em média -1.58. Para comparar, veja o resultado de um teste-t caso não se especificasse que as amostras são pareadas. Digite t.test(g1, g2) -- o que seria o mesmo que t.test(extra ~ group, data = sleep). "
   CorrectAnswer: t.test(g1, g2)
   AnswerTests: any_of_exprs('t.test(g1, g2)', 't.test(extra ~ group, data = sleep)')
   Hint: Digite t.test(g1, g2) e pressione CTRL + ENTER.

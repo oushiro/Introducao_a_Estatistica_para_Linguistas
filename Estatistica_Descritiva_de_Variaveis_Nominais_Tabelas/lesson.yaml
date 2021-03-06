@@ -47,10 +47,10 @@
   Hint: Digite str(ds) e pressione CTRL + ENTER.
 
 - Class: text
-  Output: "O R nos informa que ds é um dataframe com 759 ocorrências de 4 variáveis: r, store, emphasis e word. Nesse estudo, Labov analisou a pronúncia variável de /r/ pós-vocálico -- que pode ser realizado (r1) ou apagado (r0) --, em 3 lojas de departamento de Nova Iorque (Saks, Macy's e S.Klein's), em dois contextos linguísticos -- meio (fourth) e fim de palavra (floor) --, e em dois graus de ênfase (casual ou enfático). Os dados de /r/ codificados como d se referem a realizações duvidosas, em que ele não conseguiu determinar se o /r/ havia sido realizado ou apagado."
+  Output: "O R nos informa que ds é um dataframe com 759 ocorrências de 4 variáveis: r, store, emphasis e word. Nesse estudo, Labov analisou a pronúncia variável de /r/ pós-vocálico -- que pode ser realizado (r1) ou apagado (r0) --, em 3 lojas de departamento de Nova Iorque (Saks, Macy's e S. Klein), em dois contextos linguísticos -- meio (fourth) e fim de palavra (floor) --, e em dois graus de ênfase (casual ou enfático). Os dados de /r/ codificados como d se referem a realizações duvidosas, em que ele não conseguiu determinar se o /r/ havia sido realizado ou apagado."
 
 - Class: text
-  Output: "Seu método foi extremamente engenhoso: Labov se aproximava de um funcionário da loja e perguntava onde ficava um determinado item (p.ex., os sapatos femininos), cuja resposta ele já sabia ser \"fourth floor\" (no quarto andar). Em seguida, ele fingia não ter entendido o que a pessoa havia dito e pedia para que repetisse, ao que se esperava que o falante respondesse de modo mais claro ou enfático. Assim ele obtinha 4 ocorrências de /r/ pós-vocálico por falante, anotava as respostas em seu caderninho e seguia para fazer o mesmo com outro funcionário. Labov colheu dados de 68 pessoas na Saks, 125 na Macy's e 71 na S.Klein's."
+  Output: "Seu método foi extremamente engenhoso: Labov se aproximava de um funcionário da loja e perguntava onde ficava um determinado item (p.ex., os sapatos femininos), cuja resposta ele já sabia ser \"fourth floor\" (no quarto andar). Em seguida, ele fingia não ter entendido o que a pessoa havia dito e pedia para que repetisse, ao que se esperava que o falante respondesse de modo mais claro ou enfático. Assim ele obtinha 4 ocorrências de /r/ pós-vocálico por falante, anotava as respostas em seu caderninho e seguia para fazer o mesmo com outro funcionário. Labov colheu dados de 68 pessoas na Saks, 125 na Macy's e 71 na S. Klein."
 
 - Class: cmd_question
   Output: Um pesquisador honesto presta conta de todos os seus dados! Se Labov colheu 4 dados de 68 + 125 + 71 pessoas, qual deve ser o total de dados? Faça esta conta agora.
@@ -99,7 +99,7 @@
   Hint: Digite str(ds2) e pressione CTRL + ENTER.
 
 - Class: cmd_question
-  Output: "Opa! Tem um problema! Apesar de excluirmos os dados duvidosos da planilha, \"d\" continua sendo um nível dessa variável fatorial. Isso acontece porque é possível haver um nível com zero dados. Mas tem um modo fácil de excluí-lo: volte à linha de comando em que excluímos os dados duvidosos, inclua novo %>% após o comando com filter(), e digite na linha seguinte droplevels(). Isso fará com que todos os níveis sem dados sem excluídos."
+  Output: "Opa! Tem um problema! Apesar de excluirmos os dados duvidosos da planilha, \"d\" continua sendo um nível dessa variável fatorial. Isso acontece porque é possível haver um nível com zero dados. Mas tem um modo fácil de excluí-lo: volte à linha de comando em que excluímos os dados duvidosos, inclua novo %>% após o comando com filter(), e digite na linha seguinte droplevels(). Isso fará com que todos os níveis sem dados sejam excluídos."
   CorrectAnswer: ds2 <- ds %>% filter(r != "d") %>% droplevels()
   AnswerTests: omnitest(correctExpr='ds2 <- ds %>% filter(r != "d") %>% droplevels()')
   Hint: Digite ds2 <- ds %>% filter(r != "d") %>% droplevels() e pressione CTRL + ENTER.
@@ -117,13 +117,13 @@
   Hint: Rode a linha de comando deste ponto do script.
   
 - Class: cmd_question
-  Output: "A proporção de r1 foi de 32% e de r0 foi de 64%. Vamos agora calcular a frequência dos dados da variável store. "
+  Output: "A proporção de r1 foi de 32% e de r0 foi de 68%. Vamos agora calcular a frequência dos dados da variável store. "
   CorrectAnswer: ds2 %>% count(store)
   AnswerTests: omnitest(correctExpr='ds2 %>% count(store)')
   Hint: Digite ds2 %>% count(store) e pressione CTRL + ENTER.
 
 - Class: text
-  Output: "Vejamos os resultados. Para store, o R informa que houve, no total, 178 ocorrências de /r/ na Saks, 336 na Macy's e 216 na S.Klein's. O que isso quer dizer?"
+  Output: "Vejamos os resultados. Para store, o R informa que houve, no total, 178 ocorrências de /r/ na Saks, 336 na Macy's e 216 na S. Klein. O que isso quer dizer?"
 
 - Class: text
   Output: "Na verdade, isso nos diz muito pouco, para além de uma pista de onde estão os 297 dados não produzidos. Visto que mais dados foram coletados na Macy's (125 pessoas), era mesmo de se esperar que houvesse mais dados dessa loja..."
@@ -153,7 +153,7 @@
   Hint: Rode a linha de comando deste ponto do script.
   
 - Class: text
-  Output: "Desta vez, são os dados das lojas -- Saks, Macy's, S.Klein -- que somam 100% ou para r1 ou para r0. Mas essa última tabela não faz sentido! Ao tabular os dados de cada loja quanto ao uso da variável r, queremos saber se há diferenças entre os locais; cada uma delas, portanto, deve ser tomada com uma totalidade, dentro da qual se analisa a distribuição dos dados. Daí sim eles podem ser comparados. Do cômputo correto, depreendemos que r0 é mais frequente que r1 em todas as lojas, e que a proporção de apagamento na S.Klein (90,3%) é muito maior do que na Macy's (62,8%) e na Saks (52,2%)."
+  Output: "Desta vez, são os dados das lojas -- Saks, Macy's, S. Klein -- que somam 100% ou para r1 ou para r0. Mas essa última tabela não faz sentido! Ao tabular os dados de cada loja quanto ao uso da variável r, queremos saber se há diferenças entre os locais; cada uma delas, portanto, deve ser tomada com uma totalidade, dentro da qual se analisa a distribuição dos dados. Daí sim eles podem ser comparados. Do cômputo correto, depreendemos que r0 é mais frequente que r1 em todas as lojas, e que a proporção de apagamento na S. Klein (90,3%) é muito maior do que na Macy's (62,8%) e na Saks (52,2%)."
   
 - Class: text
   Output: Essa última operação foi feita a fim de chamar a atenção para a devida escolha da variável pela qual os dados devem ser agrupados. O R não sabe o que é store e r, e não tem como decidir por você! Veja que a escolha da variável incorreta levará a medidas estatísticas completamente diferentes!
@@ -178,7 +178,7 @@
   Hint: Use como modelo o código que usamos para tabular os dados de store por r, e troque store por word.
   
 - Class: mult_question
-  Output: "Da tabela acima, vemos que a proporção de r0 na palavra \"fourth\" é maior do que na palavra \"floor\". Também já vimos que houve relativamente mais apagamento no estilo casual (vs. enfático) e na S.Klein (vs. Macy's e Saks). Em qual das variáveis a diferença entre proporções parece ser maior? "
+  Output: "Da tabela acima, vemos que a proporção de r0 na palavra \"fourth\" é maior do que na palavra \"floor\". Também já vimos que houve relativamente mais apagamento no estilo casual (vs. enfático) e na S. Klein (vs. Macy's e Saks). Em qual das variáveis a diferença entre proporções parece ser maior? "
   AnswerChoices: store;emphasis;word
   CorrectAnswer: store
   AnswerTests: omnitest(correctVal= 'store')
@@ -273,7 +273,7 @@
   Output: Uma segunda diferença é que as funções do tidyverse geraram o output no formato de dataframe, e as funções da instalação base geraram tabelas. Essa diferença é relevante a depender do que se pretende fazer posteriormente com esses dados. Por exemplo, para fazer um gráfico de barras no tidyverse (com o pacote ggplot2), você vai precisar de um dataframe (ver Lições 5 e 7); para fazer um teste de qui-quadrado, você vai precisar de uma tabela (ver Lição 9). É importante, então, conhecer os dois modos de computar frequência e proporções!
     
 - Class: text
-  Output: "Nesta lição, vimos, por exemplo, que houve proporcionalmente mais ocorrências de apagamento de /r/ na S.Klein's, seguida da Macy's, e por último na Saks. (Leia o estudo de Labov para ver sua interpretação desses resultados!). As diferenças entre as lojas já fica bastante clara por meio dos números, mas isso pode ficar ainda mais claro se mostrado por uma figura -- um objeto gráfico --, em vez de uma tabela, que é textual. A feitura de gráficos é o assunto da próxima lição." 
+  Output: "Nesta lição, vimos, por exemplo, que houve proporcionalmente mais ocorrências de apagamento de /r/ na S. Klein, seguida da Macy's, e por último na Saks. (Leia o estudo de Labov para ver sua interpretação desses resultados!). As diferenças entre as lojas já fica bastante clara por meio dos números, mas isso pode ficar ainda mais claro se mostrado por uma figura -- um objeto gráfico --, em vez de uma tabela, que é textual. A feitura de gráficos é o assunto da próxima lição." 
 
 - Class: text
   Output: Faça agora os exercícios correspondentes a esta aula!

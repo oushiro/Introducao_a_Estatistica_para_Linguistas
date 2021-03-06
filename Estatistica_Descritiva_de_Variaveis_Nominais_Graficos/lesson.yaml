@@ -27,7 +27,7 @@
   Output: "O ggplot2 é um pacote dedicado à visualização de dados, elaborado por Hadley Wickham. Trata-se de uma implementação da Gramática de Gráficos  (daí os dois 'g' do nome do pacote) de Leland Wilkinson, uma abordagem da visualização de dados que a entende como uma gramática, com estruturas e regras. Um gráfico normalmente é composto de atributos estéticos (cores, formas, tamanhos) de objetos geométricos (linhas, pontos barras etc.) em um sistema de coordenadas. Uma gramática de gráficos nos auxilia a dispor esses elementos de modo significativo."
   
 - Class: text
-  Output: "Todos os gráficos com ggplot2 são compostos de um conjunto de dados, dispostos em um dataframe, e de um mapeamento, que descreve como as variáveis do dataframe são mapeados a atributos estetéticos."
+  Output: "Todos os gráficos com ggplot2 são compostos de um conjunto de dados, dispostos em um dataframe, e de um mapeamento, que descreve como as variáveis do dataframe são mapeados a atributos estéticos."
   
 - Class: cmd_question
   Output: Nesta lição, vamos trabalhar sobre o dataframe df.store. Inspecione-o agora. (A linha de comando está abaixo dos passos para criar esse dataframe.) 
@@ -97,7 +97,7 @@
   Output: "Vale aqui mencionar que títulos de gráficos -- bem como os demais elementos -- devem ser maximamente informativos, de modo que a figura faça sentido mesmo que o leitor não leia o texto. Se o título de um gráfico ficar demasiadamente longo, você pode optar por deixá-lo de lado e colocá-lo no próprio texto do artigo ou dos slides."
 
 - Class: cmd_question
-  Output: "Que tal agora mudar o nome dos eixos x e y, que, no momento, tomam os nomes das variáveis do dataframe, store e prop? Além disso, podemos mudar o nome da variável na legenda, r. Isso pode ser feito com a função labs() (lab representa 'label' = etiqueta). Apague o # da próxima linha de comando e nomeie o eixo x como \"Lojas\", o eixo y como \"Proporção\", e o argumento fill como \"Variantes de /r/\". "
+  Output: "Que tal agora mudar o nome dos eixos x e y, que, no momento, tomam os nomes das variáveis do dataframe, store e prop * 100? Além disso, podemos mudar o nome da variável na legenda, r. Isso pode ser feito com a função labs() (lab representa 'label' = etiqueta). Apague o # da próxima linha de comando e nomeie o eixo x como \"Lojas\", o eixo y como \"Proporção\", e o argumento fill como \"Variantes de /r/\". "
   CorrectAnswer: ggplot(df.store, aes(x = store, y = prop * 100, fill = r)) + geom_bar(stat = "identity", color = "black") + ggtitle("Proporção das variantes de /r/ pós-vocálico em três lojas de departamento \nem Nova Iorque (N = 730)") + labs(x = "Lojas", y = "Proporção", fill = "Variantes de /r/") + theme_bw()
   AnswerTests: omnitest(correctExpr='ggplot(df.store, aes(x = store, y = prop * 100, fill = r)) + geom_bar(stat = "identity", color = "black") + ggtitle("Proporção das variantes de /r/ pós-vocálico em três lojas de departamento \nem Nova Iorque (N = 730)") + labs(x = "Lojas", y = "Proporção", fill = "Variantes de /r/") + theme_bw()')
   Hint: É só digitar com calma!
@@ -133,7 +133,7 @@
   Hint: Digite display.brewer.all() e pressione CTRL + ENTER.
   
 - Class: cmd_question
-  Output: "Aqui, vamos usar a opção \"Purples\". Além disso, na função scale_fill_brewer(), também é possível definir outros rótulos para as variantes da variável de fill. Inclua também o argumento , labels = c(\"realização\", \"apagamento\"), para mudar as variantes de r para nomes mais inteligíveis."
+  Output: "Aqui, vamos usar a opção \"Purples\". Além disso, na função scale_fill_brewer(), também é possível definir outros rótulos para as variantes da variável de fill. Inclua também o argumento labels = c(\"realização\", \"apagamento\"), para mudar as variantes de r para nomes mais inteligíveis."
   CorrectAnswer: ggplot(df.store, aes(x = store, y = prop * 100, fill = r)) + geom_bar(stat = "identity", color = "black") + ggtitle("Proporção das variantes de /r/ pós-vocálico em três lojas de departamento \nem Nova Iorque (N = 730)") + labs(x = "Lojas", y = "Proporção", fill = "Variantes de /r/") + scale_x_discrete(labels = c("Saks", "Macy\'s", "S. Klein")) + scale_fill_brewer(palette = "Purples", labels = c("realização", "apagamento")) + theme_bw()
   AnswerTests: omnitest(correctExpr='ggplot(df.store, aes(x = store, y = prop * 100, fill = r)) + geom_bar(stat = "identity", color = "black") + ggtitle("Proporção das variantes de /r/ pós-vocálico em três lojas de departamento \nem Nova Iorque (N = 730)") + labs(x = "Lojas", y = "Proporção", fill = "Variantes de /r/") + scale_x_discrete(labels = c("Saks", "Macy\'s", "S. Klein")) + scale_fill_brewer(palette = "Purples", labels = c("realização", "apagamento")) + theme_bw()')
   Hint: Releia as instruções e faça passo a passo, com calma.
@@ -195,7 +195,7 @@
   Hint: Releia as instruções com calma.
   
 - Class: cmd_question
-  Output: "Vejamos a função ylim(), que permite definir os limites do eixo y (em outros gráficos, pode ser pertinente mudar o eixo x: xlim()). No momento, o ggplot2 está plotando o gráfico de acordo com os valores mínimo e máximo do gráfico, mas você querer especificar outros limites. Aqui, vamos colocar de 0 a 100. Para tanto, inclua na função ylim o argumentos 0 e 100."
+  Output: "Vejamos a função ylim(), que permite definir os limites do eixo y (em outros gráficos, pode ser pertinente mudar o eixo x: xlim()). No momento, o ggplot2 está plotando o gráfico de acordo com os valores mínimo e máximo do gráfico, mas você pode querer especificar outros limites. Aqui, vamos colocar de 0 a 100. Para tanto, inclua na função ylim o argumentos 0 e 100."
   CorrectAnswer: ggplot(df.store, aes(x = store, y = prop * 100, group = r)) + geom_line(linetype = "dotted", size = 1, color = "blue") + geom_point(shape = 18, size = 3, fill = "black") + ggtitle("Proporção das variantes de /r/ pós-vocálico em três lojas de departamento \nem Nova Iorque (N = 730)") + labs(x = "Lojas", y = "Proporção", fill = "Variantes de /r/") + scale_x_discrete(labels = c("Saks", "Macy\'s", "S. Klein")) + ylim(0, 100) + theme_bw()
   AnswerTests: omnitest(correctExpr='ggplot(df.store, aes(x = store, y = prop * 100, group = r)) + geom_line(linetype = "dotted", size = 1, color = "blue") + geom_point(shape = 18, size = 3, fill = "black") + ggtitle("Proporção das variantes de /r/ pós-vocálico em três lojas de departamento \nem Nova Iorque (N = 730)") + labs(x = "Lojas", y = "Proporção", fill = "Variantes de /r/") + scale_x_discrete(labels = c("Saks", "Macy\'s", "S. Klein")) + ylim(0, 100) + theme_bw()')
   Hint: Digite 0 e 100 como argumentos da função ylim().

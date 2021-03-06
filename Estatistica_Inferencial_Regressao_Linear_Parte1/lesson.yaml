@@ -12,7 +12,7 @@
   FigureType: new
   
 - Class: text
-  Output: "Na última lição, também vimos que uma função linear pode ser denotada pela expressão y = a + bx, em que `a` é o coeficiente linear e `b` é o coeficiente angular. Análises multivariadas seguem uma estrutura semelhante, mas que inclui novos coeficientes angulares, um para cada variável independente no modelo: y = a + bx1 + cx2 + dx3... `b`, `c` e `d`, nesse exemplo, são coeficientes angulares das variáveis x1, x2 e x3. Em análises multivariadas, a variável dependente y é chamada de VARIÁVEL RESPOSTA, e as variáveis independentes x1, x2 etc. são chamadas de VARIÁVEIS PREVISORAS."
+  Output: "Na última lição, também vimos que uma função linear pode ser denotada pela expressão y = a + bx, em que `a` é o coeficiente linear e `b` é o coeficiente angular. Análises multivariadas seguem uma estrutura semelhante, mas que inclui novos coeficientes angulares, um para cada variável independente no modelo: y = a + bx1 + cx2 + dx3... `b`, `c` e `d`, nesse exemplo, são coeficientes angulares das variáveis x1, x2 e x3. Em análises multivariadas, a variável dependente y é chamada de VARIÁVEL RESPOSTA, e as variáveis independentes x1, x2 etc. são chamadas de VARIÁVEIS PREVISORAS. Mais adiante, veremos por que os termos variável dependente e variável independentes não são adequados para modelos de regressão."
   
 - Class: cmd_question
   Output: Para começar, carregue o pacote tidyverse.
@@ -45,7 +45,7 @@
   Output: "É importante reforçar que, antes de chegar ao ponto de análises multivariadas, idealmente o pesquisador já terá feito análises preliminares, por meio de tabelas e gráficos, e já terá uma boa ideia de como se dá a distribuição de seus dados: se há poucas ocorrências em certos fatores, se parece haver diferenças entre fatores de uma variável, se os testes univariados apontam para diferenças significativas ou não. Por outro lado, se o pesquisador está trabalhando com mais de uma VI, é imprescindível realizar análises multivariadas, pois o comportamento de certas variáveis pode não ser tão preponderante ou pode mudar em face de outras."
 
 - Class: text
-  Output: "A função empregada para criar modelos multivariados para uma variável dependente numérica é lm(), que já vimos na Lição 11. Aqui vamos aplicá-la à variável reposta numérica altura da vogal /e/, em Hz: F1.NORM. Nesta lição, vamos criar modelos com apenas uma variável previsora a fim de treinar a leitura dos resultados. Contudo, o interesse principal nessa função é a modelagem multivariada -- que faremos na próxima."
+  Output: "A função empregada para criar modelos multivariados para uma variável dependente numérica é lm(), que já vimos na Lição 11. Aqui vamos aplicá-la à variável reposta numérica altura da vogal /e/, em Hz: F1.NORM. Nesta lição, vamos criar modelos com apenas uma variável previsora a fim de treinar a leitura dos resultados. Contudo, o interesse principal nessa função é a modelagem multivariada -- que faremos na próxima. Em outras palavras, as tarefas desta lição têm objetivo puramente didático; as análises que você fará efetivamente com seus dados e que acabará reportando serão mais parecidas com o que faremos na Lição 13."
 
 - Class: cmd_question
   Output: "Crie um primeiro modelo para testar se há correlação entre a altura da vogal e a AMOSTRA, ou seja, para testar se a altura da vogal /e/ na fala de paraibanos e de paulistanos difere. O primeiro argumento de lm() é uma fórmula y ~ x, e o segundo argumento é o conjunto de dados. Digite então mod1 <- lm(F1.NORM ~ AMOSTRA, data = VOGAL_e), para criar o modelo `mod1`."
@@ -60,7 +60,7 @@
   Hint: Aplique a função summary() a mod1.
 
 - Class: mult_question
-  Output: "Vamos examinar o resultado do modelo linar. O primeiro ponto a se checar é se os resíduos têm distribuição normal: valor de mediana próximo a zero e valores de mínimo-máximo e 1Q-3Q razoavelmente simétricos. Olhando os resíduos de mod1, qual é a sua avaliação?"
+  Output: "Vamos examinar o resultado do modelo linear. O primeiro ponto a se checar é se os resíduos têm distribuição normal: valor de mediana próximo a zero e valores de mínimo-máximo e 1Q-3Q razoavelmente simétricos. Olhando os resíduos de mod1, qual é a sua avaliação?"
   AnswerChoices: a distribuição dos resíduos não segue a distribuição normal;a distribuição dos resíduos segue a distribuição normal
   CorrectAnswer: a distribuição dos resíduos não segue a distribuição normal
   AnswerTests: omnitest(correctVal= 'a distribuição dos resíduos não segue a distribuição normal')
@@ -155,7 +155,7 @@
   Hint: Qual é o primeiro nível de CONT.SEG?
 
 - Class: text
-  Output: "O valor de 433.4 Hz, portanto, é a estimativa da medida de F1.NORM quando a consoante seguinte é uma dental-alveolar (p_ex. pe<d>agogia). Os demais valores devem ser lidos em relação a esse nível, somando-se o valor das respectivas estimativas ao coeficiente linear (Intercept). Assim, a estimativa da medida de F1.NORM para quando a consoante seguinte é labial (p.ex., de<m>ora) é 433.4 - 11.1 = 422.3 Hz; para as consoantes palatais ou sibilantes (p.ex. pe<s>ado) é 433.4 - 14.3 = 419.1 Hz etc. (lembre-se que a soma de um valor negativo equivale à subtração!). Em outras palavras, a estimativa de cada termo previsor é computada pela função F1.NORM =  433.429 + (-11.106 * CONT.SEGlabial) + (-14.299 * CONT.SEGpalatal.sibilante) + (-7.108 * CONT.SEGvelar) + (-5.213 * CONT.SEGvibrante)."
+  Output: "O valor de 433.4 Hz, portanto, é a estimativa da medida de F1.NORM quando a consoante seguinte é uma dental-alveolar (p.ex. pe<d>agogia). Os demais valores devem ser lidos em relação a esse nível, somando-se o valor das respectivas estimativas ao coeficiente linear (Intercept). Assim, a estimativa da medida de F1.NORM para quando a consoante seguinte é labial (p.ex., de<m>ora) é 433.4 - 11.1 = 422.3 Hz; para as consoantes palatais ou sibilantes (p.ex. pe<s>ado) é 433.4 - 14.3 = 419.1 Hz etc. (lembre-se que a soma de um valor negativo equivale à subtração!). Em outras palavras, a estimativa de cada termo previsor é computada pela função F1.NORM =  433.429 + (-11.106 * CONT.SEGlabial) + (-14.299 * CONT.SEGpalatal.sibilante) + (-7.108 * CONT.SEGvelar) + (-5.213 * CONT.SEGvibrante)."
 
 - Class: mult_question
   Output: "Em relação a consoantes dental-alveolares, quais níveis têm medidas de F1.NORM significativamente diferentes?"
@@ -285,7 +285,7 @@
   Hint: Leia a figura!
 
 - Class: text
-  Output: "Esta figura ilustra uma interação entre as variáveis função sintática e tipo de oração. A relação entre elas não é constante: enquanto para SNs sujeitos a diferença de extensão é de 4 sílabas entre orações principais e subordinadas, a diferença para SNs objetos não só é menor (1 sílaba), mas também vai na direção oposta (SNs maiores em orações principais do que em orações subordinadas). A interação é claramente visualizada pelo fato de que as linhas não são paralelas, mas se cruzam. Um modelo que previsse o efeito aditivo entre as variáveis previsoras -- i.e. extensão ~ função sintática + tipo de oração -- poderia chegar ao resultado do gráfico à direita, em que a estimativa da extensão de SNs objeto em orações subordinadas está bastante equivocada."
+  Output: "Esta figura ilustra uma interação entre as variáveis função sintática e tipo de oração. A relação entre elas não é constante: enquanto para SNs sujeitos a diferença de extensão é de 4 sílabas entre orações principais e subordinadas, a diferença para SNs objetos não só é menor (1 sílaba), mas também vai na direção oposta (SNs maiores em orações principais do que em orações subordinadas). A interação é claramente visualizada pelo fato de que as linhas não são paralelas, mas se cruzam. Um modelo que previsse o efeito aditivo entre as variáveis previsoras -- i.e. tamanho das sílabas ~ função sintática + tipo de oração -- poderia chegar ao resultado do gráfico à direita, em que a estimativa da extensão de SNs objeto em orações subordinadas está bastante equivocada."
 
 - Class: figure
   Output: "Veja agora a nova figura em Plots, que ilustra outro caso hipotético de interação. De modo semelhante ao exemplo anterior, o gráfico à esquerda mostra as verdadeiras médias de extensão dos SNs e o gráfico à direita ilustra o resultado a que se chegaria caso não se previsse uma interação entre as variáveis previsoras."
@@ -317,7 +317,7 @@
   Output: "Aqui novamente se tem uma interação. Embora as linhas não se cruzem no gráfico, elas também não são paralelas. Isso significa que um modelo que não prevê a interação entre as variáveis função sintática e tipo de oração não seria capaz de estimar corretamente qual é a extensão dos SNs em cada condição. Para prever corretamente a extensão e SNs objeto em orações subordinadas, seria necessário ter mais um coeficiente que corrigisse a estimativa -- neste caso, um coeficiente que informasse que ainda é necessário somar +2 para prever a extensão na condição objeto-oração subordinada."
   
 - Class: text
-  Output: "Outro modo de entender o que é a interação entre duas variáveis previsoras é que o efeito de cada uma delas não pode ser determinado isoladamente, independentemente do efeito da outra. É necessário levar em considerar o efeito conjunto de ambas para bem prever a estimativa. Daí a importância de realizar análises multivariadas: seria impossível prever interações testando uma única variável a cada teste. Daí tabmbém deriva a inadequação de se usar o termo \"variável independente\" -- em vez de \"variável previsora\" -- quando se realiza uma análise multivariada, pois o efeito das variáveis não necessariamente é independente."
+  Output: "Outro modo de entender o que é a interação entre duas variáveis previsoras é que o efeito de cada uma delas não pode ser determinado isoladamente, independentemente do efeito da outra. É necessário levar em consideração o efeito conjunto de ambas para bem prever a estimativa. Daí a importância de realizar análises multivariadas: seria impossível prever interações testando uma única variável a cada teste. Daí também deriva a inadequação de se usar o termo \"variável independente\" -- em vez de \"variável previsora\" -- quando se realiza uma análise multivariada, pois o efeito das variáveis não necessariamente é independente."
 
 - Class: text
   Output: "O ponto aqui é mostrar a importância de testar interações nos modelos lineares a fim de chegar a estimativas mais precisas para a variável resposta."

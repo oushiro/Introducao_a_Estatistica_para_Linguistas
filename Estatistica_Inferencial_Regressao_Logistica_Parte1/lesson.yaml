@@ -7,7 +7,7 @@
   Version: 2.4.3
 
 - Class: figure
-  Output: "Esta e a próxima lição são dedicadas a análises de regressão logística, que se aplicam a variáveis dependentes/resposta binárias. A regressão logística permite a inclusão de mútiplas variáveis previsoras, assim como a análise de regressão linear. Cabe lembrar que, antes de chegar à análise multivariada de regressão logística, @ pesquisador@ idealmente já terá feito gráficos e análises exploratórias (como o qui-quadrado) a fim de saber como se distribuem seus dados. O interesse nas análises de regressão logística é verificar o efeito simultâneo de múltiplas variáveis previsoras, a fim de chegar a um modelo para descrever, explicar e prever o comportamento da variável resposta."
+  Output: "Esta e a próxima lição são dedicadas a análises de regressão logística, que se aplicam a variáveis dependentes/resposta binárias. A regressão logística permite a inclusão de múltiplas variáveis previsoras, assim como a análise de regressão linear. Cabe lembrar que, antes de chegar à análise multivariada de regressão logística, @ pesquisador@ idealmente já terá feito gráficos e análises exploratórias (como o qui-quadrado) a fim de saber como se distribuem seus dados. O interesse nas análises de regressão logística é verificar o efeito simultâneo de múltiplas variáveis previsoras, a fim de chegar a um modelo para descrever, explicar e prever o comportamento da variável resposta."
   Figure: Licao14-background1.R
   FigureType: new
 
@@ -54,7 +54,7 @@
   Output: "A variável SEXO.GENERO indica se o dado veio de um falante do sexo feminino ou masculino. FAIXA.ETARIA está dividida em três níveis -- 1a: de 20 a 34 anos; 2a: de 35 a 59 anos; e 3a: 60 anos ou mais. REGIAO indica a região de residência atual do falante, central ou periférica. Por fim, INDICE.SOCIO é um índice contínuo que vai de 1 a 5, que leva em conta a escolaridade, ocupação e renda do falante, bem como escolaridade e ocupação de seus pais (ver Oushiro 2015:cap3 para detalhes); quanto maior o índice, maior foi a pontuação média do falante para os critérios acima."
 
 - Class: text
-  Output: "De modo semelhante ao que fizemos na análise de regressão linear, vamos começar com modelos simples, com o intuito de treinar a leitura dos resultados. Na próxima lição, veremos como criar e avaliar modelos mais complexos. "
+  Output: "De modo semelhante ao que fizemos na análise de regressão linear, vamos começar com modelos simples, com o intuito de treinar a leitura dos resultados. Na próxima lição, veremos como criar e avaliar modelos mais complexos, que são aqueles que você efetivamente vai querer reportar nas publicações. "
 
 - Class: cmd_question
   Output: "A função para criar um modelo de regressão logística é glm() -- do inglês, 'generalized linear model'. Trata-se efetivamente de uma generalização do modelo de regressão linear para variáveis não numéricas. Você verá que muito da implementação da regressão logística é paralela à regressão linear. Mas é importante já mencionar uma diferença importante: as estimativas da regressão logística são fornecidas em relação ao SEGUNDO nível da variável dependente. Aplique a função levels() ao vetor dados$VD para ver os níveis da variável dependente."
@@ -85,8 +85,8 @@
 
 - Class: cmd_question
   Output: "Faça visualize as frequências dos dados de SEXO.GENERO pela VD, substituindo no script os termos necessários."
-  CorrectAnswer: dados %>% count(SEXO.GENERO, VD) %>% print()
-  AnswerTests: omnitest(correctExpr='dados %>% count(SEXO.GENERO, VD) %>% print()')
+  CorrectAnswer: dados %>% count(SEXO.GENERO, VD)
+  AnswerTests: omnitest(correctExpr='dados %>% count(SEXO.GENERO, VD)')
   Hint: Substitua df por dados e as duas ocorrências de VAR por SEXO.GENERO e VD, respectivamente.
 
 - Class: cmd_question
@@ -114,7 +114,7 @@
   Hint: Digite log(odds_ratio) e pressione CTRL + ENTER.
 
 - Class: text
-  Output: "Veja que o resultado do log de odds-ratio é justamente a estimativa calculada para os homens na tabela de coeficientes de nosso modelo. Por que usar o log do odds-ratio, e não simplesmente as chances (= odds) ou a probabilidade (= proporção de ocorrências da variante de interesse em relação ao total)?"
+  Output: "Veja que o resultado do log de odds-ratio é justamente a estimativa calculada para os homens na tabela de coeficientes de nosso modelo -- então agora você sabe de onde saiu essa estimativa. Por que usar o log do odds-ratio, e não simplesmente as chances (= odds) ou a probabilidade (= proporção de ocorrências da variante de interesse em relação ao total)?"
 
 - Class: figure
   Output: "A figura que se abriu em Plots (Gries 2013:300) mostra a relação entre essas três medidas de probabilidade. Odds é uma escala de vai de zero até +infinito. Isso não é difícil de entender. As chances de algo ocorrer (=resultado favorável -- Fav) são maiores, menores ou iguais às chances de não ocorrer (=resultado desfavorável -- Des). Se o resultado favorável é mais frequente do que o resultado desfavorável, a divisão Fav/Des dará um número maior do que 1, e não tem limite máximo. Se o resultado favorável é menos frequente do que o resultado desfavorável, a divisão Fav/Des dará um número menor do que 1, mas nunca negativo. O ponto neutro da escala é 1, pois ele equivale ao cenário em que Fav = Des, portanto Fav/Des = 1."
@@ -144,8 +144,8 @@
 
 - Class: cmd_question
   Output: "O cálculo para as mulheres indica uma probabilidade de 23.8% de elas empregarem o retroflexo. Para comparar, faça agora uma tabela de proporções, substituindo os termos df e VAR na estrutura pré-montada do script -- reveja a Lição 4, se necessário."
-  CorrectAnswer: dados %>% count(SEXO.GENERO, VD) %>% group_by(SEXO.GENERO) %>% mutate(prop = prop.table(n)) %>% print()
-  AnswerTests: omnitest(correctExpr='dados %>% count(SEXO.GENERO, VD) %>% group_by(SEXO.GENERO) %>% mutate(prop = prop.table(n)) %>% print()')
+  CorrectAnswer: dados %>% count(SEXO.GENERO, VD) %>% group_by(SEXO.GENERO) %>% mutate(prop = prop.table(n))
+  AnswerTests: omnitest(correctExpr='dados %>% count(SEXO.GENERO, VD) %>% group_by(SEXO.GENERO) %>% mutate(prop = prop.table(n))')
   Hint: Faça as substituições com calma!
 
 - Class: text
@@ -333,7 +333,7 @@
   Hint: Some o coeficiente linear (Intercept) aos coeficientes angulares da 2a faixa etária, da periferia, e da interação 2a:periferia.
 
 - Class: cmd_question
-  Output: "Com uma interação, fica ainda mais difícil interpretar os resultados numéricos, não? O melhor é VER o resultado. Faça um gráfico de efeitos de mod5 para visualizar essas estimativas."
+  Output: "Com uma interação, fica ainda mais difícil interpretar os resultados numéricos, não? O melhor é VER o resultado. Faça um gráfico de efeitos de mod5 para visualizar essas estimativas na escala de probabilidade."
   CorrectAnswer: plot(allEffects(mod5), type = "response")
   AnswerTests: omnitest(correctExpr='plot(allEffects(mod5), type = "response")')
   Hint: Digite plot(allEffects(mod5), type = "response") e pressione CTRL + ENTER.

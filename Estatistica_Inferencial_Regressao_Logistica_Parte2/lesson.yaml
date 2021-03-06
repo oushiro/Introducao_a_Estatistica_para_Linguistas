@@ -338,4 +338,7 @@
   FigureType: new
   
 - Class: text
-  Output: "E isso conclui a Lição 15 e este curso! Para saber mais sobre regressão logística e outros modelos aplicáveis a variáveis nominais, veja Levshina (2015:cap12-13) e Gries (2012:cap5). Faça a lista de exercícios para fixar conteúdos. E veja também a Lição 16 para mais referências úteis em seus estudos de estatística. Há muito mais a se aprender! Espero que este curso tenha sido apenas o ponto de partida!"
+  Output: "Para consultar como os resultados de modelos de regressão logística podem ser reportados, reveja o final da Lição 13."
+  
+- Class: text
+  Output: "E isso conclui a Lição 15 e este curso. Para saber mais sobre regressão logística e outros modelos aplicáveis a variáveis nominais, veja Levshina (2015:cap12-13) e Gries (2012:cap5). Faça a lista de exercícios para fixar conteúdos. E veja também a Lição 16 para mais referências úteis em seus estudos de estatística. Há muito mais a se aprender! Espero que este curso tenha sido apenas o ponto de partida!"

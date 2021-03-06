@@ -157,7 +157,7 @@
   Hint: Rode a linha de comando do script com pressione CTRL + ENTER.
 
 - Class: text
-  Output: "A linha plotada no gráfico é uma linha de regressão. Ela representa os pontos pelos quais deve passar a reta de modo que a soma das distâncias entre as observações (os círculos abertos) e a linha seja a menor possível. Ela cruza o eixo y, altura, em 62.5cm e aumenta 7.5cm a cada unidade de x. Isso significa que nosso modelo prevê que as crianças nascem com cerca de 62.5 cm e que crescem cerca de 7.5 cm por ano."
+  Output: "A linha plotada no gráfico é uma linha de regressão. Ela representa os pontos pelos quais deve passar a reta de modo que a soma das distâncias entre as observações (os pontos) e a linha seja a menor possível. Ela cruza o eixo y, altura, em 62.5cm e aumenta 7.5cm a cada unidade de x. Isso significa que nosso modelo prevê que as crianças nascem com cerca de 62.5 cm e que crescem cerca de 7.5 cm por ano."
 
 - Class: text
   Output: "Você pode ter achado a altura de 62.5 cm muito grande para um recém-nascido. Mas veja que isso é um modelo, não a realidade! Em parte, nosso modelo é menos preciso do que poderia ser porque estamos levando em conta apenas uma variável - a idade - para prever a altura. Certamente há outras que influenciam a altura das crianças: a altura dos pais, a alimentação etc. Adiante, no curso, veremos como incluir mais variáveis num modelo estatístico, o que faz com que os parâmetros sejam ajustados. Mas mesmo com a inclusão de outras tantas variáveis, o modelo nunca vai se equiparar com a realidade."
@@ -217,7 +217,7 @@
   Hint: Digite summary(modelo) e pressione CTRL + ENTER.
 
 - Class: text
-  Output: "O resumo do modelo traz, em primeiro lugar, a fórmula que usamos na função lm() -- altura ~ idade. Em seguida, traz uma visão geral dos resíduos: o valor mínimo, o primeiro quartil (1Q), a mediana, o terceiro quartil (3Q) e o valor máximo. Vimos esses termos da Lição 7, quando falamos de boxplots. Ao inspecionar os resíduos, verifique se o valor da mediana está próximo de zero e se os valores min-max e 1Q-3Q são razoavelmente simétricos. Em nosso `modelo`, estamos dentro dessa expectativa, pois a mediana (-0.05) está bem próxima de zero, os valores mínimo (-12.6) e máximo (11.8) são semelhantes em valores absolutos, assim como os valores 1Q (-3.14) e 3Q (4.22)."
+  Output: "O resumo do modelo traz, em primeiro lugar, a fórmula que usamos na função lm() -- altura ~ idade. Em seguida, traz uma visão geral dos resíduos: o valor mínimo, o primeiro quartil (1Q), a mediana, o terceiro quartil (3Q) e o valor máximo. Vimos esses termos da Lição 7, quando falamos de boxplots. Ao inspecionar os resíduos, verifique se o valor da mediana está próximo de zero e se os valores min-max e 1Q-3Q são razoavelmente simétricos. Em nosso `modelo`, estamos dentro dessa expectativa, pois a mediana (-0.05) está bem próxima de zero, os valores mínimo (-12.6) e máximo (11.8) são semelhantes em valores absolutos, assim como os valores 1Q (-3.14) e 3Q (4.22). Colocado em outros termos, nossos resíduos seguem uma distribuição normal."
 
 - Class: text
   Output: "Por que esperamos simetria em torno de zero para os resíduos? Os resíduos são a diferença entre os valores observados e os valores previstos pelo modelo, certo? Visto de outro modo, os resíduos são os valores que nosso modelo não foi capaz de prever perfeitamente -- o que já é esperado, pois, como visto, modelos não são a realidade. Contudo, se nosso modelo \"erra\", é bom que ele \"erre\" tanto para mais quanto para menos, pois daí podemos ter certa segurança de que nossas estimativas não estão muito longe do que se poderia observar. Veja que, em nossos dados, não temos nenhuma observação para uma criança com 10 anos; no entanto, esperamos que a estimativa do modelo -- i.e., y = 62.5 + (7.5 * 10) = 137.5 cm -- não esteja tão longe da realidade."
@@ -321,6 +321,9 @@
   CorrectAnswer: existe correlação entre o uso de CN e CV3PP
   AnswerTests: omnitest(correctVal= 'existe correlação entre o uso de CN e CV3PP')
   Hint: Veja o resultado do teste acima.
+
+- Class: text
+  Output: "O teste indica que existe correlação entre o uso de CN e CV3PP, com rho = 0.75 e p < 0.001."
 
 - Class: cmd_question
   Output: "Crie um modelo linear, chamado modelo1, com a fórmula CN ~ CV3PP como primeiro argumento, e data = cov como segundo argumento."
