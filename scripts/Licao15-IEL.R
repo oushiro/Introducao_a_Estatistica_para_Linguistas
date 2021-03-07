@@ -115,19 +115,19 @@ mod.lrm <- lrm (VD ~
 ### Checagem de pressupostos ####
 
 ### (a) A relação entre o logit e as variáveis previsoras numéricas é linear?
-# (81%) Fazer modelo sem interação para aplicar crPlot
+# (79%) Fazer modelo sem interação para aplicar crPlot
 
 
-# (82%) Aplicar crPlot() ao modelo (requer pacote car)
+# (81%) Aplicar crPlot() ao modelo (requer pacote car)
 
 
-### (85%) (b) Há multicolinearidade?
+### (84%) (b) Há multicolinearidade?
 
 
 ### (c) Observações são independentes? -- em dados linguísticos, quase nunca são! --> MODELOS DE EFEITOS MISTOS
 
 ### Criar modelo linear de efeitos mistos ###
-# (90%) função glmer() depende dos pacotes lme4 e lmerTest
+# (89%) função glmer() depende dos pacotes lme4 e lmerTest
 
 
 # (92%) Aplicar summary() a mod.glmer
@@ -136,5 +136,5 @@ mod.lrm <- lrm (VD ~
 # (95%) Visualizar resultados numéricos em gráfico de efeitos (requer pacote effects)
 
 
-# (97%) Gráficos de efeitos com argumento ask = T
+# (fora do swirl) Gráficos de efeitos com argumento ask = T
 

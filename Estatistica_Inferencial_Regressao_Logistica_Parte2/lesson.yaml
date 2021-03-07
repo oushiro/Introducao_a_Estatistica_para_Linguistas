@@ -327,10 +327,10 @@
   Hint: Digite plot(allEffects(mod.glmer), type = "response") e pressione CTRL + ENTER.
 
 - Class: cmd_question
-  Output: "Também se pode adicionar o argumento ask = T para selecionar manualmente quais efeitos você quer visualizar. A partir da linha de comando acima, adicione o novo argumento. Clique sobre a variável ou variáveis de interesse e clique sobre \"cancelar\" quando não quiser incluir mais nenhuma."
-  CorrectAnswer: plot(allEffects(mod.glmer), type = "response", ask = T)
-  AnswerTests: omnitest(correctExpr='plot(allEffects(mod.glmer), type = "response", ask = T)')
-  Hint: Digite plot(allEffects(mod.glmer), type = "response", ask = T) e pressione CTRL + ENTER.
+  Output: "Também se pode adicionar o argumento ask = T para selecionar manualmente quais efeitos você quer visualizar. Clique sobre a variável ou variáveis de interesse e digite Esc quando não quiser incluir mais nenhuma. Para testar, saia momentaneamente do ambiente do swirl com `play()`. Para voltar, digite `nxt()` e, em seguida, digite `dados` para continuar a lição. "
+  CorrectAnswer: dados
+  AnswerTests: omnitest(correctExpr='dados')
+  Hint: Digite `dados` e pressione CTRL + ENTER para continuar a lição.
 
 - Class: figure
   Output: "Em Source, abri uma sugestão de roteiro de análise para variáveis nominais binárias, tomando o conjunto de dados da realização do /r/ em coda como exemplo. Assim como no roteiro da Lição 13, a ideia é sistematizar os passos de uma análise que ficaram espalhados por várias lições deste curso."
@@ -341,4 +341,4 @@
   Output: "Para consultar como os resultados de modelos de regressão logística podem ser reportados, reveja o final da Lição 13."
   
 - Class: text
-  Output: "E isso conclui a Lição 15 e este curso. Para saber mais sobre regressão logística e outros modelos aplicáveis a variáveis nominais, veja Levshina (2015:cap12-13) e Gries (2012:cap5). Faça a lista de exercícios para fixar conteúdos. E veja também a Lição 16 para mais referências úteis em seus estudos de estatística. Há muito mais a se aprender! Espero que este curso tenha sido apenas o ponto de partida!"
+  Output: "E isso conclui a Lição 15 e este curso. Para saber mais sobre regressão logística e outros modelos aplicáveis a variáveis nominais, veja Levshina (2015:cap12-13) e Gries (2013:cap5). Faça a lista de exercícios para fixar conteúdos. E veja também a Lição 16 para mais referências úteis em seus estudos de estatística. Há muito mais a se aprender! Espero que este curso tenha sido apenas o ponto de partida!"
