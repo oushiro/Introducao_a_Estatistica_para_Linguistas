@@ -46,6 +46,11 @@
 
 
 #(8) Transforme a medida de logodds da estimativa de emprego de retroflexo para falantes com nível superior para a medida de probabilidade (= proporção de 0% a 100%). Qual é a probabilidade de emprego de retroflexo para esses falantes?"
+#21.9%
+#22.3%
+#33.9%
+#34.1%
+#50%
 
 
 ###p/Q9-10

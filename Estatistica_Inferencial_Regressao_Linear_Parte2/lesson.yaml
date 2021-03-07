@@ -303,7 +303,7 @@
   Output: "As primeiras linhas do resultado mostram as variáveis eliminadas e mantidas na coluna elim.num. Dos efeitos fixos, CONT.PREC de fato se mostra não correlacionada com F1.NORM, de modo que podemos retirá-la do modelo final. Dos efeitos aleatórios, PARTICIPANTE foi eliminado; isso se deve ao fato de que a normalização de Lobanov tem justamente o objetivo de minimizar diferenças que se devem a características individuais. Em qualquer outra análise que não envolva normalização, a inclusão da variável falante/participante é fundamental."
 
 - Class: figure
-  Output: "Cabe comentar, por fim, como apresentar os resultados de uma análise multivariada de regressão linear. Em Plots se apresentam duas tabelas de Gries (2013:257) como exemplos: é importante reportar todos os valores da tabela de coeficientes, bem como as medidas estatísticas que aparecem ao pé do resultado de summary()."
+  Output: "Cabe comentar, por fim, como apresentar os resultados de uma análise multivariada de regressão linear. Em Plots se apresentam duas tabelas de Gries (2019:229) como exemplos: é importante reportar todos os valores da tabela de coeficientes, bem como as medidas estatísticas que aparecem ao pé do resultado de summary()."
   Figure: mostrar-tabelaGries.R
   FigureType: new
 

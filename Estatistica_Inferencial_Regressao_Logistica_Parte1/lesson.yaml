@@ -117,7 +117,7 @@
   Output: "Veja que o resultado do log de odds-ratio é justamente a estimativa calculada para os homens na tabela de coeficientes de nosso modelo -- então agora você sabe de onde saiu essa estimativa. Por que usar o log do odds-ratio, e não simplesmente as chances (= odds) ou a probabilidade (= proporção de ocorrências da variante de interesse em relação ao total)?"
 
 - Class: figure
-  Output: "A figura que se abriu em Plots (Gries 2013:300) mostra a relação entre essas três medidas de probabilidade. Odds é uma escala de vai de zero até +infinito. Isso não é difícil de entender. As chances de algo ocorrer (=resultado favorável -- Fav) são maiores, menores ou iguais às chances de não ocorrer (=resultado desfavorável -- Des). Se o resultado favorável é mais frequente do que o resultado desfavorável, a divisão Fav/Des dará um número maior do que 1, e não tem limite máximo. Se o resultado favorável é menos frequente do que o resultado desfavorável, a divisão Fav/Des dará um número menor do que 1, mas nunca negativo. O ponto neutro da escala é 1, pois ele equivale ao cenário em que Fav = Des, portanto Fav/Des = 1."
+  Output: "A figura que se abriu em Plots (Gries 2019:265) mostra a relação entre essas três medidas de probabilidade. Odds é uma escala de vai de zero até +infinito. Isso não é difícil de entender. As chances de algo ocorrer (=resultado favorável -- Fav) são maiores, menores ou iguais às chances de não ocorrer (=resultado desfavorável -- Des). Se o resultado favorável é mais frequente do que o resultado desfavorável, a divisão Fav/Des dará um número maior do que 1, e não tem limite máximo. Se o resultado favorável é menos frequente do que o resultado desfavorável, a divisão Fav/Des dará um número menor do que 1, mas nunca negativo. O ponto neutro da escala é 1, pois ele equivale ao cenário em que Fav = Des, portanto Fav/Des = 1."
   Figure: mostrarGries-odds-log-prob.R
   FigureType: new
 
@@ -131,7 +131,7 @@
   Output: "Em relação à escala de probabilidade, ter o ponto neutro em zero -- em vez de 0.5 -- também traz vantagens. Vimos, no modelo de regressão linear, que o resultado em termos de DIFERENÇA em relação ao intercept permite avaliar mais prontamente se ela é zero ou não. Um logodds de zero (ou próximo a ele) indica prontamente se há diferenças significativas; valores positivos indicam tendência a favorecimento (em relação a outro nível da mesma variável previsora); e valores negativos indicam tendência a desfavorecimento (em relação a outro nível da mesma variável previsora). No resultado de nosso primeiro modelo, portanto, um logodds de 0.44 para homens indica que, EM RELAÇÃO ÀS MULHERES, os homens favorecem o retroflexo."
 
 - Class: cmd_question
-  Output: "Coloquei a comparação entre homens e mulheres acima em caixa alta porque uma estimativa de logodds positiva não significa que os homens usam o retroflexo mais frequentemente do que o tepe. Essa é uma diferença relativa. Lembre-se que para chegar à estimativa, é necessário somar o valor do intercept ao valor do coeficiente angular. Os homens paulistanos, portanto, têm -1.16304 + 0.44111 = -0.72193 logodds de emprego de retroflexo. A figura em Plots mostra qual operação se aplica para transformar uma medida em outra -- exp, log, logit ou ilogit. Aplique a função ilogit() a -0.72193 para transformar a medida de logodds em probabilidade."
+  Output: "Coloquei a comparação entre homens e mulheres acima em caixa alta porque uma estimativa de logodds positiva não significa que os homens usam o retroflexo mais frequentemente do que o tepe. Essa é uma diferença relativa. Lembre-se que para chegar à estimativa, é necessário somar o valor do intercept ao valor do coeficiente angular. Os homens paulistanos, portanto, têm -1.16304 + 0.44111 = -0.7219327 logodds de emprego de retroflexo. A figura em Plots mostra qual operação se aplica para transformar uma medida em outra -- exp, log, logit ou ilogit. Aplique a função ilogit() a -0.7219327 para transformar a medida de logodds em probabilidade."
   CorrectAnswer: ilogit(-0.7219327)
   AnswerTests: omnitest(correctExpr='ilogit(-0.7219327)')
   Hint: Digite ilogit(-0.7219327) e pressione CTRL + ENTER.
@@ -160,7 +160,7 @@
   FigureType: new
 
 - Class: cmd_question
-  Output: "A essa altura, o resultado de mod1 ficou lá atrás, mas ainda falta comentar as demais medidas estatísticas geradas no modelo. Digite então summary(mod1) no Console."
+  Output: "A essa altura, o resultado de mod1 ficou lá atrás, mas ainda falta comentar as demais medidas estatísticas geradas no modelo. Digite então summary(mod1)."
   CorrectAnswer: summary(mod1)
   AnswerTests: omnitest(correctExpr='summary(mod1)')
   Hint: Digite summary(mod1) e pressione CTRL + ENTER.
@@ -260,13 +260,13 @@
 - Class: exact_question
   Output: "Calcule a probabilidade, em logodds, de um falante com índice socioeconômico 4.2 empregar o retroflexo. Para isso, empregue os coeficientes gerados pelo modelo dentro da função y = 1.53407 + (-0.81609 * INDICE.SOCIO)."
   CorrectAnswer: -1.893508
-  AnswerTests: omnitest(correctVal=-1.893508)
+  AnswerTests: any_of_exprs('-1.893508', '1.53407 + (-0.81609 * 4.2)')
   Hint: Faça a conta 1.53407 + (-0.81609 * 4.2).
 
 - Class: exact_question
   Output: "Transforme o valor em logodds em probabilidade. Para isso, aplique a função ilogit() à estimativa gerada acima."
   CorrectAnswer: ilogit(-1.893508)
-  AnswerTests: omnitest(correctVal=0.130845)
+  AnswerTests: any_of_exprs('0.130845', 'ilogit(-1.893508)', 'ilogit(1.53407 + (-0.81609 * 4.2))')
   Hint: Digite ilogit(-1.893508) e pressione CTRL + ENTER.
 
 - Class: cmd_question

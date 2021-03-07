@@ -72,8 +72,7 @@ dados$CONT.FON.SEG <- fct_relevel(dados$CONT.FON.SEG, "pausa", "coronal", "dorsa
 
 # (22%_) Excursus... como calcular logodds ####
 df %>%
-  count(VAR, VAR) %>%
-  print()
+  count(VAR, VAR) 
 
 
 # ... da tabela de frequências acima:
@@ -89,7 +88,7 @@ df %>%
 # (28%) logodds
 
 
-# Ver Gries (2013:300) -- figura transformações odds, logodds, probabilidades
+# Ver Gries (2019:265) -- figura transformações odds, logodds, probabilidades
 # Transformar logodds em probabilidades: ilogit()
 # (36%) probabilidade para homens de usar retroflexo
 
@@ -101,8 +100,7 @@ df %>%
 df %>%
   count(VAR, VAR) %>%
   group_by(VAR) %>%
-  mutate(prop = prop.table(n)) %>%
-  print()
+  mutate(prop = prop.table(n)) 
 
 
 ###### fim de excursus ###########
