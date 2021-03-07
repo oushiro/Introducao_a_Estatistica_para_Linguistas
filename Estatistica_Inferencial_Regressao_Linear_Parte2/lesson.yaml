@@ -270,7 +270,7 @@
   Output: "Variáveis aleatórias, quando existirem, SEMPRE devem ser incluídas nos modelos estatísticos. Modelos que incluem tanto variáveis fixas quanto variáveis aleatórias são chamados de MODELOS DE EFEITOS MISTOS. O motivo de termos deixado os efeitos aleatórios para o final é bastante prático: você verá daqui a pouco que esses modelos demoram um bocado para rodar no R. Minha recomendação, portanto, é que você chegue a um modelo satisfatório com efeitos fixos, cheque se esse modelo não viola os pressupostos de modelos lineares (fazendo novos ajustes, se necessários) e, apenas como última etapa, inclua os efeitos aleatórios. Este é um excelente exemplar da expressão \"por último, mas não menos importante\": qualquer estudo que tenha variáveis aleatórias deve incluí-las na modelagem estatística. "
   
 - Class: text
-- Output: "Tais modelos são implementados no R por meio do pacote lme4, que carregamos no início desta lição. O pacote lmerTest, também já carregado, fornece valores-p para as estimativas."
+  Output: "Tais modelos são implementados no R por meio do pacote lme4, que carregamos no início desta lição. O pacote lmerTest, também já carregado, fornece valores-p para as estimativas."
 
 - Class: cmd_question
   Output: "A função lmer() toma os mesmos argumentos de lm(), com a diferença de que requer a inclusão de variáveis aleatórias. Estas são indicadas dentro da fórmula com a notação (1|varaleatoria). Vamos então criar um modelo de efeitos mistos a partir do último modelo criado (modelo2). A partir daquela linha de comando, modifique (i) o nome do objeto para mod1.lmer; (ii) a função para lmer; e (iii) inclua duas novas variáveis na fórmula: + (1|PARTICIPANTE) + (1|PALAVRA)."
