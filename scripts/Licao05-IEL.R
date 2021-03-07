@@ -49,7 +49,7 @@ ggplot(df.store, aes(x = store, y = prop, fill = r)) +
 #    ggtitle("") +
 #    labs(x = "", y = "", fill = "") + 
 #    scale_x_discrete() + 
-#    scale_fill_brewer() + 
+#    scale_fill_brewer(palette = "", labels = ) + 
     theme_bw()
 
 #dev.off()
@@ -63,7 +63,7 @@ ggplot(df.store) +
 
 ### Gráfico de Linhas####
 
-# (83%, 85%, 87%) Plotar gráfico de linhas
+# (83%*, 85%_, 87%_) Plotar gráfico de linhas
 ggplot(df.store, aes(x = store, y = prop * 100, group = r)) + 
     geom_line(linetype = "dotted", size = 1, color = "blue") + 
 #    geom_point(shape = , size = , fill = "") + 

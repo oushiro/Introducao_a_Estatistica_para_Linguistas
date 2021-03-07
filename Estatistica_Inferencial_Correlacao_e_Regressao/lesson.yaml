@@ -18,7 +18,7 @@
   Hint: Digite library(tidyverse) e pressione CTRL + ENTER.
   
 - Class: cmd_question
-  Output: E, nesta sessão, também vamos usar outro pacote! Carregue o pacote chamado 'GGally'.
+  Output: E, nesta sessão, também vamos usar outro pacote! Carregue o pacote chamado GGally.
   CorrectAnswer: library(GGally)
   AnswerTests: omnitest(correctExpr='library(GGally)')
   Hint: Digite library(GGally) e pressione CTRL + ENTER.
@@ -31,7 +31,7 @@
   Hint: Tente de novo!
 
 - Class: cmd_question
-  Output: "Sabemos, por simples observação cotidiana, que sim! Vamos analisar este caso com alguns dados. Deixei disponíveis para você dois vetores numéricos. Inspecione o dataframe `criancas`."
+  Output: "Sabemos, por simples observação cotidiana, que sim! Vamos analisar este caso com alguns dados. Deixei disponíveis para você dois vetores numéricos no dataframe `criancas`. Inspecione-o."
   CorrectAnswer: criancas
   AnswerTests: omnitest(correctExpr='criancas')
   Hint: Digite criancas e pressione CTRL + ENTER.
@@ -64,7 +64,7 @@
   Output: "As duas primeiras linhas indicam o teste realizado e o conjunto de dados a que se aplicou o teste. Em seguida, o R informa o valor-t, os graus de liberdade e o valor de significância, de modo muito semelhante ao resultado do teste-t. Numa correlação de Pearson, os graus de liberdade são o número de pares (x, y) -- aqui, 15 --, menos 2: n - 2 = 13. As linhas seguintes enunciam a hipótese alternativa, o intervalo de confiança e um valor de correlação."
 
 - Class: figure
-  Output: "O valor de correlação gerado pelo teste de correlação de Pearson é chamado de r. Ele é calculado a partir da fórmula que aparece na linha 26 do script que se abriu em Source, e leva em conta o número de observações n, a soma simples e dos quadrados de x, a soma simples e dos quadrados de y, e o produto x * y. Após esta lição, separe um momento para estudá-la."
+  Output: "O valor de correlação gerado pelo teste de correlação de Pearson é chamado de r. Ele é calculado a partir da fórmula que aparece na linha 33 do script que se abriu em Source, e leva em conta o número de observações n, a soma simples e dos quadrados de x, a soma simples e dos quadrados de y, e o produto x * y. Após esta lição, separe um momento para estudá-la."
   Figure: Licao11-background1.R
   FigureType: new
   
@@ -267,11 +267,11 @@
 - Class: cmd_question
   Output: "Agora calcule o quadrado da expressão acima. Copie o último comando e adicione ^ 2 à expressão acima para calcular o R^2."
   CorrectAnswer: cor.test(criancas$idade, criancas$altura)$estimate ^ 2
-  AnswerTests: omnitest(correctExpr='cor.test(criancas$idade, criancas$altura)$estimate ^ 2')
+  AnswerTests: any_of_exprs('cor.test(criancas$idade, criancas$altura)$estimate ^ 2', '(cor.test(criancas$idade, criancas$altura)$estimate) ^ 2')
   Hint: Digite cor.test(criancas$idade, criancas$altura)$estimate ^ 2 e pressione CTRL + ENTER.
 
 - Class: text
-  Output: "Este é o valor de R^2 do modelo. O valor de R^2 ajustado é um ajuste de R^2 a depender do número de variáveis independentes incluídas no modelo (aqui, apenas uma) e o tamanho da amostra (aqui, 15). A fórmula de R^2 ajustado está no script Licao11-demonstracoes em Source, na linha 45."
+  Output: "Este é o valor de R^2 do modelo. O valor de R^2 ajustado é um ajuste de R^2 a depender do número de variáveis independentes incluídas no modelo (aqui, apenas uma) e o tamanho da amostra (aqui, 15). A fórmula de R^2 ajustado está no script Licao11-demonstracoes em Source, na linha 40."
 
 - Class: text
   Output: "A estatística-F, por fim, é uma medida útil quando se tem interesse em comparar diferentes modelos estatísticos, a fim de determinar qual deles mais bem explica a variação na variável dependente. Ela é usada para calcular um valor de significância do modelo como um todo, para além da significância de variáveis independentes específicas."
@@ -360,7 +360,7 @@
   Hint: Digite ggpairs(cov, columns = 10:15) e pressione CTRL + ENTER. 
 
 - Class: text
-  Output: "A figura mostra, na linha diagonal, o gráfico de densidade das proporções das variantes acima indicadas. Vemos aí claramente que a maioria das variáveis não tem uma distribuição normal. Na parte superior, a função calculou o r de Pearson, com os respectivos valores de significância, para cada par de variáveis -- valores que se encontram no cruzamento das respectivas linhas. Na parte inferior, visualizam-se os gráficos de dispersão com as linhas de regressão. "
+  Output: "A figura mostra, na linha diagonal, o gráfico de densidade das proporções das variantes indicadas nas colunas/linhas. Vemos aí claramente que a maioria das variáveis não tem uma distribuição normal. Na parte superior, a função calculou o r de Pearson, com os respectivos valores de significância, para cada par de variáveis -- valores que se encontram no cruzamento das respectivas linhas. Na parte inferior, visualizam-se os gráficos de dispersão com as linhas de regressão. "
 
 - Class: mult_question
   Output: "Da figura, qual par de variáveis apresenta a correlação mais forte?"
@@ -403,4 +403,4 @@
   Output: "Os resultados de testes estatísticos não provam nada. Eles são apenas uma ferramenta auxiliar do pesquisador para explicar os fenômenos sob análise, mas todo o processo -- desde o levantamento de hipóteses até seu teste e interpretação -- deve ser guiado pelo bom senso."
   
 - Class: text
-  Output: "Recomendo a leitura de Dalgaard (2008: cap6), Levshina (2015: cap6) e Gries (2013:230-237) para fixar o conteúdo visto aqui. No script, deixei um código para fazer gráficos de pares por meio do pacote languageR (Baayen 2013). Faça agora os exercícios da Lição 11!"
+  Output: "Recomendo a leitura de Dalgaard (2008: cap6), Levshina (2015: cap6) e Gries (2019:138--146) para fixar o conteúdo visto aqui. No script, deixei um código para fazer gráficos de pares por meio do pacote languageR (Baayen 2013). Faça agora os exercícios da Lição 11!"

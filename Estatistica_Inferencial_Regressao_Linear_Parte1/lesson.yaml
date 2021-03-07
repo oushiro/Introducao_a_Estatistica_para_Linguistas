@@ -39,7 +39,7 @@
   Hint: Digite View(VOGAL_e) e pressione CTRL + ENTER.
 
 - Class: text
-  Output: "A variável AMOSTRA é codificada de acordo com a amostra da qual vieram os dados: PBSP (migrantes paraibanos) ou SP2010 (paulistanos nativos). SEXO indica se o falante é do sexo feminino ou masculino. A variável F1.SEG.NORM contém as medições normalizadas da altura (F1) da vogal da sílaba seguinte -- por exemplo, em `relógio`, refere-se à medida de F1 da vogal /ó/. CONT.PREC e CONT.SEG codificam o segmento fonológico que precede ou antecede a vogal pretônica." 
+  Output: "A variável AMOSTRA é codificada de acordo com a amostra da qual vieram os dados: PBSP (migrantes paraibanos) ou SP2010 (paulistanos nativos). SEXO indica se o falante é do sexo feminino ou masculino. A variável F1.SEG.NORM contém as medições normalizadas da altura (F1) da vogal da sílaba seguinte -- por exemplo, em `relógio`, refere-se à medida de F1 da vogal /\u0254/. CONT.PREC e CONT.SEG codificam o segmento fonológico que precede ou antecede a vogal pretônica." 
 
 - Class: text
   Output: "É importante reforçar que, antes de chegar ao ponto de análises multivariadas, idealmente o pesquisador já terá feito análises preliminares, por meio de tabelas e gráficos, e já terá uma boa ideia de como se dá a distribuição de seus dados: se há poucas ocorrências em certos fatores, se parece haver diferenças entre fatores de uma variável, se os testes univariados apontam para diferenças significativas ou não. Por outro lado, se o pesquisador está trabalhando com mais de uma VI, é imprescindível realizar análises multivariadas, pois o comportamento de certas variáveis pode não ser tão preponderante ou pode mudar em face de outras."
@@ -118,7 +118,7 @@
   Output: "As demais informações são interpretadas como já comentado na lição anterior: o erro padrão dos resíduos indica o quanto da variação o modelo não é capaz de explicar e R^2/R^2-ajustado indicam o quanto da variação nos dados é explicada pelas variáveis incluídas no modelo. A estatística-F permite avaliar a significância do modelo como um todo e comparar diferentes modelos."
 
 - Class: cmd_question
-  Output: "O pacote effects permite plotar gráficos de efeitos a partir de modelos lineares e logísticos criados no R. Aplique a função plot() com os seguintes argumentos: (i) para os dados a plotar, digite effect(\"AMOSTRA\", mod2); (ii) para os limites do eixo y, coloque 450 a 400 (para que os valores do eixo fiquem invertidos); e (iii) inclua o argumento grid = T."
+  Output: "O pacote effects permite plotar gráficos de efeitos a partir de modelos lineares e logísticos criados no R. Aplique a função plot() com os seguintes argumentos: (i) para os dados a plotar, digite effect(\"AMOSTRA\", mod2); (ii) para os limites do eixo y, coloque ylim = c(450, 400) -- para que os valores do eixo fiquem invertidos; e (iii) inclua o argumento grid = T."
   CorrectAnswer: plot(effect("AMOSTRA", mod2), ylim = c(450, 400), grid = T)
   AnswerTests: any_of_exprs('plot(effect("AMOSTRA", mod2), ylim = c(450, 400), grid = T)', 'plot(effect("AMOSTRA", mod2), ylim = c(450, 400), grid = TRUE)')
   Hint: Digite plot(effect("AMOSTRA", mod2), ylim = c(450, 400), grid = T) e pressione CTRL + ENTER.
@@ -244,7 +244,7 @@
   Output: "No modelo acima, incluímos duas variáveis previsoras por meio do operador de soma +. Essa notação não é por acaso: existe aí a pressuposição de que o efeito dos previsores é ADITIVO, de modo que, para chegar aos valores estimados de cada uma das combinações possíveis (mulheres paraibanas, homens paraibanos, mulheres paulistanas e homens paulistanos), somamos os coeficientes respectivos. Isso pressupõe que o efeito de cada uma das variáveis é independente. "
 
 - Class: figure
-  Output: "Contudo, isso nem sempre é o caso nos dados. Vejamos um exemplo de Gries (2013:249-250). Imagine um estudo que compara a extensão de sujeitos e objetos em orações principais e em orações subordinadas, por meio do número de sílabas. O pesquisador coletou um corpus, separou sentenças com verbos transitivos diretos em que havia um SN sujeito e um SN objeto, contou o número de sílabas para cada SN, e codificou cada SN para as variáveis função sintática e tipo de oração. A figura em Plots representa um resultado hipotético de um modelo linear que incluiu extensão em sílabas como variável resposta e função sintática e tipo de oração como variáveis previsoras. Os pontos representam as médias previstas do número de sílabas do SN para cada uma das condições."
+  Output: "Contudo, isso nem sempre é o caso nos dados. Vejamos um exemplo de Gries (2019:223--225). Imagine um estudo que compara a extensão de sujeitos e objetos em orações principais e em orações subordinadas, por meio do número de sílabas. O pesquisador coletou um corpus, separou sentenças com verbos transitivos diretos em que havia um SN sujeito e um SN objeto, contou o número de sílabas para cada SN, e codificou cada SN para as variáveis função sintática e tipo de oração. A figura em Plots representa um resultado hipotético de um modelo linear que incluiu extensão em sílabas como variável resposta e função sintática e tipo de oração como variáveis previsoras. Os pontos representam as médias previstas do número de sílabas do SN para cada uma das condições."
   Figure: mostrarGries-interacao1.R
   FigureType: new
 

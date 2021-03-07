@@ -22,7 +22,9 @@ data_path <- file.path(lesson_dir, "LabovDS.csv")
 # Importar planilha de dados
 ds <- read_csv(data_path, 
                col_types = cols(.default = col_factor(),
-                                r = col_factor(levels = c("r0", "r1"))))
+                                r = col_factor(levels = c("r0", "r1", "d"))
+                                )
+               )
 
 # Excluir dados duvidosos `d` 
 ds <- ds %>%
@@ -30,10 +32,10 @@ ds <- ds %>%
   droplevels()
 
 # Tabular frequências e proporções da variável store pela variável r
-df.store <- ds %>% 
-  count(store, r) %>%
-  group_by(store) %>%
-  mutate(prop = prop.table(n))
+#df.store <- ds %>% 
+#  count(store, r) %>%
+#  group_by(store) %>%
+#  mutate(prop = prop.table(n))
 
 rm(data_path)
 rm(lesson_dir)

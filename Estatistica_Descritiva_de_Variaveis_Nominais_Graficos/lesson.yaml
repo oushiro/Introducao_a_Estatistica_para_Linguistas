@@ -133,7 +133,7 @@
   Hint: Digite display.brewer.all() e pressione CTRL + ENTER.
   
 - Class: cmd_question
-  Output: "Aqui, vamos usar a opção \"Purples\". Além disso, na função scale_fill_brewer(), também é possível definir outros rótulos para as variantes da variável de fill. Inclua também o argumento labels = c(\"realização\", \"apagamento\"), para mudar as variantes de r para nomes mais inteligíveis."
+  Output: "Aqui, vamos usar a opção palette = \"Purples\". Além disso, na função scale_fill_brewer(), também é possível definir outros rótulos para as variantes da variável de fill. Inclua também o argumento labels = c(\"realização\", \"apagamento\"), para mudar as variantes de r para nomes mais inteligíveis."
   CorrectAnswer: ggplot(df.store, aes(x = store, y = prop * 100, fill = r)) + geom_bar(stat = "identity", color = "black") + ggtitle("Proporção das variantes de /r/ pós-vocálico em três lojas de departamento \nem Nova Iorque (N = 730)") + labs(x = "Lojas", y = "Proporção", fill = "Variantes de /r/") + scale_x_discrete(labels = c("Saks", "Macy\'s", "S. Klein")) + scale_fill_brewer(palette = "Purples", labels = c("realização", "apagamento")) + theme_bw()
   AnswerTests: omnitest(correctExpr='ggplot(df.store, aes(x = store, y = prop * 100, fill = r)) + geom_bar(stat = "identity", color = "black") + ggtitle("Proporção das variantes de /r/ pós-vocálico em três lojas de departamento \nem Nova Iorque (N = 730)") + labs(x = "Lojas", y = "Proporção", fill = "Variantes de /r/") + scale_x_discrete(labels = c("Saks", "Macy\'s", "S. Klein")) + scale_fill_brewer(palette = "Purples", labels = c("realização", "apagamento")) + theme_bw()')
   Hint: Releia as instruções e faça passo a passo, com calma.

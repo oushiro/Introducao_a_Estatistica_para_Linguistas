@@ -1,7 +1,7 @@
 #script para copiar arquivo de dados DadosRT.csv da pasta do curso para atual diretório de trabalho
 
 lesson_dir <- file.path(path.package("swirl"), "Courses",
-                        "Introducao_a_Estatistica_para_Linguistas", "Fundamentos")
+                        "Introducao_a_Estatistica_para_Linguistas", "data")
 origem <- file.path(lesson_dir, "Pretonicas.csv")
 
 new_dir<-getwd()

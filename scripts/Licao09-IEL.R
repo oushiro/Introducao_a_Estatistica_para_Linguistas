@@ -19,7 +19,10 @@
 
 ### Carregar os dados
 ds <- read_csv("LabovDS.csv",
-               col_types = cols(.default = col_factor())) %>%
+               col_types = cols(.default = col_factor(),
+                                r = col_factor(levels = c("r0", "r1", "d"))
+                                )
+               ) %>% 
   filter(r != "d") %>%
   droplevels()
 
@@ -106,7 +109,7 @@ ggplot(df, aes(x = VAR, y = VAR, fill = VAR)) +
 # (48%, 49%, 50%, 51%, 52%) Adicionar margens à tabela de valores observados O, para computar valores esperados 'manualmente': (T-linha * T-coluna) / T-geral
 
 
-(499 * 347) / 730
+(499 * 383) / 730
 
 
 # (53%*, 54%*) O que são os valores esperados: valores caso não houvesse diferença entre grupo 1 e grupo 2

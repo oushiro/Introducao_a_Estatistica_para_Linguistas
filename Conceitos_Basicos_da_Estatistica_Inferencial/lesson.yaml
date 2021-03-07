@@ -49,7 +49,7 @@
   Output: "H1 e H0 são formuladas como afirmações categóricas para que sejam falseáveis. Mas, como vimos, a realidade dos dados nem sempre (na verdade, quase nunca) é categórica."
 
 - Class: text
-  Output: "Vejamos um exemplo cotidiano para ver H1 e H0 em ação. O exemplo a seguir é adaptado de Gries (2013: 29ss). Imagine que decidimos jogar cara e coroa. Eu sou cara e você é coroa, ok? Para tornar as coisas mais interessantes, apostamos dinheiro: toda vez que cair cara, você me dá 5 reais; toda vez que cair coroa, eu te dou 5 reais. Estabelecemos de antemão que a moeda será jogada 100 vezes."
+  Output: "Vejamos um exemplo cotidiano para ver H1 e H0 em ação. O exemplo a seguir é adaptado de Gries (2019: 34ss). Imagine que decidimos jogar cara e coroa. Eu sou cara e você é coroa, ok? Para tornar as coisas mais interessantes, apostamos dinheiro: toda vez que cair cara, você me dá 5 reais; toda vez que cair coroa, eu te dou 5 reais. Estabelecemos de antemão que a moeda será jogada 100 vezes."
 
 - Class: text
   Output: "Digamos que, ao final de 100 jogadas, eu tenha ganhado 52 vezes e você 48. Você diria que eu roubei?"
@@ -73,7 +73,7 @@
   Output: "Você está efetivamente estabelecendo uma hipótese: minha oponente está roubando no jogo de moeda! Esta é a hipótese alternativa, H1. A hipótese nula afirma o contrário: minha oponente NÃO está roubando."
 
 - Class: figure
-  Output: "A beleza na Estatística está no desenvolvimento de métodos para calcular essas probabilidades. Vamos simplificar nosso jogo da moeda de 100 para 3 jogadas para facilitar a demonstração. Em três jogadas de moeda, há no total 8 resultados possíveis, discriminados na figura que acabei de abrir em Plots (Gries 2013: 34). "
+  Output: "A beleza na Estatística está no desenvolvimento de métodos para calcular essas probabilidades. Vamos simplificar nosso jogo da moeda de 100 para 3 jogadas para facilitar a demonstração. Em três jogadas de moeda, há no total 8 resultados possíveis, discriminados na figura que acabei de abrir em Plots (Gries 2019: 37). "
   Figure: mostrar-Gries.R
   FigureType: new
 

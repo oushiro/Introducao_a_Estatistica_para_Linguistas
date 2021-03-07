@@ -236,40 +236,40 @@
   Hint: Digite addmargins(O) e pressione CTRL + ENTER.
 
 - Class: cmd_question
-  Output: "Com addmargins(), temos os totais de linhas e colunas. Os valores esperados são obtidos por meio da conta: (T-Linha * T-Coluna) / T-Geral. Rode o comando (499 * 347) / 730 -- ou seja, o total da primeira coluna vezes o total da primeira linha, dividido pelo total geral de dados -- para ver o resultado."
-  CorrectAnswer: (499 * 347) / 730
-  AnswerTests: omnitest(correctExpr='(499 * 347) / 730', correctVal=(499 * 347) / 730)
-  Hint: Digite (499 * 347) / 730 e pressione CTRL + ENTER.
-
-- Class: cmd_question
-  Output: "O valor corresponde exatamente àquele na primeira linha e primeira coluna da tabela E. Compute agora o valor esperado para a segunda linha da primeira coluna."
+  Output: "Com addmargins(), temos os totais de linhas e colunas. Os valores esperados são obtidos por meio da conta: (T-Linha * T-Coluna) / T-Geral. Rode o comando (499 * 383) / 730 -- ou seja, o total da primeira coluna vezes o total da primeira linha, dividido pelo total geral de dados -- para ver o resultado."
   CorrectAnswer: (499 * 383) / 730
   AnswerTests: omnitest(correctExpr='(499 * 383) / 730', correctVal=(499 * 383) / 730)
   Hint: Digite (499 * 383) / 730 e pressione CTRL + ENTER.
 
 - Class: cmd_question
-  Output: "Calcule o valor esperado para a primeira linha da segunda coluna."
-  CorrectAnswer: (231 * 347) / 730
-  AnswerTests: omnitest(correctExpr='(231 * 347) / 730', correctVal=(231 * 347) / 730)
-  Hint: Digite (231 * 347) / 730 e pressione CTRL + ENTER.
+  Output: "O valor corresponde exatamente àquele na primeira linha e primeira coluna da tabela E. Compute agora o valor esperado para a segunda linha da primeira coluna."
+  CorrectAnswer: (499 * 347) / 730
+  AnswerTests: omnitest(correctExpr='(499 * 347) / 730', correctVal=(499 * 347) / 730)
+  Hint: Digite (499 * 347) / 730 e pressione CTRL + ENTER.
 
 - Class: cmd_question
-  Output: "E calcule o valor esperado para a segunda linha da segunda coluna."
+  Output: "Calcule o valor esperado para a primeira linha da segunda coluna."
   CorrectAnswer: (231 * 383) / 730
   AnswerTests: omnitest(correctExpr='(231 * 383) / 730', correctVal=(231 * 383) / 730)
   Hint: Digite (231 * 383) / 730 e pressione CTRL + ENTER.
 
 - Class: cmd_question
-  Output: "Ok, agora você sabe computar os valores esperados a partir dos valores observados. O que são esses valores? Faça a divisão do valor esperado de r0 para a palavra floor (E[1, 1]) pelo total de dados de floor (347), linha de comando que já está no script."
-  CorrectAnswer: E[1, 1] / 347
-  AnswerTests: omnitest(correctExpr='E[1, 1] / 347')
-  Hint: Digite E[1, 1] / 347 e pressione CTRL + ENTER.
+  Output: "E calcule o valor esperado para a segunda linha da segunda coluna."
+  CorrectAnswer: (231 * 347) / 730
+  AnswerTests: omnitest(correctExpr='(231 * 347) / 730', correctVal=(231 * 347) / 730)
+  Hint: Digite (231 * 347) / 730 e pressione CTRL + ENTER.
 
 - Class: cmd_question
-  Output: "Faça também a divisão do valor esperado de r0 para a palavra fourth (E[2, 1]) pelo total de dados de fourth (383)."
-  CorrectAnswer: E[2, 1] / 383
-  AnswerTests: omnitest(correctExpr='E[2, 1] / 383')
-  Hint: Digite E[2, 1] / 383 e pressione CTRL + ENTER. 
+  Output: "Ok, agora você sabe computar os valores esperados a partir dos valores observados. O que são esses valores? Faça a divisão do valor esperado de r0 para a palavra fourth (E[1, 1]) pelo total de dados de fourth (383), linha de comando que já está no script."
+  CorrectAnswer: E[1, 1] / 383
+  AnswerTests: omnitest(correctExpr='E[1, 1] / 383')
+  Hint: Digite E[1, 1] / 383 e pressione CTRL + ENTER.
+
+- Class: cmd_question
+  Output: "Faça também a divisão do valor esperado de r0 para a palavra floor (E[2, 1]) pelo total de dados de floor (347)."
+  CorrectAnswer: E[2, 1] / 347
+  AnswerTests: omnitest(correctExpr='E[2, 1] / 347')
+  Hint: Digite E[2, 1] / 347 e pressione CTRL + ENTER. 
 
 - Class: text
   Output: "Ambos dão o valor de 0.683561. Você se lembra onde já viu esse número?"
@@ -418,16 +418,16 @@
 
 - Class: mult_question
   Output: "Acima, fizemos o teste de qui-quadrado sobre diferenças entre as três lojas por meio de chisq.test(tab.store). Com que linha de comando podemos testar se há diferença apenas entre Saks e Macy's?"
-  AnswerChoices: chisq.test(tab.store[2:3, ]);chisq.test(tab.store[2:3]);chisq.test(tab.store[2,3])
-  CorrectAnswer: chisq.test(tab.store[2:3, ])
-  AnswerTests: omnitest(correctVal= 'chisq.test(tab.store[2:3, ])')
+  AnswerChoices: chisq.test(tab.store[1:2, ]);chisq.test(tab.store[1:2]);chisq.test(tab.store[1,2])
+  CorrectAnswer: chisq.test(tab.store[1:2, ])
+  AnswerTests: omnitest(correctVal= 'chisq.test(tab.store[1:2, ])')
   Hint: Como se acessam valores específicos de uma tabela?
 
 - Class: cmd_question
-  Output: "Como tab.store é uma tabela, ela tem linhas e colunas, que podem ser acessadas por meio dos colchetes [ ]. Da tabela, podemos analisar apenas as duas primeiras linhas 2:3, referentes a Saks e a Macy's. Deixamos o índice de coluna vazio. Faça então o teste de qui-quadrado apenas as proporções das lojas Saks e Macy's. Não se preocupe em guardar o resultado num objeto."
-  CorrectAnswer: chisq.test(tab.store[2:3, ])
-  AnswerTests: omnitest(correctExpr='chisq.test(tab.store[2:3, ])')
-  Hint: Digite 	chisq.test(tab.store[2:3, ]) e pressione CTRL + ENTER.
+  Output: "Como tab.store é uma tabela, ela tem linhas e colunas, que podem ser acessadas por meio dos colchetes [ ]. Da tabela, podemos analisar apenas as duas primeiras linhas 1:2, referentes a Saks e a Macy's. Deixamos o índice de coluna vazio. Faça então o teste de qui-quadrado apenas as proporções das lojas Saks e Macy's. Não se preocupe em guardar o resultado num objeto."
+  CorrectAnswer: chisq.test(tab.store[1:2, ])
+  AnswerTests: omnitest(correctExpr='chisq.test(tab.store[1:2, ])')
+  Hint: Digite 	chisq.test(tab.store[1:2, ]) e pressione CTRL + ENTER.
 
 - Class: mult_question
   Output: "Pelo resultado, o que o pesquisador pode concluir?"

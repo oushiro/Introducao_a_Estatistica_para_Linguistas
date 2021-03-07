@@ -5,7 +5,7 @@ if (length(aa) != 0) {
 
 lesson_dir <- file.path(path.package("swirl"), "Courses",
                         "Introducao_a_Estatistica_para_Linguistas", "Conceitos_Basicos_da_Estatistica_Inferencial")
-data_path <- file.path(lesson_dir, "GriesSFLWRp34.png")
+data_path <- file.path(lesson_dir, "GriesSFLWRp37PB.png")
 
 img <- readPNG(data_path)
 
