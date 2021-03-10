@@ -64,7 +64,7 @@
   VideoLink: https://ggplot2.tidyverse.org/reference/ggtheme.html
 
 - Class: cmd_question
-  Output: "O R produziu um gráfico de barras empilhadas, mas digamos que quisesse as barras lado a lado. Para isso, é necessário adicionar um argumento em geom_bar(): position = \"dodge\". Faça isso para ver o resultado."
+  Output: "O R produziu um gráfico de barras empilhadas, mas digamos que você quisesse as barras lado a lado. Para isso, é necessário adicionar um argumento em geom_bar(): position = \"dodge\". Faça isso para ver o resultado."
   CorrectAnswer: ggplot(df.store, aes(x = store, y = prop, fill = r)) + geom_bar(stat = "identity", color = "black", position = "dodge") + theme_bw()
   AnswerTests: omnitest(correctExpr='ggplot(df.store, aes(x = store, y = prop, fill = r)) + geom_bar(stat = "identity", color = "black", position = "dodge") + theme_bw()')
   Hint: Adicione o argumento position = "dodge" em geom_bar().
@@ -189,7 +189,7 @@
   Hint: Rode a linha de comando neste ponto do script.
   
 - Class: cmd_question
-  Output: "No ggplot2, é possível adicionar mais de uma geometria ao mesmo gráfico, somando-se novas camadas com outras funções geom_X(). No script, isso é exemplificado pela adição de geom_point() ao mesmo gráfico de linhas. Volte à página da Internet em que visualizou os tipos de linhas; mais abaixo, há uma lista de opções para o argumento shape e um guia para os tamanhos (em Colour e Fill). Aqui, vamos usar o formato 18, o tamanho 3 e a cor \"black\". Não se esqueça de apagar o # dessa linha."
+  Output: "No ggplot2, é possível adicionar mais de uma geometria ao mesmo gráfico, somando-se novas camadas com outras funções do tipo geom_X(). No script, isso é exemplificado pela adição de geom_point() ao mesmo gráfico de linhas. Volte à página da Internet em que visualizou os tipos de linhas; mais abaixo, há uma lista de opções para o argumento shape e um guia para os tamanhos (em Colour e Fill). Aqui, vamos usar o formato 18, o tamanho 3 e a cor \"black\". Não se esqueça de apagar o # dessa linha."
   CorrectAnswer: ggplot(df.store, aes(x = store, y = prop * 100, group = r)) + geom_line(linetype = "dotted", size = 1, color = "blue") + geom_point(shape = 18, size = 3, fill = "black") + ggtitle("Proporção das variantes de /r/ pós-vocálico em três lojas de departamento \nem Nova Iorque (N = 730)") + labs(x = "Lojas", y = "Proporção", fill = "Variantes de /r/") + scale_x_discrete(labels = c("Saks", "Macy\'s", "S. Klein")) + theme_bw()
   AnswerTests: omnitest(correctExpr='ggplot(df.store, aes(x = store, y = prop * 100, group = r)) + geom_line(linetype = "dotted", size = 1, color = "blue") + geom_point(shape = 18, size = 3, fill = "black") + ggtitle("Proporção das variantes de /r/ pós-vocálico em três lojas de departamento \nem Nova Iorque (N = 730)") + labs(x = "Lojas", y = "Proporção", fill = "Variantes de /r/") + scale_x_discrete(labels = c("Saks", "Macy\'s", "S. Klein")) + theme_bw()')
   Hint: Releia as instruções com calma.
@@ -215,7 +215,7 @@ hora em que eu for fazer meu próprio gráfico! Calma, amig@! Primeiro, lembre-s
 quiser!"
 
 - Class: text
-  Output: Segundo, dificilmente se tem que digitar códigos diversas vezes. Você pode reutilizar o código usado uma vez quantas vezes quiser, fazendo apenas as adaptações nos trechos necessários. O mais importante é você saber lê-lo, entendê-lo, e saber o que precisa ser modificado.
+  Output: Segundo, dificilmente se tem que digitar códigos diversas vezes. Você pode reutilizar o código quantas vezes quiser, fazendo apenas as adaptações nos trechos necessários. O mais importante é você saber lê-lo, entendê-lo, e saber o que precisa ser modificado.
 
 - Class: text
   Output: "Além disso, tenha em mente que o grau de detalhes de sua figura depende do propósito. Há gráficos exploratórios -- para sua própria compreensão de seus dados -- e gráficos explanatórios -- cujo objetivo é o de comunicar a outros as suas descobertas. Se se trata de uma exploração sua dos dados, nos primeiros passos da análise, não é necessário usar todos os recursos que usamos aqui. Você pode guardar esse preciosismo para quando estiver preparando uma apresentação."

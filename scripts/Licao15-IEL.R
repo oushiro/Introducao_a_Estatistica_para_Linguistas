@@ -34,7 +34,7 @@
 with(df, table(VAR, VAR))
 
 
-# (15%) Tabular CLASSE.MORFOLOGICA e POSICAO.R
+# (14%) Tabular CLASSE.MORFOLOGICA e POSICAO.R
 
 
 # (16%) Tabular CLASSE.MORFOLOGICA e TONICIDADE
@@ -49,7 +49,7 @@ mod <- glm(VAR ~
            data = df, family = binomial)
 
 
-# (23%) Aplicar a função vif() para avaliar multicolinearidade (requer pacote car)
+# (22%) Aplicar a função vif() para avaliar multicolinearidade (requer pacote car)
 
 
 ### (29%*) Modelo de regressão logística ####
@@ -64,40 +64,40 @@ modelo <- glm(VD ~
                 CLASSE.MORFOLOGICA, 
               data = dados, family = binomial)
 
-# (31%) Aplicar summary() a modelo
+# (30%) Aplicar summary() a modelo
 
 
-# (52%) Criar modelo com lrm() (requer pacote rms)
+# (51%) Criar modelo com lrm() (requer pacote rms)
 
 
 ### Função step(): step forward
-# (55%) Criar modelo 0, com nenhum variável
+# (54%) Criar modelo 0, com nenhum variável
 
 
 # (56%) Rodar step foward
 
 
-# (60%) Visualizar resultado do step forward
+# (59%) Visualizar resultado do step forward
 
 
 ### Função step(): step backward
-# (61%) Rodar step backward
+# (60%) Rodar step backward
 
 
-# (65%) Visualizar resultado do step backward
+# (63%) Visualizar resultado do step backward
 
 
 #  Função step(): step both
-# (68%) Rodar step both
+# (67%) Rodar step both
 
 
-# (69%) Visualizar resultado do step both
+# (68%) Visualizar resultado do step both
 
 
-### (71%) Função drop1()
+### (70%) Função drop1()
 
 
-### (74%*) Testar overfitting
+### (73%*) Testar overfitting
 mod.lrm <- lrm (VD ~ 
                   SEXO.GENERO + 
                   FAIXA.ETARIA * REGIAO + 
@@ -109,7 +109,7 @@ mod.lrm <- lrm (VD ~
                   CLASSE.MORFOLOGICA, 
                 data = dados, x = T, y = T)
 
-### (76%) Função validate() - requer pacote rms
+### (75%) Função validate() - requer pacote rms
 
 
 ### Checagem de pressupostos ####
@@ -127,10 +127,10 @@ mod.lrm <- lrm (VD ~
 ### (c) Observações são independentes? -- em dados linguísticos, quase nunca são! --> MODELOS DE EFEITOS MISTOS
 
 ### Criar modelo linear de efeitos mistos ###
-# (89%) função glmer() depende dos pacotes lme4 e lmerTest
+# (89%) função glmer() (depende dos pacotes lme4 e lmerTest)
 
 
-# (92%) Aplicar summary() a mod.glmer
+# (90%) Aplicar summary() a mod.glmer
 
 
 # (95%) Visualizar resultados numéricos em gráfico de efeitos (requer pacote effects)

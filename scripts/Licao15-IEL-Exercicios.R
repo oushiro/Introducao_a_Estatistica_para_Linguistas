@@ -5,11 +5,9 @@
 ######                  Lista de Exercícios                ######
 #################################################################
 
-#Primeiro, carregue os dados da planilha LabovDS.csv. Se você não tiver uma cópia, refaça a Lição 4 do curso Introducao a Estatistica para Linguistas. Após carregar o dataframe, cheque sua estrutura, como de praxe. Exclua os dados de `d` da variável `r`. Modifique o nível de referência de r0 para r1 -- para que os resultados de regressão logística sejam lidos em referência ao apagamento de /r/.
+#Primeiro, carregue os dados da planilha LabovDS.csv. Se você não tiver uma cópia, refaça a Lição 4 do curso Introducao a Estatistica para Linguistas. Após carregar o dataframe, cheque sua estrutura, como de praxe. Exclua os dados de `d` da variável `r`. Modifique o nível de referência de r0 para r1 -- para que os resultados de regressão logística sejam lidos em referência ao apagamento de /r/. Reorganize os níveis das variáveis store, word e emphasis em ordem alfabética.
 
 #Verifique se há interações entre essas três variáveis em modelos simples de regressão logística, que incluem apenas uma interação."
-
-
 
 
 

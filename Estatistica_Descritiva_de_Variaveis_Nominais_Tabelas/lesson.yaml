@@ -227,7 +227,7 @@
   Hint: Digite freq.store e pressione CTRL + ENTER.
 
 - Class: text
-  Output: Ao colocar a VD como segundo argumento de table(), ela aparece nas colunas (e a VI nas linhas), que é o modo mais comum de apresentar distribuição de dados de VIs por uma VD. Embora, em princípio, não faça diferença de modo você vai visualizar a distribuição dos dados, recomendo que você se acostume com essa convenção. 
+  Output: Ao colocar a VD como segundo argumento de table(), ela aparece nas colunas (e a VI nas linhas), que é o modo mais comum de apresentar distribuição de dados de VIs por uma VD. Embora, em princípio, não faça diferença de qual modo você vai visualizar a distribuição dos dados, recomendo que você se acostume com essa convenção. 
     
 - Class: mult_question
   Output: "Assim como no tidyverse, para fazer a tabela de proporções quando se tabulam duas variáveis, podemos especificar para qual das variáveis as variantes somarão 100% -- a da linha, a da coluna, ou ainda a tabela toda. Na função prop.table(), isso é informado como um novo argumento, pela convenção 1 = linha, 2 = coluna, e nada (= default) = tabela. Pela tabela de frequências acima, qual opção faz mais sentido aplicar?"
