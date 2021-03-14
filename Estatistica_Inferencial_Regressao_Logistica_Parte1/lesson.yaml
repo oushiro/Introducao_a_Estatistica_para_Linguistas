@@ -84,7 +84,7 @@
   Output: "A principal delas está nas estimativas dos coeficientes, que são dadas em logodds. Quando fizemos um modelo de regressão linear, era fácil interpretar as estimativas, pois elas eram dadas na mesma unidade que a variável resposta. Mas, aqui, o que significam -1.16304 logodds para o coeficiente linear e 0.44111 logodds para o coeficiente angular? Na sequência, vamos ver como esse valor é calculado para você mais bem entendê-lo."
 
 - Class: cmd_question
-  Output: "Faça visualize as frequências dos dados de SEXO.GENERO pela VD, substituindo no script os termos necessários."
+  Output: "Visualize as frequências dos dados de SEXO.GENERO pela VD, substituindo no script os termos necessários."
   CorrectAnswer: dados %>% count(SEXO.GENERO, VD)
   AnswerTests: omnitest(correctExpr='dados %>% count(SEXO.GENERO, VD)')
   Hint: Substitua df por dados e as duas ocorrências de VAR por SEXO.GENERO e VD, respectivamente.

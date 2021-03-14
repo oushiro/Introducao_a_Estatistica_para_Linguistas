@@ -27,7 +27,7 @@
   Hint: Digite notas_turmaB e pressione CTRL + ENTER.
 
 - Class: cmd_question
-  Output: "Você deve ter notado que turma A tem mais alunos do que a turma B. Vamos agora calcular a média de cada turma, para verificar qual teve uma nota média mais alta. Você se lembra, do Ensino Médio, que a média é o resultado da soma de todos os elementos dividida pelo número de elementos do conjunto. No R, uma função para realizar operações de adição é sum() e para mostrar o número de elementos de um vetor é length(). O operador de divisão é /. De posse dessas informações, calcule a média das notas dos alunos da turma A."
+  Output: "Você deve ter notado que a turma A tem mais alunos do que a turma B. Vamos agora calcular a média de cada turma, para verificar qual teve uma nota média mais alta. Você se lembra, do Ensino Médio, que a média é o resultado da soma de todos os elementos dividida pelo número de elementos do conjunto. No R, uma função para realizar operações de adição é sum() e para mostrar o número de elementos de um vetor é length(). O operador de divisão é /. De posse dessas informações, calcule a média das notas dos alunos da turma A."
   CorrectAnswer: sum(notas_turmaA) / length(notas_turmaA)
   AnswerTests: omnitest(correctExpr='sum(notas_turmaA) / length(notas_turmaA)')
   Hint: Digite sum(notas_turmaA) / length(notas_turmaA) e pressione CTRL + ENTER.
@@ -249,7 +249,7 @@
   Output: "A questão mais geral por trás desses dados é descobrir se alguns migrantes paraibanos se acomodaram aos padrões da nova comunidade, e quais. Para isso, foram extraídas medições de F1 e F2 de cerca de 130 a 180 vogais pretônicas da fala de cada um desses participantes, com especial interesse nas vogais médias /e/ e /o/ (como em 'relógio' e 'romã'), em contextos linguísticos que favorecem o abaixamento dessas vogais (as realizações média-baixas '\u025B' e '\u0254'). Em princípio se espera que os paulistanos tenham vogais médias relativamente mais altas do que os paraibanos, mas que alguns dos migrantes tenham se aproximado do novo padrão." 
 
 - Class: figure
-  Output: "Linguística e acusticamente, a altura das vogais é medida pelo formante F1, em Hertz. Quanto mais alto é o valor de F1, mais BAIXA é a vogal. Coloquei o quadro de vogais do IPA em Plots para facilitar essa visualização." 
+  Output: "Linguística e acusticamente, a altura das vogais é medida pelo F1, em Hertz. Quanto mais alto é o valor de F1, mais BAIXA é a vogal. Coloquei o quadro de vogais do IPA em Plots para facilitar essa visualização." 
   Figure: mostrar-imagem-IPA.R
   FigureType: new
   
@@ -289,7 +289,7 @@
   Output: "A ordem VOGAL, AMOSTRA torna mais diretamente comparáveis os valores de F1. Vemos que, para todas as vogais, os valores de F1 são maiores (= vogais mais baixas) para os paraibanos do que para os paulistanos." 
 
 - Class: cmd_question
-  Output: "Dentro da função summarize(), podemos já incluir outras medidas estatísticas como novos argumentos. A partir da última linha de comando, mantenha a ordem VOGAL, AMOSTRA para o agrupamento em summarize, e inclua, além do cálculo da média, o cálculo da mediana e do desvio padrão de F1.NORM (nessa ordem), atribuindo a essas novas variáveis os nomes `mediana_F1` e `sd_F1` respectivamente. "
+  Output: "Dentro da função summarize(), podemos já incluir outras medidas estatísticas como novos argumentos. A partir da última linha de comando, mantenha a ordem VOGAL, AMOSTRA para o agrupamento em summarize, e inclua, além do cálculo da média, o cálculo da mediana e do desvio padrão de F1 (nessa ordem), atribuindo a essas novas variáveis os nomes `mediana_F1` e `sd_F1` respectivamente. "
   CorrectAnswer: pretonicas %>% group_by(VOGAL, AMOSTRA) %>% summarize(media_F1 = mean(F1), mediana_F1 = median(F1), sd_F1 = sd(F1))
   AnswerTests: omnitest(correctExpr='pretonicas %>% group_by(VOGAL, AMOSTRA) %>% summarize(media_F1 = mean(F1), mediana_F1 = median(F1), sd_F1 = sd(F1))')
   Hint: Releia as instruções passo a passo e revise a digitação ao final!

@@ -4,7 +4,7 @@
 ######       Lição 05: Variaveis Nominais - Gráficos       ######
 #################################################################
 
-# O hashtag é o caractere de comentário. Tudo é escrito depois dele é ignorado pelo R. Use-o para fazer anotações que achar necessárias. 
+# O hashtag é o caractere de comentário. Tudo que é escrito depois dele é ignorado pelo R. Use-o para fazer anotações que achar necessárias. 
 
 # Para rodar uma linha de comando a partir do script, posicione o cursor em qualquer ponto do comando e pressione CTRL + ENTER. Para rodar uma linha de comando diretamente no Console, pressione ENTER. 
 
@@ -56,7 +56,7 @@ ggplot(df.store, aes(x = store, y = prop, fill = r)) +
 #resposta
 ggplot(df.store, aes(x = store, y = prop * 100, fill = r)) + 
     geom_bar(stat = "identity", color = "black") + 
-    ggtitle("Proporção das variantes de /r/ pós-vocálico em três lojas de departamento \nem Nova Iorque (N = 730)") +
+    ggtitle("Proporção das variantes de /r/ pós-vocálico \nem três lojas de departamento em Nova Iorque (N = 730)") +
     labs(x = "Lojas", y = "Proporção", fill = "Variantes de /r/") + 
     scale_x_discrete(labels = c("Saks", "Macy's", "S. Klein")) + 
     scale_fill_brewer(palette = "Purples", labels = c("realização", "apagamento")) + 

@@ -79,7 +79,7 @@
   Output: Procure no RStudio a janela com as abas Environment e History. Em Environment, o R lista os objetos criados e seus respectivos valores. Na aba History, o R mostra o histórico de comandos.  
 
 - Class: text
-  Output: Para nós, linguistas, o interesse em usar o R é não apenas em sua capacidade de lidar bem com números, mas também com caracteres e elementos textuais. Criamos uma variável com uma sequência de caracteres usando as aspas. 
+  Output: Para nós, linguistas, o interesse em usar o R é em sua capacidade de lidar bem não só com números, mas também com caracteres e elementos textuais. Criamos uma variável com uma sequência de caracteres usando as aspas. 
 
 - Class: cmd_question
   Output: Digite z <- "gato" para criar a variável z. 
@@ -216,7 +216,7 @@
   Output: Note que, ao fazer uma alteração no arquivo do script, aparece um asterisco vermelho ao lado do nome do arquivo. Isso indica que há modificações não salvas. Salve com CTRL/Command + S. Aliás, é uma boa ideia fazer isso periodicamente, para não perder seu trabalho!
 
 - Class: text
-  Output: Os arquivos de scripts funcionam como qualquer outro arquivo comum. Pode-se abri-los, fechá-los, salvá-los com outro nome com Salvar como... Se em seus scripts você for usar sequências de caracteres em português, uma dica é usar a opção `Save with encoding` e escolher a opção UTF-8, que lê corretamente caracteres especiais como diacríticos (´ ` ^). (Mas lembre-se que é bom evitá-los ao criar ou nomear objetos no R!)
+  Output: Os arquivos de scripts funcionam como qualquer outro arquivo comum. Pode-se abri-los, fechá-los, salvá-los com outro nome com Salvar como... Se em seus scripts você for usar sequências de caracteres em português, uma dica é usar a opção File > Save with encoding e escolher a opção UTF-8, que lê corretamente caracteres especiais como diacríticos (´ ` ^). (Mas lembre-se que é bom evitá-los ao criar ou nomear objetos no R!)
 
 - Class: text
   Output: Por fim, vamos ver mais uma função que será usada extensivamente em suas análises -- read_csv(). Na maior parte dos casos para as análises estatísticas, queremos analisar uma planilha de dados preparada previamente em um programa como o Excel ou o Calc. 
@@ -239,7 +239,7 @@
   Output: A planilha DadosRT tem o formato .csv (= comma separated values). Para ler esse tipo de arquivo no R, podemos usar a função read_csv(), do pacote tidyverse. 
 
 - Class: cmd_question
-  Output: Rode a linha de comando com a função read_csv() -- já pronta! --, para que o R leia os dados da planilha e os insira dentro de um objeto chamado `dados.` Basta colocar o cursor em qualquer ponto da linha de comando e pressionar CTRL + ENTER. É possível que demore um tempinho para rodá-la; enquanto o R executa esse comando, note que aparece um círculo vermelho no topo direito da janela Console (STOP), que indica que o R está executando determinado comando e que você esperar antes de dar novos comandos.
+  Output: Rode a linha de comando com a função read_csv() -- já pronta! --, para que o R leia os dados da planilha e os insira dentro de um objeto chamado `dados.` Basta colocar o cursor em qualquer ponto da linha de comando e pressionar CTRL + ENTER. É possível que demore um tempinho para rodá-la; enquanto o R executa esse comando, note que aparece um círculo vermelho no topo direito da janela Console (STOP), que indica que o R está executando determinado comando e que você deve esperar antes de dar novos comandos.
   CorrectAnswer: dados <- read_csv("DadosRT.csv", col_types = cols(.default = col_factor(), cont.precedente = col_character(), ocorrencia = col_character(), cont.seguinte = col_character(), IDADE = col_integer(), INDICE.SOCIO = col_double(), FREQUENCIA = col_double()))
   AnswerTests: omnitest('dados <- read_csv("DadosRT.csv", col_types = cols(.default = col_factor(), cont.precedente = col_character(), ocorrencia = col_character(), cont.seguinte = col_character(), IDADE = col_integer(), INDICE.SOCIO = col_double(), FREQUENCIA = col_double()))')
   Hint: Rode as linhas de comando indicadas como 82% do script.

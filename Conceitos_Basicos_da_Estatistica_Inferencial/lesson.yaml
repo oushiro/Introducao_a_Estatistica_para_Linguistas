@@ -37,7 +37,7 @@
   Output: "A falseabilidade diz respeito à própria possibilidade de colocar a hipótese à prova e refutá-la. Por exemplo, a seguinte afirmação pode ser falseada: \"Alunos universitários cotistas têm desempenho escolar tão bom quanto ou melhor do que de alunos universitários não cotistas\"."
 
 - Class: text
-  Output: "A hipótese acima é chamada de H1 ou hipótese alternativa. A ela, opõe-se a H0, ou hipótese nula. A hipótese nula é normalmente formulada com a negação de H1. Neste exemplo, H0 seria \"Alunos universitários cotistas não têm desempenho escolar tão bom quanto ou melhor do que de alunos universitários não cotistas\"."
+  Output: "A hipótese acima é chamada de H1 ou hipótese alternativa. A ela, opõe-se a H0, ou hipótese nula. A hipótese nula é normalmente formulada a partir da negação de H1. Neste exemplo, H0 seria \"Alunos universitários cotistas não têm desempenho escolar tão bom quanto ou melhor do que de alunos universitários não cotistas\"."
 
 - Class: text
   Output: "H1 + H0 devem abarcar todos os resultados possíveis. Se algum cenário ou resultado não é previsto nem por H1 nem por H0, a hipótese está mal formulada. Em um levantamento sobre o desempenho escolar de cotistas e não cotistas, só há três resultados possíveis: (i) cotistas têm melhor desempenho do que não cotistas; (ii) cotistas têm desempenho tão bom quanto de não cotistas; (iii) cotistas têm desempenho pior do que não cotistas. Todos esses cenários estão cobertos em H1 + H0."
@@ -64,7 +64,7 @@
   Output: "Não há um limite absolutamente exato para decidir que alguém está roubando num jogo da moeda. Mas o ponto aqui é: a depender do resultado, você ia desconfiar seriamente de que eu roubei. Você nem coloca em questão o cenário oposto -- você estar roubando, pois você, que é honesto, sabe que não está roubando. Se eu tivesse ganhado 90 vezes e você apenas 10, acho muito difícil que você pensasse: \"Puxa, como ela é sortuda!...\". E o motivo disso é simples: embora 90 vs 10 seja um resultado POSSÍVEL, ele é muito pouco PROVÁVEL."
   
 - Class: cmd_question
-  Output: "Pare um pouco para pensar a partir de qual resultado você acharia que estou roubando (55? 60? 62?...). Digite esse número abaixo, atribuindo-o a uma variável chamada x." 
+  Output: "Pare um pouco para pensar a partir de qual resultado você acharia que estou roubando (55? 60? 62?...). Digite esse número no script, atribuindo-o a uma variável chamada x." 
   CorrectAnswer: x <- 60
   AnswerTests: any_of_exprs('x<-51', 'x<-52', 'x<-53', 'x<-54', 'x<-55', 'x<-56', 'x<-57', 'x<-58', 'x<-59', 'x<-60', 'x<-61', 'x<-62', 'x<-63', 'x<-64', 'x<-65', 'x<-66', 'x<-67', 'x<-68', 'x<-69', 'x<-70', 'x<-71', 'x<-72', 'x<-73', 'x<-74', 'x<-75', 'x<-76', 'x<-77', 'x<-78', 'x<-79', 'x<-80', 'x<-81', 'x<-82', 'x<-83', 'x<-84', 'x<-85', 'x<-86', 'x<-87', 'x<-88', 'x<-89', 'x<-90', 'x<-91', 'x<-92', 'x<-93', 'x<-94', 'x<-95', 'x<-96', 'x<-97', 'x<-98', 'x<-99', 'x<-100')
   Hint: Digite um número entre 51 e 100 e o atribua a uma variável chamada x.
@@ -153,7 +153,7 @@
   Output: "Sim! Trata-se da distribuição normal, que vimos em lições anteriores. Reveja os gráficos plotados na aba Plots por meio das flechas pra esquerda e pra direita. À medida que acrescentamos mais tentativas (3, 6, 12, 25 etc.), o gráfico de probabilidades se aproxima cada vez mais da distribuição normal, também conhecida como curva em forma de sino ou curva gaussiana."
 
 - Class: text
-  Output: "Veja o eixo y da figura em plotamos a probabilidade de 0 a 1000 caras em 1000 jogadas de moeda. A maior probabilidade -- que é resultado de 500 caras em 1000 jogadas -- está em torno de 0,025 (2,5%). Neste ponto, cada uma das probabilidades é pequena."
+  Output: "Veja o eixo y da figura em que plotamos a probabilidade de 0 a 1000 caras em 1000 jogadas de moeda. A maior probabilidade -- que é resultado de 500 caras em 1000 jogadas -- está em torno de 0,025 (2,5%). Neste ponto, cada uma das probabilidades é pequena."
 
 - Class: cmd_question
   Output: "Não importa qual é o número N de tentativas, a soma de todas as probabilidades 0:N é 1. Faça essa checagem: aplique a função sum() ao cálculo das probabilidades de 0 a 3 caras em 3 tentativas. Digite sum(dbinom(0:3, 3, 0.5))."
@@ -267,7 +267,7 @@
   Output: "O quadrinho bem exemplifica o conceito de significância, assim como um problema para as análises estatísticas que decorrem do próprio conceito. Vimos que significância é a probabilidade de se observar determinada distribuição em caso de a hipótese nula ser verdadeira. Certas distribuições são tão improváveis que rejeitamos a hipótese nula e acatamos a hipótese alternativa."
 
 - Class: text
-  Output: "Contudo, trata-se de uma medida de PROBABILIDADE. Isso significa que sempre há uma chance de que nossas conclusões foram errôneas. Se se estabelece um nível alfa de 5%, existe uma probabilidade de que chegamos a conclusões equivocadas em média 5% das vezes, ou 1 em 20. O número de conclusões equivocadas tende a aumentar quanto mais testes realizamos -- se realizamos 100 testes estatísticos, com nível alfa 5%, as chances são de que 5 dos nossos resultados incorretamente rejeitaram a hipótese nula."
+  Output: "Contudo, trata-se de uma medida de PROBABILIDADE. Isso significa que sempre há uma chance de que nossas conclusões foram errôneas. Se se estabelece um nível alfa de 5%, existe uma probabilidade de que chegamos a conclusões equivocadas em média 5% das vezes, ou 1 em 20  -- exatamente o que ocorre no quadrinho! O número de conclusões equivocadas tende a aumentar quanto mais testes realizamos -- se realizamos 100 testes estatísticos, com nível alfa 5%, as chances são de que 5 dos nossos resultados incorretamente rejeitaram a hipótese nula."
 
 - Class: text
   Output: "Esse tipo de erro é chamado de ERRO DO TIPO I, que se refere à rejeição incorreta da hipótese nula. Trata-se de um falso positivo: encontramos um efeito que não existe de fato. Um problema é que não há como identificar qual ou quais dos resultados são falsos, uma vez que se trata de probabilidade."

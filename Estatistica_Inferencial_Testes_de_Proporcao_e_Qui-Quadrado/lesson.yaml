@@ -424,7 +424,7 @@
   Hint: Como se acessam valores específicos de uma tabela?
 
 - Class: cmd_question
-  Output: "Como tab.store é uma tabela, ela tem linhas e colunas, que podem ser acessadas por meio dos colchetes [ ]. Da tabela, podemos analisar apenas as duas primeiras linhas 1:2, referentes a Saks e a Macy's. Deixamos o índice de coluna vazio. Faça então o teste de qui-quadrado apenas as proporções das lojas Saks e Macy's. Não se preocupe em guardar o resultado num objeto."
+  Output: "Como tab.store é uma tabela, ela tem linhas e colunas, que podem ser acessadas por meio dos colchetes [ ]. Da tabela, podemos analisar apenas as duas primeiras linhas 1:2, referentes a Saks e a Macy's. Deixamos o índice de coluna vazio. Faça então o teste de qui-quadrado apenas com as proporções das lojas Saks e Macy's. Não se preocupe em guardar o resultado num objeto."
   CorrectAnswer: chisq.test(tab.store[1:2, ])
   AnswerTests: omnitest(correctExpr='chisq.test(tab.store[1:2, ])')
   Hint: Digite 	chisq.test(tab.store[1:2, ]) e pressione CTRL + ENTER.

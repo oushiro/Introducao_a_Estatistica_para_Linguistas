@@ -4,7 +4,7 @@
 ######    Lição 09: Testes de Proporção e Qui-quadrado     ######
 #################################################################
 
-# O hashtag é o caractere de comentário. Tudo é escrito depois dele é ignorado pelo R. Use-o para fazer anotações que achar necessárias. 
+# O hashtag é o caractere de comentário. Tudo que é escrito depois dele é ignorado pelo R. Use-o para fazer anotações que achar necessárias. 
 
 # Para rodar uma linha de comando a partir do script, posicione o cursor em qualquer ponto do comando e pressione CTRL + ENTER. Para rodar uma linha de comando diretamente no Console, pressione ENTER. 
 
@@ -113,7 +113,9 @@ ggplot(df, aes(x = VAR, y = VAR, fill = VAR)) +
 
 
 # (53%*, 54%*) O que são os valores esperados: valores caso não houvesse diferença entre grupo 1 e grupo 2
+E[1, 1] / 383
 
+E[2, 1] / 347
 
 # (61%) Fórmula do cálculo de X2
 

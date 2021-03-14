@@ -7,7 +7,7 @@
   Version: 2.4.2
 
 - Class: figure
-  Output: "Na lição anterior, fizemos computamos medidas de médias, medianas e desvio padrão a partir da planilha de dados Pretonicas.csv. Deixei o dataframe `pretonicas` disponível novamente para esta sessão. Dê uma olhada em Environment."
+  Output: "Na lição anterior, computamos medidas de médias, medianas e desvio padrão a partir da planilha de dados Pretonicas.csv. Deixei o dataframe `pretonicas` disponível novamente para esta sessão. Dê uma olhada em Environment."
   Figure: Licao07-background.R
   FigureType: new
 
@@ -36,7 +36,7 @@
   Output: "Esse conjunto de dados contém as medições de F1 e F2 em Hertz, de valores brutos e normalizados (pelo método de Lobanov), para cada vogal pretônica. Nesta lição, trabalharemos com os valores normalizados (F1.NORM e F2.NORM)."
 
 - Class: text
-  Output: "Em lição anterior, plotamos um gráfico de linhas para as proporções de realização de /r/ em três lojas de departamento em Nova Iorque. O gráfico de linhas foi ali empregado porque a variável store, naquele conjunto de dados, pode ser considerada uma variável ordinal quanto ao grau prestígio das lojas. Por outro lado, variáveis numéricas, como são as medidas de F1 e F2, sempre são intrinsicamente ordinais também: tem-se valores que vão de menor para maior."
+  Output: "Em lição anterior, plotamos um gráfico de linhas para as proporções de realização de /r/ em três lojas de departamento em Nova Iorque. O gráfico de linhas foi ali empregado porque a variável store, naquele conjunto de dados, pode ser considerada uma variável ordinal quanto ao grau de prestígio das lojas. Por outro lado, variáveis numéricas, como são as medidas de F1 e F2, sempre são intrinsicamente ordinais também: tem-se valores que vão de menor para maior."
 
 - Class: figure
   Output: "Reveja o quadro de vogais do IPA, que abri novamente em Plots. Se o imaginamos como um plano cartesiano, cada vogal é identificada por uma coordenada no eixo x e no eixo y. No entanto, há variação no espaço vocálico a depender do indivíduo, do item lexical, da comunidade etc." 
@@ -126,16 +126,16 @@
   Output: "Caso queira exportar o gráfico, lembre-se das funções png() e dev.off(), que vimos na Lição 5."
   
 - Class: text
-  Output: "Nesse gráfico que plotamos, as milhares de vogais dos participantes paraibanos e paulistanos foram resumidas em poucos pontos, as médias de F1 e F2. Vimos na última lição que, para além das medidas de tendência central, também é importante conhecer a dispersão dos dados. Um gráfico de dispersão nos permite visualizar não só pontos isolados, mas distribuição de todos os dados da amostra."
+  Output: "Nesse gráfico que plotamos, as milhares de vogais dos participantes paraibanos e paulistanos foram resumidas em poucos pontos, as médias de F1 e F2. Vimos na última lição que, para além das medidas de tendência central, também é importante conhecer a dispersão dos dados. Um gráfico de dispersão nos permite visualizar não só pontos isolados, mas também a distribuição de todos os dados da amostra."
   
 - Class: text
-  Output: "Neste próximo comando, não há linhas comentadas, pois você já conhece a maior parte das funções: ggplot() -- que define o dataframe e os parâmetros gráficos, geom_point() -- que plota pontos, scale_x_reverse() e scale_y_reverse() -- que invertem os eixos x e y, ggtitle() -- que inclui um título, labs() -- que incluir rótulos para os eixos, e theme_bw() -- que define o tema visual.  "
+  Output: "Neste próximo comando, não há linhas comentadas, pois você já conhece a maior parte das funções: ggplot() -- que define o dataframe e os parâmetros gráficos, geom_point() -- que plota pontos, scale_x_reverse() e scale_y_reverse() -- que invertem os eixos x e y, ggtitle() -- que inclui um título, labs() -- que inclui rótulos para os eixos, e theme_bw() -- que define o tema visual.  "
 
 - Class: text
-  Output: "A única função nova é facet_grid(). Essa função permite criar vários subgráficos semelhantes, de acordo com algum critério, que serão dispostos num grid. Aqui, vamos criar dois gráficos de dispersão, um para a amostra PBSP, e outro para SP2010. Daí a definição de (. ~ AMOSTRA) como argumento dessa função."
+  Output: "A única função nova é facet_grid(). Essa função permite criar vários subgráficos semelhantes, de acordo com algum critério, que serão dispostos num grid. Aqui, vamos criar dois gráficos de dispersão, um para a amostra PBSP, e outro para SP2010."
   
 - Class: cmd_question
-  Output: Nesse comando, só falta definir os argumentos de ggplot(). Vamos plotar a localização (medidas de F1 e F2) de todas as vogais da planilha original, de modo que o dataframe será `pretonicas`. O eixo x será ocupado pelas medidas de F2.NORM, e o eixo y, pelas medidas de F1.NORM. Para mais bem visualizar os níveis de VOGAL, vamos plotá-las cada uma com uma cor. Substitua então os termos df e VAR na linha de comando pelos dados relevantes, revise o código e rode com CTRL + ENTER.
+  Output: Nesse comando, só falta definir os argumentos de ggplot(). Vamos plotar a localização (medidas de F1 e F2) de todas as vogais da planilha original, de modo que o dataframe será `pretonicas`. O eixo x será ocupado pelas medidas de F2.NORM, e o eixo y, pelas medidas de F1.NORM. Para mais bem visualizar os níveis de VOGAL, vamos plotá-las cada uma com uma cor. Em facet_grid(), defina a variável AMOSTRA. Substitua então os termos df e VAR na linha de comando pelos dados relevantes, revise o código e rode com CTRL + ENTER.
   CorrectAnswer: ggplot(pretonicas, aes(x = F2.NORM, y = F1.NORM, color = VOGAL)) + geom_point() + scale_x_reverse() + scale_y_reverse() + facet_grid(. ~ AMOSTRA) + ggtitle("Dispersão das medidas de F1 e F2 normalizados nas amostras PBSP e SP2010") + labs(x = "F2 normalizado", y = "F1 normalizado") + theme_bw()
   AnswerTests: omnitest(correctExpr='ggplot(pretonicas, aes(x = F2.NORM, y = F1.NORM, color = VOGAL)) + geom_point() + scale_x_reverse() + scale_y_reverse() + facet_grid(. ~ AMOSTRA) + ggtitle("Dispersão das medidas de F1 e F2 normalizados nas amostras PBSP e SP2010") + labs(x = "F2 normalizado", y = "F1 normalizado") + theme_bw()')
   Hint: Releia as instruções passo a passo!
@@ -258,7 +258,7 @@
   Output: "Poderíamos inspecionar os valores de `media` e `mediana` no Console. No entanto, melhor do que isso, é visualizá-los! Vamos plotar, sobre o histograma, duas linhas que indicam esses pontos."
   
 - Class: cmd_question
-  Output: "A linha de comando aqui reproduz o mesmo histograma que acabamos de criar, mas acrescenta mais duas linhas com a função geom_vline() que, como o nome já indica, plota uma linha vertical. Dentro dessa função, especificamos em qual ponto a linha vertical deve cortar o eixo x (xintercept): respectivamente, nos valores da média e da mediana do dataframe que acabamos de computar. A média será representada uma linha azul e a mediana uma linha vermelha. Substitua novamente VAR e o valor para binwidth, revise e rode o comando!" 
+  Output: "A linha de comando aqui reproduz o mesmo histograma que acabamos de criar, mas acrescenta mais duas linhas com a função geom_vline() que, como o nome já indica, plota uma linha vertical. Dentro dessa função, especificamos em qual ponto a linha vertical deve cortar o eixo x (xintercept): respectivamente, nos valores da média e da mediana do dataframe que acabamos de computar. A média será representada por uma linha azul e a mediana por uma linha vermelha. Substitua novamente VAR e o valor para binwidth, revise e rode o comando!" 
   CorrectAnswer: pretonicas %>% filter(., VOGAL == "e" & AMOSTRA == "PBSP") %>% ggplot(., aes(x = F1.NORM)) + geom_histogram(binwidth = 20, fill = "white", color = "black") + labs(x = "F1 normalizado", y = "Frequência") + theme_bw() + geom_vline(xintercept = med_centrais_PBSPe$media, color = "blue") + geom_vline(xintercept = med_centrais_PBSPe$mediana, color = "red") 
   AnswerTests: omnitest(correctExpr='pretonicas %>% filter(., VOGAL == "e" & AMOSTRA == "PBSP") %>% ggplot(., aes(x = F1.NORM)) + geom_histogram(binwidth = 20, fill = "white", color = "black") + labs(x = "F1 normalizado", y = "Frequência") + theme_bw() + geom_vline(xintercept = med_centrais_PBSPe$media, color = "blue") + geom_vline(xintercept = med_centrais_PBSPe$mediana, color = "red")')
   Hint: Releia as instruções com calma.

@@ -24,7 +24,7 @@
   Hint: Use a função str().
 
 - Class: cmd_question
-  Output: "Nesta lição, vamos trabalhar apenas com os dados da vogal /e/ pretônicas. Por vezes será nos dados apenas de paraibanos ou de paulistanos, por vezes será para ambos os grupos. Crie então um subconjunto de dados chamado PBSP_e, com os dados da VOGAL /e/ na AMOSTRA PBSP."
+  Output: "Nesta lição, vamos trabalhar apenas com os dados da vogal /e/ pretônica. Por vezes será nos dados apenas de paraibanos ou de paulistanos, por vezes será para ambos os grupos. Crie então um subconjunto de dados chamado PBSP_e, com os dados da VOGAL /e/ na AMOSTRA PBSP."
   CorrectAnswer: PBSP_e <- filter(pretonicas, VOGAL == "e" & AMOSTRA == "PBSP")
   AnswerTests: any_of_exprs('PBSP_e <- filter(pretonicas, VOGAL == "e" & AMOSTRA == "PBSP")', 'PBSP_e <- filter(pretonicas, AMOSTRA == "PBSP" & VOGAL == "e")', 'PBSP_e <- pretonicas %>% filter(VOGAL == "e" & AMOSTRA == "PBSP")', 'PBSP_e <- pretonicas %>% filter(AMOSTRA == "PBSP" & VOGAL == "e")', 'PBSP_e <- pretonicas %>% filter(., VOGAL == "e" & AMOSTRA == "PBSP")', 'PBSP_e <- pretonicas %>% filter(., AMOSTRA == "PBSP" & VOGAL == "e")')
   Hint: Use a função filter().
@@ -239,7 +239,7 @@
 - Class: text
   Output: "O resultado de um teste de Wilcoxon de duas amostras (= dois grupos) segue a mesma estrutura que já vimos acima; no entanto, uma diferença é que a estatística gerada é um valor W. Outra é o fato que a medida da comparação não são as médias em si, mas sim se a diferença entre elas é igual ou não a zero. É nesse sentido que se deve entender a hipótese alternativa (true location shift is not equal to 0) e os valores do intervalo de confiança. No teste feito acima, o intervalo de confiança, de 5.18 a 13.21, não contém zero, o que nos leva à rejeição da hipótese nula, com p < 0,001. A medida de estimativa ao final (9.15) é o valor da diferença estimada entre os grupos." 
 - Class: cmd_question
-  Output: "Veja que a estimativa da diferença entre as médias é um pouco diferente da diferença entre a média de PBSP e de SP2010. Digite abaixo estatisticas$media_F1[1] - estatisticas$media_F1[2] para comparar."
+  Output: "Veja que a estimativa da diferença entre as médias é um pouco diferente da diferença entre a média de PBSP e de SP2010. Digite estatisticas$media_F1[1] - estatisticas$media_F1[2] para comparar."
   CorrectAnswer: estatisticas$media_F1[1] - estatisticas$media_F1[2]
   AnswerTests: omnitest(correctExpr='estatisticas$media_F1[1] - estatisticas$media_F1[2]')
   Hint: Digite estatisticas$media_F1[1] - estatisticas$media_F1[2] e pressione CTRL + ENTER.
@@ -270,7 +270,7 @@
   Hint: Digite levels(VOGAL_e$AMOSTRA) e pressione CTRL + ENTER.
 
 - Class: cmd_question
-  Output: "Pela ordem no dataframe, o R vai comparar PBSP com SP2010, e não o contrário. Como esperamos que a média de F1.NORM seja maior para PBSP do que para SP2010, devemos estabelecer alternative = \"greater\" nas funções wilcox.test() ou t.test(). Volte à última linha de comando em que usamos a função wilcox.test() e acrescente o argumento alternative = \"greater\"."
+  Output: "Pela ordem no dataframe, o R vai comparar PBSP com SP2010, e não o contrário. Como esperamos que a média de F1.NORM seja maior para PBSP do que para SP2010, devemos estabelecer alternative = \"greater\" nas funções wilcox.test() ou t.test(). Copie a última linha de comando em que usamos a função wilcox.test(), cole-a no script e acrescente o argumento alternative = \"greater\"."
   CorrectAnswer: wilcox.test(F1.NORM ~ AMOSTRA, data = VOGAL_e, conf.int = T, alternative = "greater")
   AnswerTests: omnitest(correctExpr='wilcox.test(F1.NORM ~ AMOSTRA, data = VOGAL_e, conf.int = T, alternative = "greater")')
   Hint: Digite wilcox.test(F1.NORM ~ AMOSTRA, data = VOGAL_e, conf.int = T, alternative = "greater") e pressione CTRL + ENTER.

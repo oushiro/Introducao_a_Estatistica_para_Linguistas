@@ -42,7 +42,7 @@
   Hint: Rode a linha de comando no script e pressione CTRL + ENTER.
 
 - Class: text
-  Output: "A linha de comando definiu o conjunto de dados (df.store) e os parâmetros estéticos (aes) com a função ggplot(), declarou que o gráfico é de barras com geom_bar(), e estabeleceu um tema com theme_bw(). Os dois primeiros são o mínimo necessário para plotar um gráfico no ggplot2. Vejamos os argumentos com mais detalhes."
+  Output: "A linha de comando definiu o conjunto de dados (df.store) e os parâmetros estéticos (aes) com a função ggplot(), declarou que o gráfico é de barras com geom_bar(), e estabeleceu um tema com theme_bw(). Os dois primeiros são o mínimo necessário para plotar um gráfico no ggplot2. Vejamos os argumentos dessas funções com mais detalhes."
   
 - Class: text
   Output: "Na função ggplot(), o primeiro argumento é o conjunto de dados, que sempre deve ter o formato de um dataframe. O segundo argumento, aes(), define a estética do gráfico. Aqui, especificamos que a variável store deve ocupar o eixo x, que a variável prop deve ocupar o eixo y, e que as barras (definidas na segunda linha) devem ser preenchidas separando-se as variantes da variável r."
@@ -88,9 +88,9 @@
   Hint: Digite o título com calma e cheque tudo antes de rodar!
   
 - Class: cmd_question
-  Output: "Hmm... o título não ficou bom! Inclua no título o símbolo de quebra de linha \\n logo antes de \"em Nova Iorque\" e veja se melhora! "
-  CorrectAnswer: ggplot(df.store, aes(x = store, y = prop * 100, fill = r)) + geom_bar(stat = "identity", color = "black") + ggtitle("Proporção das variantes de /r/ pós-vocálico em três lojas de departamento \nem Nova Iorque (N = 730)") + theme_bw()
-  AnswerTests: omnitest(correctExpr='ggplot(df.store, aes(x = store, y = prop * 100, fill = r)) + geom_bar(stat = "identity", color = "black") + ggtitle("Proporção das variantes de /r/ pós-vocálico em três lojas de departamento \nem Nova Iorque (N = 730)") + theme_bw()')
+  Output: "Hmm... o título não ficou bom! Inclua no título o símbolo de quebra de linha \\n logo antes de \"em três lojas\" e veja se melhora! "
+  CorrectAnswer: ggplot(df.store, aes(x = store, y = prop * 100, fill = r)) + geom_bar(stat = "identity", color = "black") + ggtitle("Proporção das variantes de /r/ pós-vocálico \nem três lojas de departamento em Nova Iorque (N = 730)") + theme_bw()
+  AnswerTests: omnitest(correctExpr='ggplot(df.store, aes(x = store, y = prop * 100, fill = r)) + geom_bar(stat = "identity", color = "black") + ggtitle("Proporção das variantes de /r/ pós-vocálico \nem três lojas de departamento em Nova Iorque (N = 730)") + theme_bw()')
   Hint: Digite o título com calma e cheque tudo antes de rodar!
     
 - Class: text
@@ -98,8 +98,8 @@
 
 - Class: cmd_question
   Output: "Que tal agora mudar o nome dos eixos x e y, que, no momento, tomam os nomes das variáveis do dataframe, store e prop * 100? Além disso, podemos mudar o nome da variável na legenda, r. Isso pode ser feito com a função labs() (lab representa 'label' = etiqueta). Apague o # da próxima linha de comando e nomeie o eixo x como \"Lojas\", o eixo y como \"Proporção\", e o argumento fill como \"Variantes de /r/\". "
-  CorrectAnswer: ggplot(df.store, aes(x = store, y = prop * 100, fill = r)) + geom_bar(stat = "identity", color = "black") + ggtitle("Proporção das variantes de /r/ pós-vocálico em três lojas de departamento \nem Nova Iorque (N = 730)") + labs(x = "Lojas", y = "Proporção", fill = "Variantes de /r/") + theme_bw()
-  AnswerTests: omnitest(correctExpr='ggplot(df.store, aes(x = store, y = prop * 100, fill = r)) + geom_bar(stat = "identity", color = "black") + ggtitle("Proporção das variantes de /r/ pós-vocálico em três lojas de departamento \nem Nova Iorque (N = 730)") + labs(x = "Lojas", y = "Proporção", fill = "Variantes de /r/") + theme_bw()')
+  CorrectAnswer: ggplot(df.store, aes(x = store, y = prop * 100, fill = r)) + geom_bar(stat = "identity", color = "black") + ggtitle("Proporção das variantes de /r/ pós-vocálico \nem três lojas de departamento em Nova Iorque (N = 730)") + labs(x = "Lojas", y = "Proporção", fill = "Variantes de /r/") + theme_bw()
+  AnswerTests: omnitest(correctExpr='ggplot(df.store, aes(x = store, y = prop * 100, fill = r)) + geom_bar(stat = "identity", color = "black") + ggtitle("Proporção das variantes de /r/ pós-vocálico \nem três lojas de departamento em Nova Iorque (N = 730)") + labs(x = "Lojas", y = "Proporção", fill = "Variantes de /r/") + theme_bw()')
   Hint: É só digitar com calma!
 
 - Class: mult_question
@@ -111,8 +111,8 @@
 
 - Class: cmd_question
   Output: "Vamos usar a função c() para juntar esses nomes, que vão entrar numa nova função chamada scale_x_discrete(). Apague o # da linha com essa função e inclua o argumento labels, que será a junção de \"Saks\", \"Macy's\" e \"S. Klein\". Atenção às aspas e às vírgulas! (N.B.: Se der erro, inclua \\ antes do apóstrofe de Macy's.)"
-  CorrectAnswer: ggplot(df.store, aes(x = store, y = prop * 100, fill = r)) + geom_bar(stat = "identity", color = "black") + ggtitle("Proporção das variantes de /r/ pós-vocálico em três lojas de departamento \nem Nova Iorque (N = 730)") + labs(x = "Lojas", y = "Proporção", fill = "Variantes de /r/") + scale_x_discrete(labels = c("Saks", "Macy\'s", "S. Klein")) + theme_bw()
-  AnswerTests: omnitest(correctExpr='ggplot(df.store, aes(x = store, y = prop * 100, fill = r)) + geom_bar(stat = "identity", color = "black") + ggtitle("Proporção das variantes de /r/ pós-vocálico em três lojas de departamento \nem Nova Iorque (N = 730)") + labs(x = "Lojas", y = "Proporção", fill = "Variantes de /r/") + scale_x_discrete(labels = c("Saks", "Macy\'s", "S. Klein")) + theme_bw()')
+  CorrectAnswer: ggplot(df.store, aes(x = store, y = prop * 100, fill = r)) + geom_bar(stat = "identity", color = "black") + ggtitle("Proporção das variantes de /r/ pós-vocálico \nem três lojas de departamento em Nova Iorque (N = 730)") + labs(x = "Lojas", y = "Proporção", fill = "Variantes de /r/") + scale_x_discrete(labels = c("Saks", "Macy\'s", "S. Klein")) + theme_bw()
+  AnswerTests: omnitest(correctExpr='ggplot(df.store, aes(x = store, y = prop * 100, fill = r)) + geom_bar(stat = "identity", color = "black") + ggtitle("Proporção das variantes de /r/ pós-vocálico \nem três lojas de departamento em Nova Iorque (N = 730)") + labs(x = "Lojas", y = "Proporção", fill = "Variantes de /r/") + scale_x_discrete(labels = c("Saks", "Macy\'s", "S. Klein")) + theme_bw()')
   Hint: É só digitar com calma! 
 
 - Class: text
@@ -134,8 +134,8 @@
   
 - Class: cmd_question
   Output: "Aqui, vamos usar a opção palette = \"Purples\". Além disso, na função scale_fill_brewer(), também é possível definir outros rótulos para as variantes da variável de fill. Inclua também o argumento labels = c(\"realização\", \"apagamento\"), para mudar as variantes de r para nomes mais inteligíveis."
-  CorrectAnswer: ggplot(df.store, aes(x = store, y = prop * 100, fill = r)) + geom_bar(stat = "identity", color = "black") + ggtitle("Proporção das variantes de /r/ pós-vocálico em três lojas de departamento \nem Nova Iorque (N = 730)") + labs(x = "Lojas", y = "Proporção", fill = "Variantes de /r/") + scale_x_discrete(labels = c("Saks", "Macy\'s", "S. Klein")) + scale_fill_brewer(palette = "Purples", labels = c("realização", "apagamento")) + theme_bw()
-  AnswerTests: omnitest(correctExpr='ggplot(df.store, aes(x = store, y = prop * 100, fill = r)) + geom_bar(stat = "identity", color = "black") + ggtitle("Proporção das variantes de /r/ pós-vocálico em três lojas de departamento \nem Nova Iorque (N = 730)") + labs(x = "Lojas", y = "Proporção", fill = "Variantes de /r/") + scale_x_discrete(labels = c("Saks", "Macy\'s", "S. Klein")) + scale_fill_brewer(palette = "Purples", labels = c("realização", "apagamento")) + theme_bw()')
+  CorrectAnswer: ggplot(df.store, aes(x = store, y = prop * 100, fill = r)) + geom_bar(stat = "identity", color = "black") + ggtitle("Proporção das variantes de /r/ pós-vocálico \nem três lojas de departamento em Nova Iorque (N = 730)") + labs(x = "Lojas", y = "Proporção", fill = "Variantes de /r/") + scale_x_discrete(labels = c("Saks", "Macy\'s", "S. Klein")) + scale_fill_brewer(palette = "Purples", labels = c("realização", "apagamento")) + theme_bw()
+  AnswerTests: omnitest(correctExpr='ggplot(df.store, aes(x = store, y = prop * 100, fill = r)) + geom_bar(stat = "identity", color = "black") + ggtitle("Proporção das variantes de /r/ pós-vocálico \nem três lojas de departamento em Nova Iorque (N = 730)") + labs(x = "Lojas", y = "Proporção", fill = "Variantes de /r/") + scale_x_discrete(labels = c("Saks", "Macy\'s", "S. Klein")) + scale_fill_brewer(palette = "Purples", labels = c("realização", "apagamento")) + theme_bw()')
   Hint: Releia as instruções e faça passo a passo, com calma.
   
 - Class: text
@@ -149,8 +149,8 @@
   
 - Class: cmd_question
   Output: Rode novamente o comando que gera o gráfico.
-  CorrectAnswer: ggplot(df.store, aes(x = store, y = prop * 100, fill = r)) + geom_bar(stat = "identity", color = "black") + ggtitle("Proporção das variantes de /r/ pós-vocálico em três lojas de departamento \nem Nova Iorque (N = 730)") + labs(x = "Lojas", y = "Proporção", fill = "Variantes de /r/") + scale_x_discrete(labels = c("Saks", "Macy\'s", "S. Klein")) + scale_fill_brewer(palette = "Purples", labels = c("realização", "apagamento")) + theme_bw()
-  AnswerTests: omnitest(correctExpr='ggplot(df.store, aes(x = store, y = prop * 100, fill = r)) + geom_bar(stat = "identity", color = "black") + ggtitle("Proporção das variantes de /r/ pós-vocálico em três lojas de departamento \nem Nova Iorque (N = 730)") + labs(x = "Lojas", y = "Proporção", fill = "Variantes de /r/") + scale_x_discrete(labels = c("Saks", "Macy\'s", "S. Klein")) + scale_fill_brewer(palette = "Purples", labels = c("realização", "apagamento")) + theme_bw()')
+  CorrectAnswer: ggplot(df.store, aes(x = store, y = prop * 100, fill = r)) + geom_bar(stat = "identity", color = "black") + ggtitle("Proporção das variantes de /r/ pós-vocálico \nem três lojas de departamento em Nova Iorque (N = 730)") + labs(x = "Lojas", y = "Proporção", fill = "Variantes de /r/") + scale_x_discrete(labels = c("Saks", "Macy\'s", "S. Klein")) + scale_fill_brewer(palette = "Purples", labels = c("realização", "apagamento")) + theme_bw()
+  AnswerTests: omnitest(correctExpr='ggplot(df.store, aes(x = store, y = prop * 100, fill = r)) + geom_bar(stat = "identity", color = "black") + ggtitle("Proporção das variantes de /r/ pós-vocálico \nem três lojas de departamento em Nova Iorque (N = 730)") + labs(x = "Lojas", y = "Proporção", fill = "Variantes de /r/") + scale_x_discrete(labels = c("Saks", "Macy\'s", "S. Klein")) + scale_fill_brewer(palette = "Purples", labels = c("realização", "apagamento")) + theme_bw()')
   Hint: Rode a linha de comando indicada.
 
 - Class: cmd_question
@@ -184,29 +184,29 @@
   
 - Class: cmd_question
   Output: Rode então a linha de comando.
-  CorrectAnswer: ggplot(df.store, aes(x = store, y = prop * 100, group = r)) + geom_line(linetype = "dotted", size = 1, color = "blue") + ggtitle("Proporção das variantes de /r/ pós-vocálico em três lojas de departamento \nem Nova Iorque (N = 730)") + labs(x = "Lojas", y = "Proporção", fill = "Variantes de /r/") + scale_x_discrete(labels = c("Saks", "Macy\'s", "S. Klein")) + theme_bw()
-  AnswerTests: omnitest(correctExpr='ggplot(df.store, aes(x = store, y = prop * 100, group = r)) + geom_line(linetype = "dotted", size = 1, color = "blue") + ggtitle("Proporção das variantes de /r/ pós-vocálico em três lojas de departamento \nem Nova Iorque (N = 730)") + labs(x = "Lojas", y = "Proporção", fill = "Variantes de /r/") + scale_x_discrete(labels = c("Saks", "Macy\'s", "S. Klein")) + theme_bw()')
+  CorrectAnswer: ggplot(df.store, aes(x = store, y = prop * 100, group = r)) + geom_line(linetype = "dotted", size = 1, color = "blue") + ggtitle("Proporção das variantes de /r/ pós-vocálico \nem três lojas de departamento em Nova Iorque (N = 730)") + labs(x = "Lojas", y = "Proporção", fill = "Variantes de /r/") + scale_x_discrete(labels = c("Saks", "Macy\'s", "S. Klein")) + theme_bw()
+  AnswerTests: omnitest(correctExpr='ggplot(df.store, aes(x = store, y = prop * 100, group = r)) + geom_line(linetype = "dotted", size = 1, color = "blue") + ggtitle("Proporção das variantes de /r/ pós-vocálico \nem três lojas de departamento em Nova Iorque (N = 730)") + labs(x = "Lojas", y = "Proporção", fill = "Variantes de /r/") + scale_x_discrete(labels = c("Saks", "Macy\'s", "S. Klein")) + theme_bw()')
   Hint: Rode a linha de comando neste ponto do script.
   
 - Class: cmd_question
   Output: "No ggplot2, é possível adicionar mais de uma geometria ao mesmo gráfico, somando-se novas camadas com outras funções do tipo geom_X(). No script, isso é exemplificado pela adição de geom_point() ao mesmo gráfico de linhas. Volte à página da Internet em que visualizou os tipos de linhas; mais abaixo, há uma lista de opções para o argumento shape e um guia para os tamanhos (em Colour e Fill). Aqui, vamos usar o formato 18, o tamanho 3 e a cor \"black\". Não se esqueça de apagar o # dessa linha."
-  CorrectAnswer: ggplot(df.store, aes(x = store, y = prop * 100, group = r)) + geom_line(linetype = "dotted", size = 1, color = "blue") + geom_point(shape = 18, size = 3, fill = "black") + ggtitle("Proporção das variantes de /r/ pós-vocálico em três lojas de departamento \nem Nova Iorque (N = 730)") + labs(x = "Lojas", y = "Proporção", fill = "Variantes de /r/") + scale_x_discrete(labels = c("Saks", "Macy\'s", "S. Klein")) + theme_bw()
-  AnswerTests: omnitest(correctExpr='ggplot(df.store, aes(x = store, y = prop * 100, group = r)) + geom_line(linetype = "dotted", size = 1, color = "blue") + geom_point(shape = 18, size = 3, fill = "black") + ggtitle("Proporção das variantes de /r/ pós-vocálico em três lojas de departamento \nem Nova Iorque (N = 730)") + labs(x = "Lojas", y = "Proporção", fill = "Variantes de /r/") + scale_x_discrete(labels = c("Saks", "Macy\'s", "S. Klein")) + theme_bw()')
+  CorrectAnswer: ggplot(df.store, aes(x = store, y = prop * 100, group = r)) + geom_line(linetype = "dotted", size = 1, color = "blue") + geom_point(shape = 18, size = 3, fill = "black") + ggtitle("Proporção das variantes de /r/ pós-vocálico \nem três lojas de departamento em Nova Iorque (N = 730)") + labs(x = "Lojas", y = "Proporção", fill = "Variantes de /r/") + scale_x_discrete(labels = c("Saks", "Macy\'s", "S. Klein")) + theme_bw()
+  AnswerTests: omnitest(correctExpr='ggplot(df.store, aes(x = store, y = prop * 100, group = r)) + geom_line(linetype = "dotted", size = 1, color = "blue") + geom_point(shape = 18, size = 3, fill = "black") + ggtitle("Proporção das variantes de /r/ pós-vocálico \nem três lojas de departamento em Nova Iorque (N = 730)") + labs(x = "Lojas", y = "Proporção", fill = "Variantes de /r/") + scale_x_discrete(labels = c("Saks", "Macy\'s", "S. Klein")) + theme_bw()')
   Hint: Releia as instruções com calma.
   
 - Class: cmd_question
   Output: "Vejamos a função ylim(), que permite definir os limites do eixo y (em outros gráficos, pode ser pertinente mudar o eixo x: xlim()). No momento, o ggplot2 está plotando o gráfico de acordo com os valores mínimo e máximo do gráfico, mas você pode querer especificar outros limites. Aqui, vamos colocar de 0 a 100. Para tanto, inclua na função ylim o argumentos 0 e 100."
-  CorrectAnswer: ggplot(df.store, aes(x = store, y = prop * 100, group = r)) + geom_line(linetype = "dotted", size = 1, color = "blue") + geom_point(shape = 18, size = 3, fill = "black") + ggtitle("Proporção das variantes de /r/ pós-vocálico em três lojas de departamento \nem Nova Iorque (N = 730)") + labs(x = "Lojas", y = "Proporção", fill = "Variantes de /r/") + scale_x_discrete(labels = c("Saks", "Macy\'s", "S. Klein")) + ylim(0, 100) + theme_bw()
-  AnswerTests: omnitest(correctExpr='ggplot(df.store, aes(x = store, y = prop * 100, group = r)) + geom_line(linetype = "dotted", size = 1, color = "blue") + geom_point(shape = 18, size = 3, fill = "black") + ggtitle("Proporção das variantes de /r/ pós-vocálico em três lojas de departamento \nem Nova Iorque (N = 730)") + labs(x = "Lojas", y = "Proporção", fill = "Variantes de /r/") + scale_x_discrete(labels = c("Saks", "Macy\'s", "S. Klein")) + ylim(0, 100) + theme_bw()')
+  CorrectAnswer: ggplot(df.store, aes(x = store, y = prop * 100, group = r)) + geom_line(linetype = "dotted", size = 1, color = "blue") + geom_point(shape = 18, size = 3, fill = "black") + ggtitle("Proporção das variantes de /r/ pós-vocálico \nem três lojas de departamento em Nova Iorque (N = 730)") + labs(x = "Lojas", y = "Proporção", fill = "Variantes de /r/") + scale_x_discrete(labels = c("Saks", "Macy\'s", "S. Klein")) + ylim(0, 100) + theme_bw()
+  AnswerTests: omnitest(correctExpr='ggplot(df.store, aes(x = store, y = prop * 100, group = r)) + geom_line(linetype = "dotted", size = 1, color = "blue") + geom_point(shape = 18, size = 3, fill = "black") + ggtitle("Proporção das variantes de /r/ pós-vocálico \nem três lojas de departamento em Nova Iorque (N = 730)") + labs(x = "Lojas", y = "Proporção", fill = "Variantes de /r/") + scale_x_discrete(labels = c("Saks", "Macy\'s", "S. Klein")) + ylim(0, 100) + theme_bw()')
   Hint: Digite 0 e 100 como argumentos da função ylim().
   
 - Class: text
   Output: "Por fim, vamos fazer mais um ajuste. No gráfico, as duas linhas são redundantes pois, como já observado, todo /r/ que não foi realizado foi apagado. Só uma das linhas basta para comunicar a informação sobre a diferença entre as lojas quanto à pronúncia do /r/. Há mais de uma maneira para fazer esse ajuste. Aqui, vamos fazer uso do pipe, que você aprendeu na aula passada. A partir de df.store, use o pipe e, em seguida, a função filter() para determinar que quer apenas os dados de r0. Use novamente o pipe e copie e cole o código para o gráfico que acabamos de plotar. No entanto, vai ser necessário mudar o argumento que especifica o dataframe, pois agora ele não é mais df.store, mas a modificação que fizemos nele. Quando ggplot() aparece na sequência de um pipe, usamos o ponto final para indicar que o dataframe é o resultado das operações anteriores."
   
 - Class: cmd_question
-  Output: "Revise a linha de comando. Por fim, mude o título do gráfico para \"Proporção de apagamento de /r/ pós-vocálico em três lojas de departamento \nem Nova Iorque (N = 730)\" e rode-a para plotar o gráfico apenas com dados de r0."
-  CorrectAnswer: df.store %>% filter(r == "r0") %>% ggplot(., aes(x = store, y = prop * 100, group = r)) + geom_line(linetype = "dotted", size = 1, color = "blue") + geom_point(shape = 18, size = 3, fill = "black") + ggtitle("Proporção de apagamento de /r/ pós-vocálico em três lojas de departamento \nem Nova Iorque (N = 730)") + labs(x = "Lojas", y = "Proporção", fill = "Variantes de /r/") + scale_x_discrete(labels = c("Saks", "Macy\'s", "S. Klein")) + ylim(0, 100) + theme_bw()
-  AnswerTests: omnitest(correctExpr='df.store %>% filter(r == "r0") %>% ggplot(., aes(x = store, y = prop * 100, group = r)) + geom_line(linetype = "dotted", size = 1, color = "blue") + geom_point(shape = 18, size = 3, fill = "black") + ggtitle("Proporção de apagamento de /r/ pós-vocálico em três lojas de departamento \nem Nova Iorque (N = 730)") + labs(x = "Lojas", y = "Proporção", fill = "Variantes de /r/") + scale_x_discrete(labels = c("Saks", "Macy\'s", "S. Klein")) + ylim(0, 100) + theme_bw()')
+  Output: "Revise a linha de comando. Por fim, mude o título do gráfico para \"Proporção de apagamento de /r/ pós-vocálico \nem três lojas de departamento em Nova Iorque (N = 730)\" e rode-a para plotar o gráfico apenas com dados de r0."
+  CorrectAnswer: df.store %>% filter(r == "r0") %>% ggplot(., aes(x = store, y = prop * 100, group = r)) + geom_line(linetype = "dotted", size = 1, color = "blue") + geom_point(shape = 18, size = 3, fill = "black") + ggtitle("Proporção de apagamento de /r/ pós-vocálico \nem três lojas de departamento em Nova Iorque (N = 730)") + labs(x = "Lojas", y = "Proporção", fill = "Variantes de /r/") + scale_x_discrete(labels = c("Saks", "Macy\'s", "S. Klein")) + ylim(0, 100) + theme_bw()
+  AnswerTests: omnitest(correctExpr='df.store %>% filter(r == "r0") %>% ggplot(., aes(x = store, y = prop * 100, group = r)) + geom_line(linetype = "dotted", size = 1, color = "blue") + geom_point(shape = 18, size = 3, fill = "black") + ggtitle("Proporção de apagamento de /r/ pós-vocálico \nem três lojas de departamento em Nova Iorque (N = 730)") + labs(x = "Lojas", y = "Proporção", fill = "Variantes de /r/") + scale_x_discrete(labels = c("Saks", "Macy\'s", "S. Klein")) + ylim(0, 100) + theme_bw()')
   Hint: São vários passos aqui. Releia as instruções com calma!
   
 - Class: text
