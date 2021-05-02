@@ -1,18 +1,24 @@
-#aa <- dev.list()
-#if (length(aa) != 0) {
-#  dev.off(dev.list()["RStudioGD"])
-#}
+aa <- dev.list()
+if (length(aa) != 0) {
+  dev.off(dev.list()["RStudioGD"])
+}
+
+old_path <- getwd()
 
 lesson_dir <- file.path(path.package("swirl"), "Courses",
                         "Introducao_a_Estatistica_para_Linguistas", "Estatistica_Inferencial_Regressao_Logistica_Parte1")
-data_path <- file.path(lesson_dir, "odds-logodds-prob.png")
 
-#dev.off()
+setwd(lesson_dir)
 
-img <- readPNG(data_path)
+#data_path <- file.path(lesson_dir, "odds-logodds-prob.png")
 
+img <- readPNG("odds-logodds-prob.png")
 grid::grid.raster(img)
+
+setwd(old_path)
 
 rm(data_path)
 rm(img)
 rm(lesson_dir)
+rm(old_path)
+rm(aa)
