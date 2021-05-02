@@ -230,7 +230,7 @@
   Hint: Digite E e pressione CTRL + ENTER.
 
 - Class: cmd_question
-  Output: "Esta tabela é nova. O que são esses números? Para saber como computá-los, adicione as margens na tabela de valores esperados O, por meio da função addmargins()."
+  Output: "Esta tabela é nova. O que são esses números? Para saber como computá-los, adicione as margens na tabela de valores observados O, por meio da função addmargins()."
   CorrectAnswer: addmargins(O)
   AnswerTests: omnitest(correctExpr='addmargins(O)')
   Hint: Digite addmargins(O) e pressione CTRL + ENTER.

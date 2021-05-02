@@ -24,7 +24,7 @@
   Hint: Carregue o pacote RColorBrewer.
 
 - Class: text
-  Output: "O ggplot2 é um pacote dedicado à visualização de dados, elaborado por Hadley Wickham. Trata-se de uma implementação da Gramática de Gráficos  (daí os dois 'g' do nome do pacote) de Leland Wilkinson, uma abordagem da visualização de dados que a entende como uma gramática, com estruturas e regras. Um gráfico normalmente é composto de atributos estéticos (cores, formas, tamanhos) de objetos geométricos (linhas, pontos barras etc.) em um sistema de coordenadas. Uma gramática de gráficos nos auxilia a dispor esses elementos de modo significativo."
+  Output: "O ggplot2 é um pacote dedicado à visualização de dados, elaborado por Hadley Wickham. Trata-se de uma implementação da Gramática de Gráficos  (daí os dois 'g' do nome do pacote) de Leland Wilkinson, uma abordagem da visualização de dados que a entende como uma gramática, com estruturas e regras. Um gráfico normalmente é composto de atributos estéticos (cores, formas, tamanhos) de objetos geométricos (linhas, pontos, barras etc.) em um sistema de coordenadas. Uma gramática de gráficos nos auxilia a dispor esses elementos de modo significativo."
   
 - Class: text
   Output: "Todos os gráficos com ggplot2 são compostos de um conjunto de dados, dispostos em um dataframe, e de um mapeamento, que descreve como as variáveis do dataframe são mapeados a atributos estéticos."
